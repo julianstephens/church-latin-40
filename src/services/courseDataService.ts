@@ -6,6 +6,7 @@ import {
   Module,
 } from "../data/courseData";
 import POCKETBASE_COLLECTIONS from "../utils/collections";
+import { logger } from "../utils/logger";
 import { sanitizeQuizData } from "../utils/sanitization";
 import { getEnvironmentConfig } from "./envValidation";
 
@@ -15,8 +16,8 @@ const POCKETBASE_URL = config.pocketbaseUrl;
 class CourseDataService {
   private pb: PocketBase;
   private modulesCache: Module[] | null = null;
-  private lessonsCache: { [moduleId: number]: Lesson[] } = {};
-  private contentCache: { [lessonId: number]: Lesson } = {};
+  private lessonsCache: { [moduleId: number]: Lesson[]; } = {};
+  private contentCache: { [lessonId: number]: Lesson; } = {};
 
   constructor() {
     this.pb = new PocketBase(POCKETBASE_URL);
