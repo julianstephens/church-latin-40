@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Loader } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import LoginPage from './LoginPage';
+import LoginPage from './pages/LoginPage';
 import { isAnonymousMode } from './services/anonymousSession';
 import { pocketbaseService } from './services/pocketbase';
 

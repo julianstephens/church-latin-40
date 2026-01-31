@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Cross, Zap } from 'lucide-react';
-import { enableAnonymousMode } from './services/anonymousSession';
+import { enableAnonymousMode } from '../services/anonymousSession';
 
 const LoginPage = () => {
     const { loginWithRedirect, isAuthenticated, isLoading, error } = useAuth0();

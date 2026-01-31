@@ -2,9 +2,11 @@ import { Loader } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { CourseOverview } from './components/CourseOverview';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Header } from './components/Header';
 import { Lesson } from './components/Lesson';
 import { ThemeProvider } from './components/ThemeProvider';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { pocketbaseService } from './services/pocketbase';
 import { loadProgress } from './utils/storage';
 
@@ -13,6 +15,11 @@ function LessonRoute() {
   const navigate = useNavigate();
   const { lessonId: lessonIdParam } = useParams<{ lessonId: string; }>();
   const lessonId = parseInt(lessonIdParam || '1', 10);
+
+  // Validate lesson ID is in valid range (1-40)
+  if (isNaN(lessonId) || lessonId < 1 || lessonId > 40) {
+    return <NotFoundPage />;
+  }
 
   const handleBackToOverview = () => {
     navigate('/');
@@ -93,37 +100,43 @@ function App() {
   }
 
   return (
-    <ThemeProvider>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
-              <Header onHomeClick={handleBackToOverview} />
-              <main>
-                <CourseOverview onLessonSelect={handleLessonSelect} />
-              </main>
-              <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
-                <div className="max-w-6xl mx-auto px-4 py-8">
-                  <div className="text-center">
-                    <p className="text-gray-600 dark:text-gray-400 mb-2">
-                      "Oremus pro invicem" - Let us pray for one another
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-500">
-                      Created with devotion for the greater glory of God and the enrichment of Catholic faithful.
-                    </p>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+                <Header onHomeClick={handleBackToOverview} />
+                <main>
+                  <CourseOverview onLessonSelect={handleLessonSelect} />
+                </main>
+                <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
+                  <div className="max-w-6xl mx-auto px-4 py-8">
+                    <div className="text-center">
+                      <p className="text-gray-600 dark:text-gray-400 mb-2">
+                        "Oremus pro invicem" - Let us pray for one another
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-500">
+                        Created with devotion for the greater glory of God and the enrichment of Catholic faithful.
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </footer>
-            </div>
-          }
-        />
-        <Route
-          path="/lesson/:lessonId"
-          element={<LessonRoute />}
-        />
-      </Routes>
-    </ThemeProvider>
+                </footer>
+              </div>
+            }
+          />
+          <Route
+            path="/lesson/:lessonId"
+            element={<LessonRoute />}
+          />
+          <Route
+            path="*"
+            element={<NotFoundPage />}
+          />
+        </Routes>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 

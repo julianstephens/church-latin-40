@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Book, Cross, Github, LogIn, LogOut, Moon, Sun } from 'lucide-react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from 'react-tooltip';
 import { disableAnonymousMode, isAnonymousMode } from '../services/anonymousSession';
@@ -14,6 +15,12 @@ export function Header({ onHomeClick }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
   const anonMode = isAnonymousMode();
   const goto = useNavigate();
+  const [shouldThrowError, setShouldThrowError] = useState(false);
+
+  // Trigger error during render when state is set to true
+  if (shouldThrowError) {
+    throw new Error('Test error boundary triggered from Header');
+  }
 
   const handleExitAnonymousMode = () => {
     disableAnonymousMode();
@@ -87,8 +94,6 @@ export function Header({ onHomeClick }: HeaderProps) {
                   </button >
                 )
             }
-
-
           </div>
         </div>
       </div>
