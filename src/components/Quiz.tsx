@@ -193,29 +193,29 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
     const passed = score >= 70;
 
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
         <div className="text-center mb-6">
           <div
             className={`mx-auto mb-4 ${passed ? "text-green-600" : "text-red-600"}`}
           >
             {passed ? (
-              <CheckCircle className="h-16 w-16 mx-auto" />
+              <CheckCircle className="h-12 w-12 sm:h-16 sm:w-16 mx-auto" />
             ) : (
-              <XCircle className="h-16 w-16 mx-auto" />
+              <XCircle className="h-12 w-12 sm:h-16 sm:w-16 mx-auto" />
             )}
           </div>
 
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
             Quiz {passed ? "Completed!" : "Incomplete"}
           </h3>
 
-          <div className="text-3xl font-bold mb-2">
+          <div className="text-2xl sm:text-3xl font-bold mb-2">
             <span className={passed ? "text-green-600" : "text-red-600"}>
               {score}%
             </span>
           </div>
 
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
             {passed
               ? "Excellent work! You may proceed to the next lesson."
               : "Keep studying! You need 70% or higher to complete this lesson."}
@@ -272,10 +272,10 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
             return (
               <div
                 key={question.id}
-                className="border dark:border-gray-600 rounded-lg p-4"
+                className="border dark:border-gray-600 rounded-lg p-3 sm:p-4"
               >
                 <p
-                  className="font-medium text-gray-900 dark:text-white mb-2"
+                  className="font-medium text-sm sm:text-base text-gray-900 dark:text-white mb-2"
                   dangerouslySetInnerHTML={{
                     __html: `${index + 1}. ${sanitizeOption(question.question)}`,
                   }}
@@ -283,18 +283,18 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
 
                 <div className="flex items-center space-x-2 mb-2">
                   {isCorrect ? (
-                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 flex-shrink-0" />
                   ) : (
-                    <XCircle className="h-5 w-5 text-red-600" />
+                    <XCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600 flex-shrink-0" />
                   )}
-                  <span className="text-sm">
+                  <span className="text-xs sm:text-sm">
                     Your answer:{" "}
                     <strong dangerouslySetInnerHTML={{ __html: userAns }} />
                   </span>
                 </div>
 
                 {!isCorrect && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                     Correct answer:{" "}
                     <strong>
                       {Array.isArray(question.correctAnswer)
@@ -308,7 +308,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
 
                 {question.explanation && (
                   <p
-                    className="text-sm text-blue-600 dark:text-blue-400 mt-2"
+                    className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 mt-2"
                     dangerouslySetInnerHTML={{
                       __html: sanitizeOption(question.explanation),
                     }}
@@ -319,10 +319,10 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
           })}
         </div>
 
-        <div className="flex justify-center space-x-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
           <button
             onClick={resetQuiz}
-            className="flex items-center space-x-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            className="flex items-center justify-center space-x-2 min-h-touch-target px-4 py-3 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors touch-manipulation"
           >
             <RotateCcw className="h-4 w-4" />
             <span>Retry Quiz</span>
@@ -331,7 +331,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
           {passed && (
             <button
               onClick={onComplete}
-              className="flex items-center space-x-2 bg-red-900 hover:bg-red-800 text-white px-6 py-2 rounded-lg transition-colors"
+              className="flex items-center justify-center space-x-2 min-h-touch-target bg-red-900 hover:bg-red-800 active:bg-red-950 text-white px-6 py-3 sm:py-2 rounded-lg transition-colors touch-manipulation"
             >
               <span>Continue</span>
               <ArrowRight className="h-4 w-4" />
@@ -345,13 +345,13 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
   const question = questions[currentQuestion];
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
       <div className="mb-6">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
             Daily Quiz
           </h3>
-          <span className="text-sm text-gray-600 dark:text-gray-400">
+          <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
             {currentQuestion + 1} of {questions.length}
           </span>
         </div>
@@ -368,19 +368,19 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
 
       <div className="mb-6">
         <h4
-          className="text-lg font-medium text-gray-900 dark:text-white mb-4"
+          className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-4"
           dangerouslySetInnerHTML={{
             __html: sanitizeOption(question.question),
           }}
         />
 
         {question.type === "multiple-choice" && question.options && (
-          <div className="space-y-2">
+          <div className="space-y-2 sm:space-y-3">
             {question.options.map((option, index) => (
               <button
                 key={index}
                 onClick={() => handleAnswer(option)}
-                className="w-full text-left p-4 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="w-full text-left min-h-touch-target p-3 sm:p-4 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 active:bg-gray-100 dark:active:bg-gray-600 transition-colors touch-manipulation"
                 dangerouslySetInnerHTML={{
                   __html: sanitizeOption(option),
                 }}
@@ -394,14 +394,14 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
           Array.isArray(question.correctAnswer) &&
           question.options.length > 0 && (
             <div className="space-y-4">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4">
                 Match each Latin word to its English meaning by clicking tiles
                 to pair them:
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <h5 className="font-medium text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <div className="space-y-2 sm:space-y-3">
+                  <h5 className="font-medium text-sm sm:text-base text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
                     Latin Words
                   </h5>
                   {question.correctAnswer.map((pair, index) => {
@@ -414,11 +414,11 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                         key={index}
                         onClick={() => handleMatchingSelect("latin", latin)}
                         disabled={isPaired}
-                        className={`w-full p-4 rounded-lg text-left transition-colors ${isPaired
+                        className={`w-full min-h-touch-target p-3 sm:p-4 text-sm sm:text-base rounded-lg text-left transition-colors touch-manipulation ${isPaired
                             ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
                             : isSelected
                               ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
-                              : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50"
+                              : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-600"
                           }`}
                         aria-label={`Select Latin word ${latin}`}
                         dangerouslySetInnerHTML={{
@@ -429,8 +429,8 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                   })}
                 </div>
 
-                <div className="space-y-3">
-                  <h5 className="font-medium text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
+                <div className="space-y-2 sm:space-y-3">
+                  <h5 className="font-medium text-sm sm:text-base text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
                     English Meanings
                   </h5>
                   {matchingState.randomizedOptions.map((option, index) => {
@@ -444,11 +444,11 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                         key={index}
                         onClick={() => handleMatchingSelect("english", option)}
                         disabled={isPaired}
-                        className={`w-full p-4 rounded-lg text-left transition-colors ${isPaired
+                        className={`w-full min-h-touch-target p-3 sm:p-4 text-sm sm:text-base rounded-lg text-left transition-colors touch-manipulation ${isPaired
                             ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
                             : isSelected
                               ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
-                              : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50"
+                              : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-600"
                           }`}
                         aria-label={`Select English meaning ${option}`}
                         dangerouslySetInnerHTML={{
@@ -466,7 +466,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                   Object.keys(matchingState.pairs).length <
                   question.correctAnswer.length
                 }
-                className="bg-red-900 hover:bg-red-800 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-2 rounded-lg transition-colors"
+                className="min-h-touch-target bg-red-900 hover:bg-red-800 active:bg-red-950 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 sm:py-2 rounded-lg transition-colors touch-manipulation"
               >
                 Submit Matches
               </button>
@@ -488,18 +488,18 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                     ? "Recite the prayer or text here..."
                     : "Enter your translation here..."
                 }
-                className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-900 dark:focus:ring-red-600 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full min-h-touch-lg p-3 sm:p-4 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-900 dark:focus:ring-red-600 focus:border-transparent dark:bg-gray-700 dark:text-white touch-manipulation"
                 rows={3}
                 maxLength={500}
               />
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                 <span className="text-xs text-gray-500 dark:text-gray-400">
                   {userAnswer.length}/500 characters
                 </span>
                 <button
                   onClick={() => handleAnswer(userAnswer)}
                   disabled={!userAnswer.trim()}
-                  className="bg-red-900 hover:bg-red-800 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-2 rounded-lg transition-colors"
+                  className="w-full sm:w-auto min-h-touch-target bg-red-900 hover:bg-red-800 active:bg-red-950 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 sm:py-2 rounded-lg transition-colors touch-manipulation"
                 >
                   Submit Answer
                 </button>
