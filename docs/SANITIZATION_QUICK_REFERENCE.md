@@ -99,7 +99,7 @@ const normalized = normalizeAnswerForComparison(answer);
 ✅ Quiz options  
 ✅ Quiz explanations  
 ✅ All HTML rendering  
-✅ Input length validation  
+✅ Input length validation
 
 ## Testing
 

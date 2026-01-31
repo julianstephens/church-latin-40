@@ -1,5 +1,14 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Book, Clock, Cross, Github, LogIn, LogOut, Moon, Sun } from "lucide-react";
+import {
+  Book,
+  Clock,
+  Cross,
+  Github,
+  LogIn,
+  LogOut,
+  Moon,
+  Sun,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import {

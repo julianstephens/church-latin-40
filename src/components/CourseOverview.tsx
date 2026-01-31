@@ -284,14 +284,15 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
                         }}
                         className={`
                         relative p-3 rounded-lg text-sm font-medium transition-all duration-200
-                        ${isCompleted
+                        ${
+                          isCompleted
                             ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800"
                             : isCurrent
                               ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800"
                               : isAvailable
                                 ? "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                                 : "bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300"
-                          }
+                        }
                       `}
                       >
                         Day {day}

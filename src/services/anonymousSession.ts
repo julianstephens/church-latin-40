@@ -4,7 +4,7 @@
  * Sessions automatically expire after 24 hours
  */
 
-import { logger } from '../utils/logger';
+import { logger } from "../utils/logger";
 
 const ANONYMOUS_MODE_KEY = "anonymousMode";
 const ANONYMOUS_SESSION_CREATED_KEY = "anonymousSessionCreated";
@@ -33,7 +33,7 @@ function isSessionExpired(): boolean {
 
     if (elapsedMs > ANONYMOUS_SESSION_TIMEOUT_MS) {
       logger.debug(
-        "[Anonymous Mode] Session expired after 24 hours, clearing data"
+        "[Anonymous Mode] Session expired after 24 hours, clearing data",
       );
       clearAnonymousSession();
       return true;
