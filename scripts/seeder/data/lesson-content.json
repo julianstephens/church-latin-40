@@ -1,795 +1,795 @@
 [
-    {
-        "lessonId": "L001",
-        "content": [
-            "Welcome to your journey into Ecclesiastical Latin, the language of the Catholic Church for centuries, used in liturgy, prayers, and sacred texts like the Vulgate Bible. Unlike Classical Latin, which was spoken in ancient Rome, Ecclesiastical Latin adopts a pronunciation influenced by Italian, reflecting its use in the Church's rituals. Understanding its history helps you appreciate its role in worship. For example, the Mass and prayers like the Pater Noster have been prayed in Latin since the early centuries of Christianity, uniting believers across cultures.",
-            "Let's begin with pronunciation, which is key to reading and reciting Latin texts. Ecclesiastical Latin has five vowels: 'a' is pronounced like 'ah' in 'father,' 'e' like 'eh' in 'pet,' 'i' like 'ee' in 'see,' 'o' like 'aw' in 'law,' and 'u' like 'oo' in 'moon.' For instance, 'Deus' (God) sounds like 'DEH-oos.' Consonants are generally pronounced as in English, but with some differences: 'c' before 'e' or 'i' is soft, like 'ch' in 'church,' so 'ecclesia' (church) is pronounced 'eh-KLEH-see-ah.' The letter 'g' is hard, as in 'go,' so 'gratia' (grace) is 'GRAH-tee-ah.' The letter 'v' is pronounced like 'w,' making 'vita' (life) sound like 'WEE-tah.'",
-            "Stress in Latin words depends on syllable length. In words of two syllables, stress the first: 'pater' (father) is 'PAH-ter.' In words of three or more syllables, stress the second-to-last syllable if it is long (contains a long vowel or ends in a consonant), like 'ecclesia' (eh-KLEH-see-ah); otherwise, stress the third-to-last, as in 'fides' (FEE-des). Practice these rules with words like 'sanctus' (holy, SAHNK-toos) and 'gloria' (glory, GLOH-ree-ah).",
-            "You'll also encounter common greetings and phrases used in liturgical settings. 'Salvete' means 'hello' (plural) and is pronounced 'sahl-VEH-teh.' 'Gratia vobis' (grace to you) is 'GRAH-tee-ah WOH-bis.' These phrases set the tone for sacred communication. Your vocabulary includes foundational words like 'Deus' (God), 'fides' (faith), and 'pax' (peace). Try pronouncing them aloud, ensuring each vowel is clear and distinct, as in 'veritas' (truth, weh-REE-tahs)."
-        ],
-        "materials": [
-            "Overview of Ecclesiastical Latin: History and use in the Catholic Church",
-            "Ecclesiastical Latin pronunciation rules (vowels, consonants, stress)",
-            "Common greetings and phrases: Salvete (Hello), Gratia vobis (Grace to you)",
-            "Vocabulary: 20 basic words (e.g., Deus – God, ecclesia – church, fides – faith)"
-        ],
-        "practice": [
-            "Read aloud the Pater Noster (Our Father) using the pronunciation guide provided below.",
-            "Focus on clear vowel sounds and correct stress.",
-            "The full text is:",
-            "Pater noster, qui es in caelis, sanctificetur nomen tuum.",
-            "Adveniat regnum tuum.",
-            "Fiat voluntas tua, sicut in caelo et in terra.",
-            "Panem nostrum quotidianum da nobis hodie,",
-            "et dimitte nobis debita nostra, sicut et nos dimittimus debitoribus nostris.",
-            "Et ne nos inducas in tentationem, sed libera nos a malo.",
-            "Pronunciation guide:",
-            "'Pater' (PAH-ter), 'noster' (NOHS-ter), 'qui' (kwee), 'es' (ehs), 'caelis' (CHEH-lees),",
-            "'sanctificetur' (sahnk-tee-fee-CHEH-toor), 'nomen' (NOH-men), 'tuum' (TOO-oom),",
-            "'adveniat' (ahd-VEH-nee-aht), 'regnum' (REHN-yoom), 'fiat' (FEE-aht),",
-            "'voluntas' (woh-LOON-tahs), 'sicut' (SEE-koot), 'caelo' (CHEH-loh), 'terra' (TEH-rah),",
-            "'panem' (PAH-nem), 'quotidianum' (kwoh-tee-dee-AH-noom), 'hodie' (HOH-dee-eh),",
-            "'dimitte' (dee-MEET-teh), 'debita' (DEH-bee-tah), 'dimittimus' (dee-MEET-tee-moos),",
-            "'debitoribus' (deh-bee-TOH-ree-boos), 'inducas' (in-DOO-kahs), 'tentationem' (ten-tah-tee-OH-nem),",
-            "'libera' (LEE-beh-rah), 'malo' (MAH-loh)."
-        ]
-    },
-    {
-        "lessonId": "L002",
-        "content": [
-            "Latin nouns are the building blocks of sentences, and they change form depending on their role in a sentence, a process called declension. In this lesson, we'll focus on the first two declensions and the nominative and accusative cases, which are essential for understanding prayers and Mass texts. Declensions are like families of nouns with similar endings. The 1st declension typically includes feminine nouns ending in -a, like 'regina' (queen), while the 2nd declension includes masculine and neuter nouns ending in -us or -um, like 'filius' (son) or 'caelum' (heaven).",
-            "The nominative case is used for the subject of a sentence—the doer of the action. For example, in 'Regina orat' (The queen prays), 'regina' is nominative because the queen is performing the action. The accusative case is used for the direct object—the receiver of the action. In 'Regina filium spectat' (The queen sees the son), 'filium' is accusative because the son is being seen. For 1st declension nouns, the nominative singular ends in -a (regina), and the accusative singular ends in -am (reginam). For 2nd declension masculine nouns, the nominative singular ends in -us (filius), and the accusative ends in -um (filium). Neuter nouns, like 'caelum,' have the same form in nominative and accusative: 'caelum.'",
-            "Let's apply this to Mass phrases. In 'Agnus Dei' (Lamb of God), 'agnus' is nominative (the subject, meaning 'lamb'), and 'Dei' is a form we'll explore later, but it refers to God. Another example is 'panem nostrum' (our bread) from the Pater Noster, where 'panem' is accusative because it's the object being requested. Practice declining nouns like 'mater' (mother: mater, materm) and 'vinum' (wine: vinum, vinum) to get comfortable with these endings. Pay attention to gender: 'mater' is feminine (1st declension), while 'filius' is masculine (2nd declension), and 'caelum' is neuter (2nd declension).",
-            "When translating phrases from the Mass, word order in Latin can differ from English. Latin relies on case endings, not word order, to show meaning. For example, 'Corpus Christi' (Body of Christ) uses 'corpus' in the nominative or accusative (it's the same for neuter nouns) and 'Christi' to indicate 'of Christ.' Try translating 'Sanguis Christi' (Blood of Christ) by identifying 'sanguis' as nominative (3rd declension, to be covered later) and 'Christi' as a possessive form. This flexibility in word order is common in prayers, so focus on the endings to understand each word's role."
-        ],
-        "materials": [
-            "Introduction to Latin noun declensions (1st and 2nd declensions)",
-            "Nominative and accusative cases: Subject and direct object",
-            "Vocabulary: 15 nouns from the Latin Mass (e.g., panis – bread, vinum – wine)",
-            "Practice: Translate simple phrases from the Mass, e.g., Agnus Dei (Lamb of God)"
-        ],
-        "practice": [
-            "Translate the following simple phrases from the Mass into English:",
-            "(1) Agnus Dei,",
-            "(2) Panem nostrum,",
-            "(3) Corpus Christi,",
-            "(4) Sanguis Christi,",
-            "(5) Aqua vitae.",
-            "For each phrase, identify the case (nominative or accusative) of the first noun."
-        ]
-    },
-    {
-        "lessonId": "L003",
-        "content": [
-            "Verbs are the action words of Latin, and they change forms to show who is acting and when. In this lesson, we'll focus on the 1st conjugation present tense, which is used for actions happening now. First conjugation verbs typically end in -are in their infinitive form, like 'amare' (to love). The present tense is formed by removing the -re and adding personal endings: -o (I), -as (you singular), -at (he/she/it), -amus (we), -atis (you plural), -ant (they). For example, 'amo' means 'I love,' 'amas' means 'you love,' and 'amant' means 'they love.' Let's conjugate 'oro' (to pray): oro, oras, orat, oramus, oratis, orant.",
-            "These endings apply to most 1st conjugation verbs, such as 'credo' (I believe: credo, credas, credat, credamus, credatis, credant). Notice how the stem 'cred-' remains constant, and only the endings change. This pattern is consistent across 1st conjugation verbs, making them predictable. For example, in the Gloria in Excelsis Deo, you'll see 'laudamus' (we praise), which is the 1st person plural present tense of 'laudare' (to praise). Try conjugating 'do' (to give): do, das, dat, damus, datis, dant.",
-            "In liturgical texts, verbs often appear in prayers to express actions or states. For instance, 'glorificamus' in the Gloria means 'we glorify,' from 'glorificare.' The present tense here conveys ongoing action, fitting for praising God. Word order in Latin can vary, so focus on the verb ending to identify the subject. For example, 'Deus amat' (God loves) has 'amat' (3rd person singular), indicating 'Deus' as the subject. Compare this to 'Amamus Deum' (We love God), where 'amamus' shows the 1st person plural, and 'Deum' is the accusative object.",
-            "When reading the Gloria, look for verbs like 'benedicimus' (we bless) and 'adoramus' (we adore). These are all 1st conjugation present tense verbs, and their endings tell you who is performing the action. Practice identifying the subject and verb in phrases like 'Gratias agimus' (We give thanks), where 'agimus' is from 'agere' (to do/give). This will prepare you to conjugate verbs in context and understand their role in sacred texts."
-        ],
-        "materials": [
-            "Introduction to Latin verb conjugations (1st conjugation, present tense)",
-            "Verb forms: amo, amas, amat (I love, you love, he/she loves)",
-            "Vocabulary: 15 verbs from the Vulgate (e.g., oro – pray, credo – believe)",
-            "Practice: Conjugate verbs in Gloria in Excelsis Deo"
-        ],
-        "practice": [
-            "Conjugate the following 1st conjugation verbs in the present tense:",
-            "(1) oro (to pray),",
-            "(2) amo (to love),",
-            "(3) laudo (to praise).",
-            "For each, provide the full conjugation (1st, 2nd, 3rd person singular and plural).",
-            "Then, translate the phrase 'Glorificamus te' from the Gloria in Excelsis Deo."
-        ]
-    },
-    {
-        "lessonId": "L004",
-        "content": [
-            "Adjectives in Latin describe nouns and must agree with them in gender (masculine, feminine, neuter), number (singular, plural), and case (e.g., nominative, accusative). This agreement ensures clarity in sentences, especially in prayers like the Salve Regina. Most adjectives follow the 1st and 2nd declension patterns, much like nouns. For example, the adjective 'sanctus' (holy) has forms 'sanctus' (masculine nominative singular), 'sancta' (feminine nominative singular), and 'sanctum' (neuter nominative singular). When paired with a noun, the adjective matches its ending. In 'sancta regina' (holy queen), 'sancta' is feminine nominative singular to agree with 'regina.'",
-            "Let's decline an adjective with a noun. Take 'bonus' (good) with 'filius' (son, 2nd declension masculine): 'bonus filius' (good son, nominative singular), 'bonum filium' (good son, accusative singular). For a feminine noun like 'mater' (mother, 1st declension), it's 'bona mater' (nominative) and 'bonam matrem' (accusative). For a neuter noun like 'caelum' (heaven, 2nd declension), it's 'bonum caelum' for both nominative and accusative. Notice how the adjective's ending changes to match the noun's case, number, and gender.",
-            "In prayers, adjectives enhance meaning. In the Salve Regina, 'Mater misericordiae' (Mother of mercy) pairs 'mater' (feminine nominative singular) with 'misericordiae,' a noun acting as a complement (we'll explore this later). Similarly, 'beata virgo' (blessed virgin) uses 'beata' (feminine nominative singular) to agree with 'virgo.' Adjectives like 'omnipotens' (almighty) are trickier because they don't change form for gender in some cases, but in the nominative singular, they follow the pattern: 'omnipotens Deus' (almighty God, masculine).",
-            "When analyzing phrases, identify the noun's gender, number, and case first, then ensure the adjective matches. For example, in 'gloriosus Dominus' (glorious Lord), 'gloriosus' is masculine nominative singular to agree with 'Dominus.' Practice with phrases like 'pulcher pastor' (beautiful shepherd, masculine nominative) or 'sacer ignis' (sacred fire, masculine nominative). This skill will help you understand the rich descriptions in liturgical texts."
-        ],
-        "materials": [
-            "Adjective declension and agreement with nouns (gender, number, case)",
-            "Vocabulary: 15 adjectives from prayers (e.g., sanctus – holy, beatus – blessed)",
-            "Practice: Pair adjectives with nouns in Salve Regina (e.g., Mater misericordiae)"
-        ],
-        "practice": [
-            "Pair the following adjectives with the nouns from the Salve Regina, ensuring agreement in gender, number, and case.",
-            "Then translate the phrases:",
-            "(1) sanctus with regina (nominative singular),",
-            "(2) beatus with mater (accusative singular),",
-            "(3) gloriosus with virgo (nominative singular),",
-            "(4) bonus with spes (nominative singular),",
-            "(5) misericors with advocata (accusative singular).",
-            "The Salve Regina text for reference: Salve Regina, Mater misericordiae, vita, dulcedo, et spes nostra, salve."
-        ]
-    },
-    {
-        "lessonId": "L005",
-        "content": [
-            "The Pater Noster, or Lord's Prayer, is one of the most important prayers in Christianity, and learning it in Latin connects you to the Church's tradition. This lesson explores its text, vocabulary, and syntax, helping you understand how Latin prayers are structured. The full text is: Pater noster, qui es in caelis, sanctificetur nomen tuum. Adveniat regnum tuum. Fiat voluntas tua, sicut in caelo et in terra. Panem nostrum quotidianum da nobis hodie, et dimitte nobis debita nostra, sicut et nos dimittimus debitoribus nostris. Et ne nos inducas in tentationem, sed libera nos a malo. Each word's form and position carries meaning.",
-            "Let's break down key vocabulary. 'Pater' (father) is nominative, the subject addressing God. 'Noster' (our) is an adjective agreeing with 'pater' in gender (masculine), number (singular), and case (nominative). 'Qui es in caelis' means 'who are in heaven,' with 'qui' (who) introducing a relative clause, 'es' (you are, 2nd person singular of 'sum'), and 'caelis' (heaven, ablative plural, meaning 'in the heavens'). Verbs like 'sanctificetur' (may it be sanctified) and 'adveniat' (may it come) are in the subjunctive mood, expressing wishes, which we'll study later. For now, note their role in petitioning God.",
-            "Latin word order in prayers often emphasizes key ideas. Unlike English, where word order is fixed (subject-verb-object), Latin uses case endings to show relationships, allowing flexibility. In 'Panem nostrum quotidianum da nobis hodie' (Give us this day our daily bread), 'panem' (bread, accusative) is the direct object, 'nostrum' and 'quotidianum' (daily) are adjectives agreeing with 'panem,' 'da' (give, imperative) is the verb, 'nobis' (to us, dative) is the indirect object, and 'hodie' (today) is an adverb. The order highlights 'panem' as the focus of the petition.",
-            "To memorize the Pater Noster, practice reciting it aloud, using the pronunciation guide from Lesson 1. Focus on the rhythm and flow, as prayers are often chanted. For example, 'fiat voluntas tua' (thy will be done) is pronounced 'FEE-aht woh-LOON-tahs TOO-ah.' Understanding the syntax—how nouns, adjectives, and verbs work together—will make recitation more meaningful. As you memorize, visualize the prayer's structure: petitions (sanctificetur, adveniat, fiat), requests (da, dimitte, libera), and comparisons (sicut)."
-        ],
-        "materials": [
-            "Full text of Pater Noster with vocabulary breakdown (e.g., pater – father, caelum – heaven)",
-            "Syntax: Word order in Latin prayers",
-            "Practice: Memorize and recite Pater Noster"
-        ],
-        "practice": [
-            "Memorize and recite the Pater Noster aloud, using the pronunciation guide from Lesson 1:",
-            "Pater noster, qui es in caelis, sanctificetur nomen tuum.",
-            "Adveniat regnum tuum.",
-            "Fiat voluntas tua, sicut in caelo et in terra.",
-            "Panem nostrum quotidianum da nobis hodie,",
-            "et dimitte nobis debita nostra, sicut et nos dimittimus debitoribus nostris.",
-            "Et ne nos inducas in tentationem, sed libera nos a malo."
-        ]
-    },
-    {
-        "lessonId": "L006",
-        "content": [
-            "Prepositions in Latin clarify relationships between words, such as location or association, and they often pair with the ablative case in prayers and the Mass. The ablative case has multiple uses, including place ('where' or 'from'), means ('by which'), and accompaniment ('with whom'). Prepositions like 'in' (in, on) and 'cum' (with) typically take the ablative. For example, in 'in caelis' (in the heavens) from the Pater Noster, 'caelis' is the ablative plural of 'caelum' (heaven), indicating location. Similarly, 'cum Maria' (with Mary) uses the ablative 'Maria' to show accompaniment.",
-            "Let's explore the ablative's roles. For place, 'in terra' (on earth) uses the ablative 'terra' to mean 'where.' For means, 'per crucem' (through the cross) shows the instrument of action, with 'crucem' in the accusative (an exception we'll note later). For accompaniment, 'cum angelis' (with the angels) uses the ablative 'angelis.' Declining nouns in the ablative varies by declension: 1st declension nouns like 'regina' become 'regina' (singular), 2nd declension masculine nouns like 'filius' become 'filio,' and neuter nouns like 'caelum' become 'caelo.'",
-            "In the Credo, prepositions are common. For example, 'in unum Deum' (in one God) uses 'in' with the accusative 'Deum' (a special case for certain prepositions), but 'ex Maria' (from Mary) uses the ablative 'Maria' to indicate origin. The phrase 'in principio' (in the beginning) from the Vulgate uses the ablative 'principio' for time or circumstance. When analyzing these phrases, identify the preposition, the case of the noun, and the type of relationship (place, means, accompaniment).",
-            "Practice with phrases like 'de caelo' (from heaven, ablative indicating origin) or 'sine peccato' (without sin, ablative of separation). These constructions are frequent in liturgical texts, where prepositions add precision to prayers. For example, 'pro nobis' (for us) in the Ave Maria uses the ablative 'nobis' to indicate the beneficiary. Mastering these will help you navigate the Credo and other texts with confidence."
-        ],
-        "materials": [
-            "Common prepositions in the Mass (e.g., in – in, cum – with)",
-            "Ablative case: Usage for place, means, and accompaniment",
-            "Vocabulary: 15 prepositional phrases from the Vulgate (e.g., in principio – in the beginning)",
-            "Practice: Analyze prepositions in Credo (Creed)"
-        ],
-        "practice": [
-            "Identify the preposition and the case of the noun in the following phrases from the Pater Noster and Vulgate:",
-            "(1) in caelis,",
-            "(2) in terra,",
-            "(3) ex Maria,",
-            "(4) pro nobis,",
-            "(5) in principio.",
-            "Then, state whether each ablative indicates place, means, or accompaniment (note: some may use accusative with certain prepositions)."
-        ]
-    },
-    {
-        "lessonId": "L007",
-        "content": [
-            "The Ave Maria (Hail Mary) is a cornerstone prayer of the Catholic Church, and its Latin text is both beautiful and instructive for learning grammar. The full text is: Ave Maria, gratia plena, Dominus tecum. Benedicta tu in mulieribus, et benedictus fructus ventris tui, Jesus. Sancta Maria, Mater Dei, ora pro nobis peccatoribus, nunc et in hora mortis nostrae. Amen. This prayer uses nouns, adjectives, and prepositions you've studied, making it a perfect text to apply your knowledge.",
-            "Start with vocabulary and noun-adjective agreement. 'Maria' (Mary) is a 1st declension feminine noun, nominative singular in 'Ave Maria' (Hail Mary). 'Gratia plena' (full of grace) pairs 'gratia' (grace, feminine nominative singular) with 'plena,' a feminine nominative singular adjective agreeing with 'Maria' implicitly. Similarly, 'benedicta' (blessed, feminine nominative singular) agrees with 'tu' (you, referring to Mary). In 'benedictus fructus' (blessed fruit), 'benedictus' is masculine nominative singular to agree with 'fructus' (fruit, 4th declension, to be covered later).",
-            "Prepositions and cases are also key. 'Dominus tecum' (the Lord is with you) uses 'tecum,' a combination of 'cum' (with) and 'te' (you, ablative), showing accompaniment. 'In mulieribus' (among women) uses 'in' with the ablative 'mulieribus' (women, 3rd declension plural) to indicate place. 'Pro nobis' (for us) uses the ablative 'nobis' to show the beneficiary. Notice how adjectives like 'sancta' in 'Sancta Maria' (holy Mary) match the noun's case and gender, reinforcing Lesson 4.",
-            "The syntax of the Ave Maria is straightforward but flexible, typical of Latin prayers. The first part addresses Mary directly ('Ave Maria'), the second describes her blessings ('benedicta tu'), and the third petitions her ('ora pro nobis'). Memorizing this prayer helps you internalize noun-adjective agreement and case usage. Use the pronunciation guide: 'Ave' (AH-weh), 'gratia' (GRAH-tee-ah), 'benedicta' (beh-neh-DEEK-tah), 'ora' (OH-rah). Recite it slowly to master the rhythm and flow."
-        ],
-        "materials": [
-            "Full text of Ave Maria with vocabulary (e.g., gratia – grace, Dominus – Lord)",
-            "Review noun and adjective agreement in the prayer",
-            "Practice: Memorize and recite Ave Maria"
-        ],
-        "practice": [
-            "Memorize and recite the Ave Maria aloud, using the pronunciation guide:",
-            "Ave Maria, gratia plena, Dominus tecum.",
-            "Benedicta tu in mulieribus,",
-            "et benedictus fructus ventris tui, Jesus.",
-            "Sancta Maria, Mater Dei, ora pro nobis peccatoribus, nunc et in hora mortis nostrae. Amen."
-        ]
-    },
-    {
-        "lessonId": "L008",
-        "content": [
-            "This lesson consolidates your knowledge from Module 1, covering pronunciation, 1st and 2nd declension nouns, 1st conjugation verbs in the present tense, adjective agreement, prepositions with the ablative case, and the Pater Noster and Ave Maria. Pronunciation is critical for reciting prayers correctly. Review the vowel sounds: 'a' as 'ah,' 'e' as 'eh,' 'i' as 'ee,' 'o' as 'aw,' 'u' as 'oo.' Consonants like 'c' before 'e' or 'i' are 'ch' (e.g., 'ecclesia,' eh-KLEH-see-ah), and 'v' is 'w' (e.g., 'vita,' WEE-tah). Stress rules—first syllable for two-syllable words, second-to-last if long—apply to words like 'sanctus' (SAHNK-toos).",
-            "Nouns in the nominative case (e.g., 'agnus,' lamb) act as subjects, while accusative nouns (e.g., 'panem,' bread) are direct objects. Decline 'mater' (mother): nominative 'mater,' accusative 'matrem.' Verbs like 'amo' (I love) follow the pattern: amo, amas, amat, amamus, amatis, amant. Adjectives must match their nouns, as in 'sancta Maria' (holy Mary). Prepositions like 'in' and 'cum' often take the ablative, as in 'in caelis' (in the heavens). Practice these in context with Mass phrases like 'Pax vobis' (Peace be with you), where 'pax' is nominative and 'vobis' is dative (to be covered later).",
-            "The Pater Noster and Ave Maria use these grammar points. In 'Pater noster,' 'noster' agrees with 'pater' in case, number, and gender. In 'Ave Maria, gratia plena,' 'plena' agrees with 'Maria.' Review the syntax: Latin's flexible word order relies on endings, not position. For example, 'Panem da' and 'Da panem' both mean 'Give bread,' but the accusative 'panem' clarifies the object. The Vulgate's 'in principio' (in the beginning) uses the ablative for time. Apply these rules when translating excerpts.",
-            "Your vocabulary now includes over 100 words, like 'Deus' (God), 'oro' (I pray), and 'gratia' (grace). Revisit the prayers to reinforce these terms. When translating, identify the case, verb form, and agreement. For example, 'Gloria Patri' (Glory to the Father) uses the dative 'Patri' (to be covered later) and nominative 'gloria.' This review prepares you for Module 2's advanced grammar and prayers."
-        ],
-        "materials": [
-            "Review pronunciation, nouns, verbs, adjectives, prepositions, Pater Noster, and Ave Maria",
-            "Practice: Translate short excerpts from the Mass and Vulgate",
-            "Vocabulary: Review all 100+ words learned so far"
-        ],
-        "practice": [
-            "Translate the following excerpts from the Mass and Vulgate into English, identifying the case or verb form where indicated:",
-            "(1) Pax vobis (Mass, identify case of 'pax'),",
-            "(2) In principio (Vulgate, identify case of 'principio'),",
-            "(3) Sancta Maria (Ave Maria, identify adjective agreement),",
-            "(4) Oro pro vobis (Mass, identify verb form),",
-            "(5) Fides mea (Vulgate, identify case of 'fides')."
-        ]
-    },
-    {
-        "lessonId": "L009",
-        "content": [
-            "The 3rd declension is a diverse group of nouns, including masculine, feminine, and neuter nouns, and it's common in liturgical texts like the Vulgate and the Mass.",
-            "Unlike the 1st and 2nd declensions, 3rd declension nouns have varied nominative endings but follow predictable patterns in other cases.",
-            "For example, 'rex' (king, masculine) has nominative singular 'rex' and accusative singular 'regem.' The neuter noun 'lumen' (light) has 'lumen' for both nominative and accusative singular.",
-            "To identify 3rd declension nouns, look at the genitive singular (ending in -is) in dictionaries, like 'regis' for 'rex' or 'luminis' for 'lumen.'"
-        ],
-        "materials": [
-            "3rd declension noun patterns (e.g., rex – king, lumen – light)",
-            "Vocabulary: 15 nouns from the Vulgate (e.g., verbum – word, pax – peace)",
-            "Practice: Identify 3rd declension nouns in Sanctus from the Mass"
-        ],
-        "practice": [
-            "Identify the 3rd declension nouns in the Sanctus from the Mass and state their case.",
-            "Sanctus, sanctus, sanctus Dominus Deus Sabaoth.",
-            "Pleni sunt caeli et terra gloria tua.",
-            "Hosanna in excelsis."
-        ]
-    },
-    {
-        "lessonId": "L010",
-        "content": [
-            "The imperfect and future tenses expand your ability to express time in Latin verbs, crucial for understanding narratives in the Vulgate and prayers like the Kyrie Eleison.",
-            "The imperfect tense describes ongoing or repeated past actions, like 'amabam' (I was loving) from 'amare' (to love, 1st conjugation).",
-            "For 1st conjugation verbs, remove the -re from the infinitive and add endings: -bam, -bas, -bat, -bamus, -batis, -bant.",
-            "So, 'laudare' (to praise) becomes: laudabam, laudabas, laudabat, laudabamus, laudabatis, laudabant."
-        ],
-        "materials": [
-            "Imperfect tense: amabam (I was loving)",
-            "Future tense: amabo (I will love)",
-            "Vocabulary: 15 verbs from the Vulgate (e.g., venio – come, dico – say)",
-            "Practice: Conjugate verbs in Kyrie Eleison"
-        ],
-        "practice": [
-            "Conjugate the following verbs in the imperfect and future tenses:",
-            "(1) laudo (to praise, 1st conjugation),",
-            "(2) venio (to come, 4th conjugation),",
-            "(3) dico (to say, 3rd conjugation)."
-        ]
-    },
-    {
-        "lessonId": "L011",
-        "content": [
-            "The Gloria Patri, or Glory Be, is a short but profound prayer praising the Trinity, commonly used in the Rosary and liturgy.",
-            "Its full text is: Gloria Patri, et Filio, et Spiritui Sancto. Sicut erat in principio, et nunc, et semper, et in saecula saeculorum. Amen.",
-            "This lesson examines its vocabulary, verb tenses, and noun cases, reinforcing your grammar knowledge.",
-            "The prayer's structure is simple, making it ideal for applying concepts like the dative case and verb forms."
-        ],
-        "materials": [
-            "Full text of Gloria Patri with vocabulary (e.g., gloria – glory, saeculum – world/age)",
-            "Review verb tenses and noun cases in the prayer",
-            "Practice: Memorize and recite Gloria Patri"
-        ],
-        "practice": [
-            "Memorize and recite the Gloria Patri aloud:",
-            "Gloria Patri, et Filio, et Spiritui Sancto.",
-            "Sicut erat in principio, et nunc, et semper, et in saecula saeculorum. Amen."
-        ]
-    },
-    {
-        "lessonId": "L012",
-        "content": [
-            "The dative case in Latin indicates the indirect object (to/for whom something is given or done) or possession (whose).",
-            "It's common in prayers and the Mass, where actions are directed toward God, saints, or others.",
-            "For 1st declension nouns like 'regina' (queen), the dative singular is 'reginae' (to the queen).",
-            "For 2nd declension nouns like 'filius' (son), it's 'filio' (to the son), and for 'caelum' (heaven, neuter), it's 'caelo.'"
-        ],
-        "materials": [
-            "Dative case: Usage for indirect objects and possession",
-            "Vocabulary: 15 dative phrases from the Mass (e.g., Domine, non sum dignus – Lord, I am not worthy)",
-            "Practice: Analyze dative constructions in Confiteor"
-        ],
-        "practice": [
-            "Identify the dative nouns in the following phrases from the Mass and prayers, and translate:",
-            "(1) Domine, non sum dignus (Mass),",
-            "(2) Ora pro nobis (Ave Maria),",
-            "(3) Gloria Patri (Gloria Patri),",
-            "(4) Tibi laus (Mass),",
-            "(5) Nobis pax (Vulgate)."
-        ]
-    },
-    {
-        "lessonId": "L013",
-        "content": [
-            "Second conjugation verbs in Latin, ending in -ere in the infinitive (e.g., 'videre,' to see), are common in the Vulgate and Mass texts.",
-            "Their present tense is formed by removing the -re and adding endings: -eo, -es, -et, -emus, -etis, -ent.",
-            "For 'video' (I see): video, vides, videt, videmus, videtis, vident.",
-            "Compare this to 1st conjugation's -o, -as, -at (e.g., 'amo'). The vowel -e- before the ending distinguishes 2nd conjugation."
-        ],
-        "materials": [
-            "2nd conjugation verbs (e.g., video – see, moneo – warn)",
-            "Vocabulary: 15 verbs from the Vulgate and Mass",
-            "Practice: Conjugate verbs in Agnus Dei"
-        ],
-        "practice": [
-            "Conjugate the following 2nd conjugation verbs in the present tense:",
-            "(1) video (to see),",
-            "(2) moneo (to warn),",
-            "(3) habeo (to have)."
-        ]
-    },
-    {
-        "lessonId": "L014",
-        "content": [
-            "The Rosary is a meditative prayer central to Catholic devotion, combining vocal and mental prayer through mysteries and repeated prayers.",
-            "Its structure includes five decades, each with one Pater Noster, ten Ave Marias, and one Gloria Patri, reflecting on a mystery (e.g., Annunciation).",
-            "In Latin, these prayers are familiar from earlier lessons, but their repetition in the Rosary reinforces vocabulary and grammar.",
-            "This lesson focuses on the prayers' roles and key terms related to the Rosary's structure."
-        ],
-        "materials": [
-            "Structure of the Rosary: Mysteries, decades, and prayers (Pater Noster, Ave Maria, Gloria Patri)",
-            "Vocabulary: 15 terms related to the Rosary (e.g., mysterium – mystery, decas – decade)",
-            "Practice: Recite the prayers of one decade of the Rosary"
-        ],
-        "practice": [
-            "Recite one decade of the Rosary in Latin, including one Pater Noster, ten Ave Marias, and one Gloria Patri.",
-            "Use the pronunciation guides from Lessons 5, 7, and 11."
-        ]
-    },
-    {
-        "lessonId": "L015",
-        "content": [
-            "Adverbs in Latin describe verbs, adjectives, or other adverbs, often indicating manner, time, or extent.",
-            "They're formed from adjectives by adding -e or -iter to the stem.",
-            "For 1st/2nd declension adjectives like 'sanctus' (holy), remove the ending and add -e: 'sancte' (holily).",
-            "For 3rd declension adjectives like 'fortis' (strong), add -iter to the stem: 'fortiter' (strongly)."
-        ],
-        "materials": [
-            "Formation and use of adverbs (e.g., sancte – holily, from sanctus)",
-            "Comparative and superlative forms (e.g., sanctius – more holy, sanctissimus – most holy)",
-            "Vocabulary: 15 adverbs and adjectives from the Vulgate",
-            "Practice: Identify adverbs in Salve Regina"
-        ],
-        "practice": [
-            "Identify the adverbs in the following phrases from the Salve Regina and translate:",
-            "(1) Nunc et semper,",
-            "(2) Valde gloriosa,",
-            "(3) Dulce et spes nostra."
-        ]
-    },
-    {
-        "lessonId": "L016",
-        "content": [
-            "This lesson reviews Module 2, covering 3rd declension nouns, imperfect and future tenses, dative case, 2nd conjugation verbs, adverbs, and the Rosary prayers.",
-            "Third declension nouns like 'rex' (king: rex, regem, regis) and 'lumen' (light: lumen, lumen, luminis) have varied nominative forms but consistent stems.",
-            "The imperfect tense (e.g., 'laudabam,' I was praising) describes past ongoing actions, while the future tense (e.g., 'laudabo,' I will praise) predicts actions.",
-            "Second conjugation verbs like 'video' (I see: video, vides, videt) use -eo, -es, -et endings."
-        ],
-        "materials": [
-            "Review 3rd declension nouns, imperfect/future tenses, dative case, 2nd conjugation verbs, adverbs, Rosary prayers",
-            "Practice: Translate excerpts from the Rosary and Vulgate",
-            "Vocabulary: Review all 100+ words from Module 2"
-        ],
-        "practice": [
-            "Translate the following excerpts from the Rosary and Vulgate, identifying the specified grammar.",
-            "Then practice declining nouns and conjugating verbs."
-        ]
-    },
-    {
-        "lessonId": "L017",
-        "content": [
-            "Participles in Latin act as adjectives, describing nouns while carrying verbal meaning.",
-            "Present participles describe ongoing actions, like 'amans' (loving) from 'amare' (to love, 1st conjugation).",
-            "They're formed by adding -ns (nominative) or -nt- (stem) to the verb's present stem, with 3rd declension endings.",
-            "For 'amare': amans, amantis (genitive), amantem (accusative)."
-        ],
-        "materials": [
-            "Present participles (e.g., amans – loving)",
-            "Perfect participles (e.g., amatus – loved)",
-            "Vocabulary: 15 participles from the Vulgate",
-            "Practice: Identify participles in Magnificat"
-        ],
-        "practice": [
-            "Identify the participles in the following phrases from the Magnificat and state whether they are present or perfect.",
-            "Analyze their agreement with nouns."
-        ]
-    },
-    {
-        "lessonId": "L018",
-        "content": [
-            "The Nicene Creed (Credo) is a statement of faith recited in the Mass, rich in grammar and vocabulary.",
-            "Its Latin text begins: Credo in unum Deum, Patrem omnipotentem, factorem caeli et terrae, visibilium omnium et invisibilium.",
-            "This lesson explores its structure, focusing on participles, dative case, and verb tenses.",
-            "The Creed's theological depth makes it ideal for applying Module 3's intermediate grammar."
-        ],
-        "materials": [
-            "Full text of the Nicene Creed with vocabulary (e.g., credo – I believe, omnipotens – almighty)",
-            "Analyze participles, dative case, and verb tenses",
-            "Practice: Memorize and recite the Credo"
-        ],
-        "practice": [
-            "Memorize and recite the first section of the Nicene Creed:",
-            "Credo in unum Deum, Patrem omnipotentem, factorem caeli et terrae, visibilium omnium et invisibilium."
-        ]
-    },
-    {
-        "lessonId": "L019",
-        "content": [
-            "Relative pronouns in Latin (qui, quae, quod) introduce relative clauses, describing or identifying a noun.",
-            "They agree with their antecedent in gender and number but take their case from their role in the clause.",
-            "For example, 'qui' (nominative masculine singular, who) in 'Pater qui es in caelis' (Father who are in heaven) refers to 'Pater' (masculine singular).",
-            "Declension: qui (masc. nom. sg.), quae (fem. nom. sg.), quod (neuter nom. sg.)."
-        ],
-        "materials": [
-            "Relative pronouns (qui, quae, quod – who, which, that)",
-            "Vocabulary: 15 relative pronoun phrases from the Vulgate",
-            "Practice: Analyze relative clauses in Magnificat"
-        ],
-        "practice": [
-            "Identify the relative pronouns in the following phrases from the Magnificat and state their case and antecedent.",
-            "Analyze how they introduce descriptive clauses."
-        ]
-    },
-    {
-        "lessonId": "L020",
-        "content": [
-            "The Magnificat, Mary's song of praise from Luke 1:46-55, is a key liturgical text used in Vespers.",
-            "Its Latin text begins: Magnificat anima mea Dominum, et exsultavit spiritus meus in Deo salvatore meo.",
-            "This lesson explores its vocabulary, participles, and relative clauses, building on Module 3's grammar.",
-            "The Magnificat's poetic structure makes it ideal for studying complex sentences in sacred contexts."
-        ],
-        "materials": [
-            "Full text of the Magnificat with vocabulary (e.g., exsultavit – rejoiced, humiles – humble)",
-            "Analyze participles and relative clauses",
-            "Practice: Memorize and recite the Magnificat"
-        ],
-        "practice": [
-            "Memorize and recite the first two verses of the Magnificat:",
-            "Magnificat anima mea Dominum, et exsultavit spiritus meus in Deo salvatore meo."
-        ]
-    },
-    {
-        "lessonId": "L021",
-        "content": [
-            "Third and 4th conjugation verbs are common in liturgical texts, with distinct patterns.",
-            "Third conjugation verbs (e.g., 'rego,' to rule) end in -ere in the infinitive and use short -o, -is, -it endings in the present: rego, regis, regit.",
-            "Fourth conjugation verbs (e.g., 'audio,' to hear) end in -ire and use -io, -is, -it: audio, audis, audit.",
-            "Compare to 1st ('amo') and 2nd ('video') conjugations."
-        ],
-        "materials": [
-            "3rd and 4th conjugation verbs (e.g., rego – rule, audio – hear)",
-            "Vocabulary: 15 verbs from the Vulgate and Mass",
-            "Practice: Conjugate verbs in Sanctus"
-        ],
-        "practice": [
-            "Conjugate the following verbs in the present tense:",
-            "(1) rego (to rule, 3rd conjugation),",
-            "(2) audio (to hear, 4th conjugation),",
-            "(3) facio (to make, 3rd conjugation)."
-        ]
-    },
-    {
-        "lessonId": "L022",
-        "content": [
-            "Gerunds and gerundives are verbal nouns and adjectives, respectively, adding nuance to Latin texts.",
-            "Gerunds are verbal nouns formed from the verb's stem, used in cases like genitive or ablative to express action.",
-            "For 'amare' (to love): gerund is 'amandi' (of loving, genitive), 'amando' (by loving, ablative).",
-            "They don't have a nominative case, as infinitives (e.g., 'amare') serve that role."
-        ],
-        "materials": [
-            "Gerunds (e.g., amandi – of loving)",
-            "Gerundives (e.g., amandus – to be loved)",
-            "Vocabulary: 15 gerunds/gerundives from the Vulgate",
-            "Practice: Analyze gerunds and gerundives in liturgical texts"
-        ],
-        "practice": [
-            "Identify whether the following are gerunds or gerundives in these Vulgate phrases and translate.",
-            "Analyze their grammatical roles."
-        ]
-    },
-    {
-        "lessonId": "L023",
-        "content": [
-            "Infinitives in Latin express the verb's action as a concept, like 'amare' (to love) or 'esse' (to be).",
-            "They're used in indirect statements, where a verb like 'dico' (I say) introduces a clause with an infinitive.",
-            "In 'dico eum amare' (I say that he loves), 'eum' (him, accusative) is the subject of the infinitive 'amare' (present tense).",
-            "Infinitives have present (amare), perfect (amavisse, to have loved), and future (amaturus esse, to be about to love) forms."
-        ],
-        "materials": [
-            "Infinitives (e.g., amare – to love, esse – to be)",
-            "Indirect statements (e.g., dico eum amare – I say that he loves)",
-            "Vocabulary: 15 infinitive phrases from the Vulgate",
-            "Practice: Analyze indirect statements in the Creed"
-        ],
-        "practice": [
-            "Identify the infinitive and its tense in the following phrases from the Creed and Vulgate, and translate.",
-            "Analyze the grammatical relationships."
-        ]
-    },
-    {
-        "lessonId": "L024",
-        "content": [
-            "This lesson reviews Module 3, covering present and perfect participles, relative pronouns, gerunds/gerundives, 3rd/4th conjugation verbs, infinitives, and the Credo and Magnificat.",
-            "Participles act as adjectives, agreeing with nouns, as in 'puer natus' (boy born).",
-            "Relative pronouns introduce clauses, like 'qui potens est' (who is powerful, Magnificat).",
-            "Gerunds and gerundives express action or obligation: 'orandi' (of praying) vs. 'orandus' (to be prayed)."
-        ],
-        "materials": [
-            "Review participles, relative pronouns, gerunds/gerundives, infinitives, 3rd/4th conjugation verbs, Credo, Magnificat",
-            "Practice: Translate excerpts from the Creed and Magnificat",
-            "Vocabulary: Review all 100+ words from Module 3"
-        ],
-        "practice": [
-            "Translate the following excerpts from the Credo and Magnificat, identifying the specified grammar.",
-            "Analyze complex grammatical structures."
-        ]
-    },
-    {
-        "lessonId": "L025",
-        "content": [
-            "The passive voice in Latin indicates that the subject receives the action, unlike the active voice where the subject performs it.",
-            "For 1st conjugation verbs like 'amare' (to love), the present passive uses endings -or, -aris, -atur, -amur, -amini, -antur: 'amor' (I am loved).",
-            "For 2nd conjugation verbs like 'videre' (to see): 'videor' (I am seen), 'videris,' 'videtur.'",
-            "In the imperfect, 'amabar' (I was being loved); in the future, 'amabor' (I will be loved)."
-        ],
-        "materials": [
-            "Passive voice for 1st and 2nd conjugation verbs (e.g., amor – I am loved)",
-            "Vocabulary: 15 passive verbs from the Mass",
-            "Practice: Identify passive verbs in Agnus Dei"
-        ],
-        "practice": [
-            "Identify passive verbs in the following phrases from the Mass and Vulgate, and translate.",
-            "Analyze how passive voice shifts focus to the recipient."
-        ]
-    },
-    {
-        "lessonId": "L026",
-        "content": [
-            "The subjunctive mood in Latin expresses wishes, possibilities, or hypothetical actions, common in prayers like the Pater Noster.",
-            "For 1st conjugation verbs like 'amare' (to love), the present subjunctive changes the stem vowel to -e: amem, ames, amet.",
-            "For 2nd conjugation verbs like 'videre' (to see), it uses -ea: videam, videas, videat.",
-            "These contrast with indicative endings (-o, -s, -t)."
-        ],
-        "materials": [
-            "Present subjunctive for 1st and 2nd conjugation verbs (e.g., amem – I may love)",
-            "Vocabulary: 15 subjunctive verbs from the Mass",
-            "Practice: Identify subjunctives in Pater Noster"
-        ],
-        "practice": [
-            "Identify the present subjunctive verbs in the following phrases from the Pater Noster and translate.",
-            "Analyze how subjunctives express petitions and wishes."
-        ]
-    },
-    {
-        "lessonId": "L027",
-        "content": [
-            "The imperfect and perfect subjunctive moods express hypothetical or past possibilities, used in the Vulgate and prayers like the Confiteor.",
-            "For 1st conjugation verbs like 'amare' (to love), the imperfect subjunctive uses the infinitive plus endings: amarem, amares, amaret.",
-            "The perfect subjunctive uses the perfect stem plus -erim: 'amaverim' (I may have loved), 'visserim' (I may have seen).",
-            "These forms are less common in prayers but enrich narrative texts."
-        ],
-        "materials": [
-            "Imperfect subjunctive (e.g., amarem – I might love)",
-            "Perfect subjunctive (e.g., amaverim – I may have loved)",
-            "Vocabulary: 15 subjunctive verbs from the Vulgate",
-            "Practice: Analyze subjunctives in Confiteor"
-        ],
-        "practice": [
-            "Identify the subjunctive verbs in the following phrases from the Confiteor and Vulgate, and state their tense.",
-            "Analyze hypothetical and conditional meanings."
-        ]
-    },
-    {
-        "lessonId": "L028",
-        "content": [
-            "The Sanctus and Agnus Dei are key parts of the Mass, rich in advanced grammar like passive voice and subjunctives.",
-            "The Sanctus is: Sanctus, sanctus, sanctus Dominus Deus Sabaoth. Pleni sunt caeli et terra gloria tua. Hosanna in excelsis.",
-            "The Agnus Dei is: Agnus Dei, qui tollis peccata mundi, miserere nobis.",
-            "This lesson explores their vocabulary and structure."
-        ],
-        "materials": [
-            "Full texts of Sanctus and Agnus Dei with vocabulary (e.g., Sabaoth – hosts, peccata – sins)",
-            "Analyze passive voice and subjunctives",
-            "Practice: Memorize and recite Sanctus and Agnus Dei"
-        ],
-        "practice": [
-            "Memorize and recite the Sanctus and Agnus Dei.",
-            "Identify subjunctives, passive verbs, and other grammatical elements."
-        ]
-    },
-    {
-        "lessonId": "L029",
-        "content": [
-            "Deponent verbs in Latin have passive forms but active meanings, a unique feature in ecclesiastical texts.",
-            "For example, 'loqui' (to speak, 3rd conjugation deponent) uses passive endings: loquor, loqueris, loquitur (present tense).",
-            "Similarly, 'sequi' (to follow, 3rd conjugation) follows: sequor, sequeris, sequitur.",
-            "Unlike regular passive verbs (e.g., 'amor,' I am loved), deponents convey active actions like speaking or following."
-        ],
-        "materials": [
-            "Deponent verbs (e.g., loqui – to speak, sequi – to follow)",
-            "Vocabulary: 15 deponent verbs from the Vulgate and Mass",
-            "Practice: Identify deponent verbs in liturgical texts"
-        ],
-        "practice": [
-            "Identify the deponent verbs in the following phrases from the Vulgate and Mass, and translate.",
-            "Analyze their unique passive form with active meaning."
-        ]
-    },
-    {
-        "lessonId": "L030",
-        "content": [
-            "Purpose clauses in Latin express the intent of an action, using 'ut' (so that) or 'ne' (lest, so that not) with the subjunctive mood.",
-            "For example, 'venio ut orem' (I come so that I may pray) uses the present subjunctive 'orem' (from 'orare').",
-            "The subjunctive reflects the hypothetical nature of the purpose.",
-            "For negative purpose, 'ne' is used, as in 'laboro ne peccem' (I work so that I may not sin)."
-        ],
-        "materials": [
-            "Purpose clauses with ut/ne + subjunctive (e.g., ut orem – so that I may pray)",
-            "Vocabulary: 15 purpose clause phrases from the Vulgate",
-            "Practice: Analyze purpose clauses in Mass texts"
-        ],
-        "practice": [
-            "Identify the purpose clauses in the following phrases from the Mass and Vulgate, and translate.",
-            "Analyze how ut and ne introduce purpose."
-        ]
-    },
-    {
-        "lessonId": "L031",
-        "content": [
-            "The Gloria and Confiteor are central liturgical texts in the Mass, rich in advanced grammar.",
-            "The Gloria begins: Gloria in excelsis Deo et in terra pax hominibus bonae voluntatis.",
-            "The Confiteor starts: Confiteor Deo omnipotenti... quia peccavi nimis.",
-            "This lesson explores their vocabulary, subjunctives, deponent verbs, and purpose clauses."
-        ],
-        "materials": [
-            "Full texts of Gloria and Confiteor with vocabulary (e.g., laudamus – we praise, peccavi – I have sinned)",
-            "Analyze subjunctives, deponents, and purpose clauses",
-            "Practice: Memorize and recite Gloria and Confiteor"
-        ],
-        "practice": [
-            "Memorize and recite the first lines of the Gloria and Confiteor.",
-            "Identify subjunctives, deponents, and other grammatical elements."
-        ]
-    },
-    {
-        "lessonId": "L032",
-        "content": [
-            "This lesson reviews Module 4, covering passive voice, subjunctives, deponents, purpose clauses, and the Sanctus, Agnus Dei, Gloria, and Confiteor.",
-            "Passive voice emphasizes the recipient, as in 'peccata tolluntur' (sins are taken away).",
-            "Subjunctives express wishes or hypotheticals, like 'sanctificetur' (may it be sanctified, Pater Noster).",
-            "Deponents like 'confiteor' (I confess) use passive forms with active meanings."
-        ],
-        "materials": [
-            "Review passive voice, subjunctives, deponents, purpose clauses, Sanctus, Agnus Dei, Gloria, Confiteor",
-            "Practice: Translate excerpts from Mass texts",
-            "Vocabulary: Review all 100+ words from Module 4"
-        ],
-        "practice": [
-            "Translate the following excerpts from the Mass and Vulgate, identifying the specified grammar.",
-            "Analyze passive verbs, subjunctives, deponents, and purpose clauses."
-        ]
-    },
-    {
-        "lessonId": "L033",
-        "content": [
-            "The Vulgate Bible, St. Jerome's Latin translation, is a cornerstone of ecclesiastical Latin.",
-            "This lesson focuses on Gospel excerpts, starting with John 1:1-5: In principio erat Verbum, et Verbum erat apud Deum, et Deus erat Verbum.",
-            "This text is rich in grammar and theology, ideal for applying Module 5's skills.",
-            "You'll analyze verbs, nouns, and prepositional phrases, building on earlier lessons."
-        ],
-        "materials": [
-            "Excerpts from the Vulgate Gospels (e.g., John 1:1-5, Luke 2:1-7)",
-            "Vocabulary: 20 terms from Gospel texts",
-            "Practice: Translate and analyze John 1:1-5"
-        ],
-        "practice": [
-            "Translate John 1:1-5:",
-            "In principio erat Verbum, et Verbum erat apud Deum, et Deus erat Verbum."
-        ]
-    },
-    {
-        "lessonId": "L034",
-        "content": [
-            "The Psalms in the Vulgate are poetic and central to liturgy, used in the Divine Office and Mass.",
-            "This lesson focuses on Psalm 23:1-4 (Vulgate): Dominus regit me, et nihil mihi deerit.",
-            "The text is rich in grammar, with verbs, datives, and poetic imagery.",
-            "It's ideal for Module 5's application of Latin skills."
-        ],
-        "materials": [
-            "Excerpts from Psalms (e.g., Psalm 23:1-4 in Vulgate numbering)",
-            "Vocabulary: 20 terms from Psalms",
-            "Practice: Translate and analyze Psalm 23:1-4"
-        ],
-        "practice": [
-            "Translate Psalm 23:1-4:",
-            "Dominus regit me, et nihil mihi deerit."
-        ]
-    },
-    {
-        "lessonId": "L035",
-        "content": [
-            "The Ordinary of the Mass includes fixed texts like the Kyrie, Gloria, Credo, Sanctus, and Agnus Dei, used in every Mass.",
-            "This lesson synthesizes Module 5's focus on applying Latin to liturgy, analyzing these texts' grammar and vocabulary.",
-            "For example, the Kyrie's 'Kyrie eleison' (Lord, have mercy) uses Greek but integrates with Latin's 'miserere' (subjunctive).",
-            "The Gloria, Credo, Sanctus, and Agnus Dei were studied in Modules 3-4, now revisited for deeper analysis."
-        ],
-        "materials": [
-            "Key texts of the Mass Ordinary (Kyrie, Gloria, Credo, Sanctus, Agnus Dei)",
-            "Vocabulary: 20 terms from the Mass Ordinary",
-            "Practice: Translate and analyze excerpts from the Mass"
-        ],
-        "practice": [
-            "Translate the following excerpts from the Mass Ordinary, identifying the specified grammar.",
-            "Analyze each text's grammatical structure."
-        ]
-    },
-    {
-        "lessonId": "L036",
-        "content": [
-            "The Pauline Epistles in the Vulgate, like Romans 1:16-17, are theological and dense with advanced grammar.",
-            "Romans 1:16-17 reads: Non enim erubesco Evangelium... in quo iustitia Dei revelatur.",
-            "This lesson analyzes verbs, relative clauses, and prepositional phrases.",
-            "It applies skills from Modules 1-4 to scripture."
-        ],
-        "materials": [
-            "Excerpts from Pauline Epistles (e.g., Romans 1:16-17)",
-            "Vocabulary: 20 terms from Epistles",
-            "Practice: Translate and analyze Romans 1:16-17"
-        ],
-        "practice": [
-            "Translate Romans 1:16-17.",
-            "Identify verbs, relative clauses, and grammatical structures."
-        ]
-    },
-    {
-        "lessonId": "L037",
-        "content": [
-            "This lesson applies Latin skills to major liturgical prayers: Pater Noster, Ave Maria, Gloria Patri, Credo, and Magnificat.",
-            "These prayers, central to Catholic worship, use grammar like subjunctives, participles, and relative clauses.",
-            "This practice deepens fluency in Module 5's liturgical focus.",
-            "You'll synthesize skills from Modules 1-4 to understand theological and linguistic depth."
-        ],
-        "materials": [
-            "Review of major prayers (Pater Noster, Ave Maria, Gloria Patri, Credo, Magnificat)",
-            "Vocabulary: 20 terms from prayers",
-            "Practice: Translate and recite prayers with analysis"
-        ],
-        "practice": [
-            "Translate and recite excerpts from the following prayers, identifying the specified grammar.",
-            "Analyze each prayer's grammatical structure."
-        ]
-    },
-    {
-        "lessonId": "L038",
-        "content": [
-            "This lesson analyzes the full Ordinary of the Mass (Kyrie, Gloria, Credo, Sanctus, Agnus Dei).",
-            "It applies all grammar from Modules 1-4 to achieve Module 5's goal of liturgical fluency.",
-            "Key prayers include the Gloria's 'laudamus te' (we praise you) and the Agnus Dei's 'miserere nobis' (have mercy on us).",
-            "Each text combines subjunctives, passives, participles, and relative clauses."
-        ],
-        "materials": [
-            "Complete Ordinary of the Mass with focus on key prayers",
-            "Vocabulary: 20 terms from the Mass",
-            "Practice: Translate and analyze key Mass sections"
-        ],
-        "practice": [
-            "Translate the following excerpts from the Mass Ordinary, identifying the specified grammar.",
-            "Analyze each section's grammatical structure."
-        ]
-    },
-    {
-        "lessonId": "L039",
-        "content": [
-            "Latin hymns and chants, like Ave Maris Stella and Pange Lingua, are poetic and musical.",
-            "They're used in the Divine Office and Mass.",
-            "This lesson applies Module 5's skills to these texts, focusing on grammar and vocabulary.",
-            "Ave Maris Stella begins: Ave, maris stella, Dei mater alma..."
-        ],
-        "materials": [
-            "Excerpts from hymns (e.g., Ave Maris Stella, Pange Lingua)",
-            "Vocabulary: 20 terms from hymns",
-            "Practice: Translate and recite hymn excerpts"
-        ],
-        "practice": [
-            "Translate and recite excerpts from Ave Maris Stella and Pange Lingua.",
-            "Identify imperatives, vocatives, and other grammatical elements."
-        ]
-    },
-    {
-        "lessonId": "L040",
-        "content": [
-            "This final lesson synthesizes the entire course, applying Latin skills to prayers, the Mass, Vulgate excerpts, and hymns.",
-            "Module 5 culminates in fluency, enabling you to read, translate, and recite ecclesiastical Latin with confidence.",
-            "Your vocabulary now exceeds 500 words, spanning all major liturgical and scriptural texts.",
-            "You are now equipped to engage with Latin texts in Mass, prayer, and study."
-        ],
-        "materials": [
-            "Review all major texts (prayers, Mass, Vulgate, hymns)",
-            "Vocabulary: Review all 500+ course terms",
-            "Practice: Translate and recite mixed excerpts"
-        ],
-        "practice": [
-            "Translate and recite the following mixed excerpts, identifying the specified grammar.",
-            "Demonstrate fluency in ecclesiastical Latin by analyzing complex liturgical and scriptural texts."
-        ]
-    }
+  {
+    "lessonId": "L001",
+    "content": [
+      "Welcome to your journey into Ecclesiastical Latin, the language of the Catholic Church for centuries, used in liturgy, prayers, and sacred texts like the Vulgate Bible. Unlike Classical Latin, which was spoken in ancient Rome, Ecclesiastical Latin adopts a pronunciation influenced by Italian, reflecting its use in the Church's rituals. Understanding its history helps you appreciate its role in worship. For example, the Mass and prayers like the Pater Noster have been prayed in Latin since the early centuries of Christianity, uniting believers across cultures.",
+      "Let's begin with pronunciation, which is key to reading and reciting Latin texts. Ecclesiastical Latin has five vowels: 'a' is pronounced like 'ah' in 'father,' 'e' like 'eh' in 'pet,' 'i' like 'ee' in 'see,' 'o' like 'aw' in 'law,' and 'u' like 'oo' in 'moon.' For instance, 'Deus' (God) sounds like 'DEH-oos.' Consonants are generally pronounced as in English, but with some differences: 'c' before 'e' or 'i' is soft, like 'ch' in 'church,' so 'ecclesia' (church) is pronounced 'eh-KLEH-see-ah.' The letter 'g' is hard, as in 'go,' so 'gratia' (grace) is 'GRAH-tee-ah.' The letter 'v' is pronounced like 'w,' making 'vita' (life) sound like 'WEE-tah.'",
+      "Stress in Latin words depends on syllable length. In words of two syllables, stress the first: 'pater' (father) is 'PAH-ter.' In words of three or more syllables, stress the second-to-last syllable if it is long (contains a long vowel or ends in a consonant), like 'ecclesia' (eh-KLEH-see-ah); otherwise, stress the third-to-last, as in 'fides' (FEE-des). Practice these rules with words like 'sanctus' (holy, SAHNK-toos) and 'gloria' (glory, GLOH-ree-ah).",
+      "You'll also encounter common greetings and phrases used in liturgical settings. 'Salvete' means 'hello' (plural) and is pronounced 'sahl-VEH-teh.' 'Gratia vobis' (grace to you) is 'GRAH-tee-ah WOH-bis.' These phrases set the tone for sacred communication. Your vocabulary includes foundational words like 'Deus' (God), 'fides' (faith), and 'pax' (peace). Try pronouncing them aloud, ensuring each vowel is clear and distinct, as in 'veritas' (truth, weh-REE-tahs)."
+    ],
+    "materials": [
+      "Overview of Ecclesiastical Latin: History and use in the Catholic Church",
+      "Ecclesiastical Latin pronunciation rules (vowels, consonants, stress)",
+      "Common greetings and phrases: Salvete (Hello), Gratia vobis (Grace to you)",
+      "Vocabulary: 20 basic words (e.g., Deus – God, ecclesia – church, fides – faith)"
+    ],
+    "practice": [
+      "Read aloud the Pater Noster (Our Father) using the pronunciation guide provided below.",
+      "Focus on clear vowel sounds and correct stress.",
+      "The full text is:",
+      "Pater noster, qui es in caelis, sanctificetur nomen tuum.",
+      "Adveniat regnum tuum.",
+      "Fiat voluntas tua, sicut in caelo et in terra.",
+      "Panem nostrum quotidianum da nobis hodie,",
+      "et dimitte nobis debita nostra, sicut et nos dimittimus debitoribus nostris.",
+      "Et ne nos inducas in tentationem, sed libera nos a malo.",
+      "Pronunciation guide:",
+      "'Pater' (PAH-ter), 'noster' (NOHS-ter), 'qui' (kwee), 'es' (ehs), 'caelis' (CHEH-lees),",
+      "'sanctificetur' (sahnk-tee-fee-CHEH-toor), 'nomen' (NOH-men), 'tuum' (TOO-oom),",
+      "'adveniat' (ahd-VEH-nee-aht), 'regnum' (REHN-yoom), 'fiat' (FEE-aht),",
+      "'voluntas' (woh-LOON-tahs), 'sicut' (SEE-koot), 'caelo' (CHEH-loh), 'terra' (TEH-rah),",
+      "'panem' (PAH-nem), 'quotidianum' (kwoh-tee-dee-AH-noom), 'hodie' (HOH-dee-eh),",
+      "'dimitte' (dee-MEET-teh), 'debita' (DEH-bee-tah), 'dimittimus' (dee-MEET-tee-moos),",
+      "'debitoribus' (deh-bee-TOH-ree-boos), 'inducas' (in-DOO-kahs), 'tentationem' (ten-tah-tee-OH-nem),",
+      "'libera' (LEE-beh-rah), 'malo' (MAH-loh)."
+    ]
+  },
+  {
+    "lessonId": "L002",
+    "content": [
+      "Latin nouns are the building blocks of sentences, and they change form depending on their role in a sentence, a process called declension. In this lesson, we'll focus on the first two declensions and the nominative and accusative cases, which are essential for understanding prayers and Mass texts. Declensions are like families of nouns with similar endings. The 1st declension typically includes feminine nouns ending in -a, like 'regina' (queen), while the 2nd declension includes masculine and neuter nouns ending in -us or -um, like 'filius' (son) or 'caelum' (heaven).",
+      "The nominative case is used for the subject of a sentence—the doer of the action. For example, in 'Regina orat' (The queen prays), 'regina' is nominative because the queen is performing the action. The accusative case is used for the direct object—the receiver of the action. In 'Regina filium spectat' (The queen sees the son), 'filium' is accusative because the son is being seen. For 1st declension nouns, the nominative singular ends in -a (regina), and the accusative singular ends in -am (reginam). For 2nd declension masculine nouns, the nominative singular ends in -us (filius), and the accusative ends in -um (filium). Neuter nouns, like 'caelum,' have the same form in nominative and accusative: 'caelum.'",
+      "Let's apply this to Mass phrases. In 'Agnus Dei' (Lamb of God), 'agnus' is nominative (the subject, meaning 'lamb'), and 'Dei' is a form we'll explore later, but it refers to God. Another example is 'panem nostrum' (our bread) from the Pater Noster, where 'panem' is accusative because it's the object being requested. Practice declining nouns like 'mater' (mother: mater, materm) and 'vinum' (wine: vinum, vinum) to get comfortable with these endings. Pay attention to gender: 'mater' is feminine (1st declension), while 'filius' is masculine (2nd declension), and 'caelum' is neuter (2nd declension).",
+      "When translating phrases from the Mass, word order in Latin can differ from English. Latin relies on case endings, not word order, to show meaning. For example, 'Corpus Christi' (Body of Christ) uses 'corpus' in the nominative or accusative (it's the same for neuter nouns) and 'Christi' to indicate 'of Christ.' Try translating 'Sanguis Christi' (Blood of Christ) by identifying 'sanguis' as nominative (3rd declension, to be covered later) and 'Christi' as a possessive form. This flexibility in word order is common in prayers, so focus on the endings to understand each word's role."
+    ],
+    "materials": [
+      "Introduction to Latin noun declensions (1st and 2nd declensions)",
+      "Nominative and accusative cases: Subject and direct object",
+      "Vocabulary: 15 nouns from the Latin Mass (e.g., panis – bread, vinum – wine)",
+      "Practice: Translate simple phrases from the Mass, e.g., Agnus Dei (Lamb of God)"
+    ],
+    "practice": [
+      "Translate the following simple phrases from the Mass into English:",
+      "(1) Agnus Dei,",
+      "(2) Panem nostrum,",
+      "(3) Corpus Christi,",
+      "(4) Sanguis Christi,",
+      "(5) Aqua vitae.",
+      "For each phrase, identify the case (nominative or accusative) of the first noun."
+    ]
+  },
+  {
+    "lessonId": "L003",
+    "content": [
+      "Verbs are the action words of Latin, and they change forms to show who is acting and when. In this lesson, we'll focus on the 1st conjugation present tense, which is used for actions happening now. First conjugation verbs typically end in -are in their infinitive form, like 'amare' (to love). The present tense is formed by removing the -re and adding personal endings: -o (I), -as (you singular), -at (he/she/it), -amus (we), -atis (you plural), -ant (they). For example, 'amo' means 'I love,' 'amas' means 'you love,' and 'amant' means 'they love.' Let's conjugate 'oro' (to pray): oro, oras, orat, oramus, oratis, orant.",
+      "These endings apply to most 1st conjugation verbs, such as 'credo' (I believe: credo, credas, credat, credamus, credatis, credant). Notice how the stem 'cred-' remains constant, and only the endings change. This pattern is consistent across 1st conjugation verbs, making them predictable. For example, in the Gloria in Excelsis Deo, you'll see 'laudamus' (we praise), which is the 1st person plural present tense of 'laudare' (to praise). Try conjugating 'do' (to give): do, das, dat, damus, datis, dant.",
+      "In liturgical texts, verbs often appear in prayers to express actions or states. For instance, 'glorificamus' in the Gloria means 'we glorify,' from 'glorificare.' The present tense here conveys ongoing action, fitting for praising God. Word order in Latin can vary, so focus on the verb ending to identify the subject. For example, 'Deus amat' (God loves) has 'amat' (3rd person singular), indicating 'Deus' as the subject. Compare this to 'Amamus Deum' (We love God), where 'amamus' shows the 1st person plural, and 'Deum' is the accusative object.",
+      "When reading the Gloria, look for verbs like 'benedicimus' (we bless) and 'adoramus' (we adore). These are all 1st conjugation present tense verbs, and their endings tell you who is performing the action. Practice identifying the subject and verb in phrases like 'Gratias agimus' (We give thanks), where 'agimus' is from 'agere' (to do/give). This will prepare you to conjugate verbs in context and understand their role in sacred texts."
+    ],
+    "materials": [
+      "Introduction to Latin verb conjugations (1st conjugation, present tense)",
+      "Verb forms: amo, amas, amat (I love, you love, he/she loves)",
+      "Vocabulary: 15 verbs from the Vulgate (e.g., oro – pray, credo – believe)",
+      "Practice: Conjugate verbs in Gloria in Excelsis Deo"
+    ],
+    "practice": [
+      "Conjugate the following 1st conjugation verbs in the present tense:",
+      "(1) oro (to pray),",
+      "(2) amo (to love),",
+      "(3) laudo (to praise).",
+      "For each, provide the full conjugation (1st, 2nd, 3rd person singular and plural).",
+      "Then, translate the phrase 'Glorificamus te' from the Gloria in Excelsis Deo."
+    ]
+  },
+  {
+    "lessonId": "L004",
+    "content": [
+      "Adjectives in Latin describe nouns and must agree with them in gender (masculine, feminine, neuter), number (singular, plural), and case (e.g., nominative, accusative). This agreement ensures clarity in sentences, especially in prayers like the Salve Regina. Most adjectives follow the 1st and 2nd declension patterns, much like nouns. For example, the adjective 'sanctus' (holy) has forms 'sanctus' (masculine nominative singular), 'sancta' (feminine nominative singular), and 'sanctum' (neuter nominative singular). When paired with a noun, the adjective matches its ending. In 'sancta regina' (holy queen), 'sancta' is feminine nominative singular to agree with 'regina.'",
+      "Let's decline an adjective with a noun. Take 'bonus' (good) with 'filius' (son, 2nd declension masculine): 'bonus filius' (good son, nominative singular), 'bonum filium' (good son, accusative singular). For a feminine noun like 'mater' (mother, 1st declension), it's 'bona mater' (nominative) and 'bonam matrem' (accusative). For a neuter noun like 'caelum' (heaven, 2nd declension), it's 'bonum caelum' for both nominative and accusative. Notice how the adjective's ending changes to match the noun's case, number, and gender.",
+      "In prayers, adjectives enhance meaning. In the Salve Regina, 'Mater misericordiae' (Mother of mercy) pairs 'mater' (feminine nominative singular) with 'misericordiae,' a noun acting as a complement (we'll explore this later). Similarly, 'beata virgo' (blessed virgin) uses 'beata' (feminine nominative singular) to agree with 'virgo.' Adjectives like 'omnipotens' (almighty) are trickier because they don't change form for gender in some cases, but in the nominative singular, they follow the pattern: 'omnipotens Deus' (almighty God, masculine).",
+      "When analyzing phrases, identify the noun's gender, number, and case first, then ensure the adjective matches. For example, in 'gloriosus Dominus' (glorious Lord), 'gloriosus' is masculine nominative singular to agree with 'Dominus.' Practice with phrases like 'pulcher pastor' (beautiful shepherd, masculine nominative) or 'sacer ignis' (sacred fire, masculine nominative). This skill will help you understand the rich descriptions in liturgical texts."
+    ],
+    "materials": [
+      "Adjective declension and agreement with nouns (gender, number, case)",
+      "Vocabulary: 15 adjectives from prayers (e.g., sanctus – holy, beatus – blessed)",
+      "Practice: Pair adjectives with nouns in Salve Regina (e.g., Mater misericordiae)"
+    ],
+    "practice": [
+      "Pair the following adjectives with the nouns from the Salve Regina, ensuring agreement in gender, number, and case.",
+      "Then translate the phrases:",
+      "(1) sanctus with regina (nominative singular),",
+      "(2) beatus with mater (accusative singular),",
+      "(3) gloriosus with virgo (nominative singular),",
+      "(4) bonus with spes (nominative singular),",
+      "(5) misericors with advocata (accusative singular).",
+      "The Salve Regina text for reference: Salve Regina, Mater misericordiae, vita, dulcedo, et spes nostra, salve."
+    ]
+  },
+  {
+    "lessonId": "L005",
+    "content": [
+      "The Pater Noster, or Lord's Prayer, is one of the most important prayers in Christianity, and learning it in Latin connects you to the Church's tradition. This lesson explores its text, vocabulary, and syntax, helping you understand how Latin prayers are structured. The full text is: Pater noster, qui es in caelis, sanctificetur nomen tuum. Adveniat regnum tuum. Fiat voluntas tua, sicut in caelo et in terra. Panem nostrum quotidianum da nobis hodie, et dimitte nobis debita nostra, sicut et nos dimittimus debitoribus nostris. Et ne nos inducas in tentationem, sed libera nos a malo. Each word's form and position carries meaning.",
+      "Let's break down key vocabulary. 'Pater' (father) is nominative, the subject addressing God. 'Noster' (our) is an adjective agreeing with 'pater' in gender (masculine), number (singular), and case (nominative). 'Qui es in caelis' means 'who are in heaven,' with 'qui' (who) introducing a relative clause, 'es' (you are, 2nd person singular of 'sum'), and 'caelis' (heaven, ablative plural, meaning 'in the heavens'). Verbs like 'sanctificetur' (may it be sanctified) and 'adveniat' (may it come) are in the subjunctive mood, expressing wishes, which we'll study later. For now, note their role in petitioning God.",
+      "Latin word order in prayers often emphasizes key ideas. Unlike English, where word order is fixed (subject-verb-object), Latin uses case endings to show relationships, allowing flexibility. In 'Panem nostrum quotidianum da nobis hodie' (Give us this day our daily bread), 'panem' (bread, accusative) is the direct object, 'nostrum' and 'quotidianum' (daily) are adjectives agreeing with 'panem,' 'da' (give, imperative) is the verb, 'nobis' (to us, dative) is the indirect object, and 'hodie' (today) is an adverb. The order highlights 'panem' as the focus of the petition.",
+      "To memorize the Pater Noster, practice reciting it aloud, using the pronunciation guide from Lesson 1. Focus on the rhythm and flow, as prayers are often chanted. For example, 'fiat voluntas tua' (thy will be done) is pronounced 'FEE-aht woh-LOON-tahs TOO-ah.' Understanding the syntax—how nouns, adjectives, and verbs work together—will make recitation more meaningful. As you memorize, visualize the prayer's structure: petitions (sanctificetur, adveniat, fiat), requests (da, dimitte, libera), and comparisons (sicut)."
+    ],
+    "materials": [
+      "Full text of Pater Noster with vocabulary breakdown (e.g., pater – father, caelum – heaven)",
+      "Syntax: Word order in Latin prayers",
+      "Practice: Memorize and recite Pater Noster"
+    ],
+    "practice": [
+      "Memorize and recite the Pater Noster aloud, using the pronunciation guide from Lesson 1:",
+      "Pater noster, qui es in caelis, sanctificetur nomen tuum.",
+      "Adveniat regnum tuum.",
+      "Fiat voluntas tua, sicut in caelo et in terra.",
+      "Panem nostrum quotidianum da nobis hodie,",
+      "et dimitte nobis debita nostra, sicut et nos dimittimus debitoribus nostris.",
+      "Et ne nos inducas in tentationem, sed libera nos a malo."
+    ]
+  },
+  {
+    "lessonId": "L006",
+    "content": [
+      "Prepositions in Latin clarify relationships between words, such as location or association, and they often pair with the ablative case in prayers and the Mass. The ablative case has multiple uses, including place ('where' or 'from'), means ('by which'), and accompaniment ('with whom'). Prepositions like 'in' (in, on) and 'cum' (with) typically take the ablative. For example, in 'in caelis' (in the heavens) from the Pater Noster, 'caelis' is the ablative plural of 'caelum' (heaven), indicating location. Similarly, 'cum Maria' (with Mary) uses the ablative 'Maria' to show accompaniment.",
+      "Let's explore the ablative's roles. For place, 'in terra' (on earth) uses the ablative 'terra' to mean 'where.' For means, 'per crucem' (through the cross) shows the instrument of action, with 'crucem' in the accusative (an exception we'll note later). For accompaniment, 'cum angelis' (with the angels) uses the ablative 'angelis.' Declining nouns in the ablative varies by declension: 1st declension nouns like 'regina' become 'regina' (singular), 2nd declension masculine nouns like 'filius' become 'filio,' and neuter nouns like 'caelum' become 'caelo.'",
+      "In the Credo, prepositions are common. For example, 'in unum Deum' (in one God) uses 'in' with the accusative 'Deum' (a special case for certain prepositions), but 'ex Maria' (from Mary) uses the ablative 'Maria' to indicate origin. The phrase 'in principio' (in the beginning) from the Vulgate uses the ablative 'principio' for time or circumstance. When analyzing these phrases, identify the preposition, the case of the noun, and the type of relationship (place, means, accompaniment).",
+      "Practice with phrases like 'de caelo' (from heaven, ablative indicating origin) or 'sine peccato' (without sin, ablative of separation). These constructions are frequent in liturgical texts, where prepositions add precision to prayers. For example, 'pro nobis' (for us) in the Ave Maria uses the ablative 'nobis' to indicate the beneficiary. Mastering these will help you navigate the Credo and other texts with confidence."
+    ],
+    "materials": [
+      "Common prepositions in the Mass (e.g., in – in, cum – with)",
+      "Ablative case: Usage for place, means, and accompaniment",
+      "Vocabulary: 15 prepositional phrases from the Vulgate (e.g., in principio – in the beginning)",
+      "Practice: Analyze prepositions in Credo (Creed)"
+    ],
+    "practice": [
+      "Identify the preposition and the case of the noun in the following phrases from the Pater Noster and Vulgate:",
+      "(1) in caelis,",
+      "(2) in terra,",
+      "(3) ex Maria,",
+      "(4) pro nobis,",
+      "(5) in principio.",
+      "Then, state whether each ablative indicates place, means, or accompaniment (note: some may use accusative with certain prepositions)."
+    ]
+  },
+  {
+    "lessonId": "L007",
+    "content": [
+      "The Ave Maria (Hail Mary) is a cornerstone prayer of the Catholic Church, and its Latin text is both beautiful and instructive for learning grammar. The full text is: Ave Maria, gratia plena, Dominus tecum. Benedicta tu in mulieribus, et benedictus fructus ventris tui, Jesus. Sancta Maria, Mater Dei, ora pro nobis peccatoribus, nunc et in hora mortis nostrae. Amen. This prayer uses nouns, adjectives, and prepositions you've studied, making it a perfect text to apply your knowledge.",
+      "Start with vocabulary and noun-adjective agreement. 'Maria' (Mary) is a 1st declension feminine noun, nominative singular in 'Ave Maria' (Hail Mary). 'Gratia plena' (full of grace) pairs 'gratia' (grace, feminine nominative singular) with 'plena,' a feminine nominative singular adjective agreeing with 'Maria' implicitly. Similarly, 'benedicta' (blessed, feminine nominative singular) agrees with 'tu' (you, referring to Mary). In 'benedictus fructus' (blessed fruit), 'benedictus' is masculine nominative singular to agree with 'fructus' (fruit, 4th declension, to be covered later).",
+      "Prepositions and cases are also key. 'Dominus tecum' (the Lord is with you) uses 'tecum,' a combination of 'cum' (with) and 'te' (you, ablative), showing accompaniment. 'In mulieribus' (among women) uses 'in' with the ablative 'mulieribus' (women, 3rd declension plural) to indicate place. 'Pro nobis' (for us) uses the ablative 'nobis' to show the beneficiary. Notice how adjectives like 'sancta' in 'Sancta Maria' (holy Mary) match the noun's case and gender, reinforcing Lesson 4.",
+      "The syntax of the Ave Maria is straightforward but flexible, typical of Latin prayers. The first part addresses Mary directly ('Ave Maria'), the second describes her blessings ('benedicta tu'), and the third petitions her ('ora pro nobis'). Memorizing this prayer helps you internalize noun-adjective agreement and case usage. Use the pronunciation guide: 'Ave' (AH-weh), 'gratia' (GRAH-tee-ah), 'benedicta' (beh-neh-DEEK-tah), 'ora' (OH-rah). Recite it slowly to master the rhythm and flow."
+    ],
+    "materials": [
+      "Full text of Ave Maria with vocabulary (e.g., gratia – grace, Dominus – Lord)",
+      "Review noun and adjective agreement in the prayer",
+      "Practice: Memorize and recite Ave Maria"
+    ],
+    "practice": [
+      "Memorize and recite the Ave Maria aloud, using the pronunciation guide:",
+      "Ave Maria, gratia plena, Dominus tecum.",
+      "Benedicta tu in mulieribus,",
+      "et benedictus fructus ventris tui, Jesus.",
+      "Sancta Maria, Mater Dei, ora pro nobis peccatoribus, nunc et in hora mortis nostrae. Amen."
+    ]
+  },
+  {
+    "lessonId": "L008",
+    "content": [
+      "This lesson consolidates your knowledge from Module 1, covering pronunciation, 1st and 2nd declension nouns, 1st conjugation verbs in the present tense, adjective agreement, prepositions with the ablative case, and the Pater Noster and Ave Maria. Pronunciation is critical for reciting prayers correctly. Review the vowel sounds: 'a' as 'ah,' 'e' as 'eh,' 'i' as 'ee,' 'o' as 'aw,' 'u' as 'oo.' Consonants like 'c' before 'e' or 'i' are 'ch' (e.g., 'ecclesia,' eh-KLEH-see-ah), and 'v' is 'w' (e.g., 'vita,' WEE-tah). Stress rules—first syllable for two-syllable words, second-to-last if long—apply to words like 'sanctus' (SAHNK-toos).",
+      "Nouns in the nominative case (e.g., 'agnus,' lamb) act as subjects, while accusative nouns (e.g., 'panem,' bread) are direct objects. Decline 'mater' (mother): nominative 'mater,' accusative 'matrem.' Verbs like 'amo' (I love) follow the pattern: amo, amas, amat, amamus, amatis, amant. Adjectives must match their nouns, as in 'sancta Maria' (holy Mary). Prepositions like 'in' and 'cum' often take the ablative, as in 'in caelis' (in the heavens). Practice these in context with Mass phrases like 'Pax vobis' (Peace be with you), where 'pax' is nominative and 'vobis' is dative (to be covered later).",
+      "The Pater Noster and Ave Maria use these grammar points. In 'Pater noster,' 'noster' agrees with 'pater' in case, number, and gender. In 'Ave Maria, gratia plena,' 'plena' agrees with 'Maria.' Review the syntax: Latin's flexible word order relies on endings, not position. For example, 'Panem da' and 'Da panem' both mean 'Give bread,' but the accusative 'panem' clarifies the object. The Vulgate's 'in principio' (in the beginning) uses the ablative for time. Apply these rules when translating excerpts.",
+      "Your vocabulary now includes over 100 words, like 'Deus' (God), 'oro' (I pray), and 'gratia' (grace). Revisit the prayers to reinforce these terms. When translating, identify the case, verb form, and agreement. For example, 'Gloria Patri' (Glory to the Father) uses the dative 'Patri' (to be covered later) and nominative 'gloria.' This review prepares you for Module 2's advanced grammar and prayers."
+    ],
+    "materials": [
+      "Review pronunciation, nouns, verbs, adjectives, prepositions, Pater Noster, and Ave Maria",
+      "Practice: Translate short excerpts from the Mass and Vulgate",
+      "Vocabulary: Review all 100+ words learned so far"
+    ],
+    "practice": [
+      "Translate the following excerpts from the Mass and Vulgate into English, identifying the case or verb form where indicated:",
+      "(1) Pax vobis (Mass, identify case of 'pax'),",
+      "(2) In principio (Vulgate, identify case of 'principio'),",
+      "(3) Sancta Maria (Ave Maria, identify adjective agreement),",
+      "(4) Oro pro vobis (Mass, identify verb form),",
+      "(5) Fides mea (Vulgate, identify case of 'fides')."
+    ]
+  },
+  {
+    "lessonId": "L009",
+    "content": [
+      "The 3rd declension is a diverse group of nouns, including masculine, feminine, and neuter nouns, and it's common in liturgical texts like the Vulgate and the Mass.",
+      "Unlike the 1st and 2nd declensions, 3rd declension nouns have varied nominative endings but follow predictable patterns in other cases.",
+      "For example, 'rex' (king, masculine) has nominative singular 'rex' and accusative singular 'regem.' The neuter noun 'lumen' (light) has 'lumen' for both nominative and accusative singular.",
+      "To identify 3rd declension nouns, look at the genitive singular (ending in -is) in dictionaries, like 'regis' for 'rex' or 'luminis' for 'lumen.'"
+    ],
+    "materials": [
+      "3rd declension noun patterns (e.g., rex – king, lumen – light)",
+      "Vocabulary: 15 nouns from the Vulgate (e.g., verbum – word, pax – peace)",
+      "Practice: Identify 3rd declension nouns in Sanctus from the Mass"
+    ],
+    "practice": [
+      "Identify the 3rd declension nouns in the Sanctus from the Mass and state their case.",
+      "Sanctus, sanctus, sanctus Dominus Deus Sabaoth.",
+      "Pleni sunt caeli et terra gloria tua.",
+      "Hosanna in excelsis."
+    ]
+  },
+  {
+    "lessonId": "L010",
+    "content": [
+      "The imperfect and future tenses expand your ability to express time in Latin verbs, crucial for understanding narratives in the Vulgate and prayers like the Kyrie Eleison.",
+      "The imperfect tense describes ongoing or repeated past actions, like 'amabam' (I was loving) from 'amare' (to love, 1st conjugation).",
+      "For 1st conjugation verbs, remove the -re from the infinitive and add endings: -bam, -bas, -bat, -bamus, -batis, -bant.",
+      "So, 'laudare' (to praise) becomes: laudabam, laudabas, laudabat, laudabamus, laudabatis, laudabant."
+    ],
+    "materials": [
+      "Imperfect tense: amabam (I was loving)",
+      "Future tense: amabo (I will love)",
+      "Vocabulary: 15 verbs from the Vulgate (e.g., venio – come, dico – say)",
+      "Practice: Conjugate verbs in Kyrie Eleison"
+    ],
+    "practice": [
+      "Conjugate the following verbs in the imperfect and future tenses:",
+      "(1) laudo (to praise, 1st conjugation),",
+      "(2) venio (to come, 4th conjugation),",
+      "(3) dico (to say, 3rd conjugation)."
+    ]
+  },
+  {
+    "lessonId": "L011",
+    "content": [
+      "The Gloria Patri, or Glory Be, is a short but profound prayer praising the Trinity, commonly used in the Rosary and liturgy.",
+      "Its full text is: Gloria Patri, et Filio, et Spiritui Sancto. Sicut erat in principio, et nunc, et semper, et in saecula saeculorum. Amen.",
+      "This lesson examines its vocabulary, verb tenses, and noun cases, reinforcing your grammar knowledge.",
+      "The prayer's structure is simple, making it ideal for applying concepts like the dative case and verb forms."
+    ],
+    "materials": [
+      "Full text of Gloria Patri with vocabulary (e.g., gloria – glory, saeculum – world/age)",
+      "Review verb tenses and noun cases in the prayer",
+      "Practice: Memorize and recite Gloria Patri"
+    ],
+    "practice": [
+      "Memorize and recite the Gloria Patri aloud:",
+      "Gloria Patri, et Filio, et Spiritui Sancto.",
+      "Sicut erat in principio, et nunc, et semper, et in saecula saeculorum. Amen."
+    ]
+  },
+  {
+    "lessonId": "L012",
+    "content": [
+      "The dative case in Latin indicates the indirect object (to/for whom something is given or done) or possession (whose).",
+      "It's common in prayers and the Mass, where actions are directed toward God, saints, or others.",
+      "For 1st declension nouns like 'regina' (queen), the dative singular is 'reginae' (to the queen).",
+      "For 2nd declension nouns like 'filius' (son), it's 'filio' (to the son), and for 'caelum' (heaven, neuter), it's 'caelo.'"
+    ],
+    "materials": [
+      "Dative case: Usage for indirect objects and possession",
+      "Vocabulary: 15 dative phrases from the Mass (e.g., Domine, non sum dignus – Lord, I am not worthy)",
+      "Practice: Analyze dative constructions in Confiteor"
+    ],
+    "practice": [
+      "Identify the dative nouns in the following phrases from the Mass and prayers, and translate:",
+      "(1) Domine, non sum dignus (Mass),",
+      "(2) Ora pro nobis (Ave Maria),",
+      "(3) Gloria Patri (Gloria Patri),",
+      "(4) Tibi laus (Mass),",
+      "(5) Nobis pax (Vulgate)."
+    ]
+  },
+  {
+    "lessonId": "L013",
+    "content": [
+      "Second conjugation verbs in Latin, ending in -ere in the infinitive (e.g., 'videre,' to see), are common in the Vulgate and Mass texts.",
+      "Their present tense is formed by removing the -re and adding endings: -eo, -es, -et, -emus, -etis, -ent.",
+      "For 'video' (I see): video, vides, videt, videmus, videtis, vident.",
+      "Compare this to 1st conjugation's -o, -as, -at (e.g., 'amo'). The vowel -e- before the ending distinguishes 2nd conjugation."
+    ],
+    "materials": [
+      "2nd conjugation verbs (e.g., video – see, moneo – warn)",
+      "Vocabulary: 15 verbs from the Vulgate and Mass",
+      "Practice: Conjugate verbs in Agnus Dei"
+    ],
+    "practice": [
+      "Conjugate the following 2nd conjugation verbs in the present tense:",
+      "(1) video (to see),",
+      "(2) moneo (to warn),",
+      "(3) habeo (to have)."
+    ]
+  },
+  {
+    "lessonId": "L014",
+    "content": [
+      "The Rosary is a meditative prayer central to Catholic devotion, combining vocal and mental prayer through mysteries and repeated prayers.",
+      "Its structure includes five decades, each with one Pater Noster, ten Ave Marias, and one Gloria Patri, reflecting on a mystery (e.g., Annunciation).",
+      "In Latin, these prayers are familiar from earlier lessons, but their repetition in the Rosary reinforces vocabulary and grammar.",
+      "This lesson focuses on the prayers' roles and key terms related to the Rosary's structure."
+    ],
+    "materials": [
+      "Structure of the Rosary: Mysteries, decades, and prayers (Pater Noster, Ave Maria, Gloria Patri)",
+      "Vocabulary: 15 terms related to the Rosary (e.g., mysterium – mystery, decas – decade)",
+      "Practice: Recite the prayers of one decade of the Rosary"
+    ],
+    "practice": [
+      "Recite one decade of the Rosary in Latin, including one Pater Noster, ten Ave Marias, and one Gloria Patri.",
+      "Use the pronunciation guides from Lessons 5, 7, and 11."
+    ]
+  },
+  {
+    "lessonId": "L015",
+    "content": [
+      "Adverbs in Latin describe verbs, adjectives, or other adverbs, often indicating manner, time, or extent.",
+      "They're formed from adjectives by adding -e or -iter to the stem.",
+      "For 1st/2nd declension adjectives like 'sanctus' (holy), remove the ending and add -e: 'sancte' (holily).",
+      "For 3rd declension adjectives like 'fortis' (strong), add -iter to the stem: 'fortiter' (strongly)."
+    ],
+    "materials": [
+      "Formation and use of adverbs (e.g., sancte – holily, from sanctus)",
+      "Comparative and superlative forms (e.g., sanctius – more holy, sanctissimus – most holy)",
+      "Vocabulary: 15 adverbs and adjectives from the Vulgate",
+      "Practice: Identify adverbs in Salve Regina"
+    ],
+    "practice": [
+      "Identify the adverbs in the following phrases from the Salve Regina and translate:",
+      "(1) Nunc et semper,",
+      "(2) Valde gloriosa,",
+      "(3) Dulce et spes nostra."
+    ]
+  },
+  {
+    "lessonId": "L016",
+    "content": [
+      "This lesson reviews Module 2, covering 3rd declension nouns, imperfect and future tenses, dative case, 2nd conjugation verbs, adverbs, and the Rosary prayers.",
+      "Third declension nouns like 'rex' (king: rex, regem, regis) and 'lumen' (light: lumen, lumen, luminis) have varied nominative forms but consistent stems.",
+      "The imperfect tense (e.g., 'laudabam,' I was praising) describes past ongoing actions, while the future tense (e.g., 'laudabo,' I will praise) predicts actions.",
+      "Second conjugation verbs like 'video' (I see: video, vides, videt) use -eo, -es, -et endings."
+    ],
+    "materials": [
+      "Review 3rd declension nouns, imperfect/future tenses, dative case, 2nd conjugation verbs, adverbs, Rosary prayers",
+      "Practice: Translate excerpts from the Rosary and Vulgate",
+      "Vocabulary: Review all 100+ words from Module 2"
+    ],
+    "practice": [
+      "Translate the following excerpts from the Rosary and Vulgate, identifying the specified grammar.",
+      "Then practice declining nouns and conjugating verbs."
+    ]
+  },
+  {
+    "lessonId": "L017",
+    "content": [
+      "Participles in Latin act as adjectives, describing nouns while carrying verbal meaning.",
+      "Present participles describe ongoing actions, like 'amans' (loving) from 'amare' (to love, 1st conjugation).",
+      "They're formed by adding -ns (nominative) or -nt- (stem) to the verb's present stem, with 3rd declension endings.",
+      "For 'amare': amans, amantis (genitive), amantem (accusative)."
+    ],
+    "materials": [
+      "Present participles (e.g., amans – loving)",
+      "Perfect participles (e.g., amatus – loved)",
+      "Vocabulary: 15 participles from the Vulgate",
+      "Practice: Identify participles in Magnificat"
+    ],
+    "practice": [
+      "Identify the participles in the following phrases from the Magnificat and state whether they are present or perfect.",
+      "Analyze their agreement with nouns."
+    ]
+  },
+  {
+    "lessonId": "L018",
+    "content": [
+      "The Nicene Creed (Credo) is a statement of faith recited in the Mass, rich in grammar and vocabulary.",
+      "Its Latin text begins: Credo in unum Deum, Patrem omnipotentem, factorem caeli et terrae, visibilium omnium et invisibilium.",
+      "This lesson explores its structure, focusing on participles, dative case, and verb tenses.",
+      "The Creed's theological depth makes it ideal for applying Module 3's intermediate grammar."
+    ],
+    "materials": [
+      "Full text of the Nicene Creed with vocabulary (e.g., credo – I believe, omnipotens – almighty)",
+      "Analyze participles, dative case, and verb tenses",
+      "Practice: Memorize and recite the Credo"
+    ],
+    "practice": [
+      "Memorize and recite the first section of the Nicene Creed:",
+      "Credo in unum Deum, Patrem omnipotentem, factorem caeli et terrae, visibilium omnium et invisibilium."
+    ]
+  },
+  {
+    "lessonId": "L019",
+    "content": [
+      "Relative pronouns in Latin (qui, quae, quod) introduce relative clauses, describing or identifying a noun.",
+      "They agree with their antecedent in gender and number but take their case from their role in the clause.",
+      "For example, 'qui' (nominative masculine singular, who) in 'Pater qui es in caelis' (Father who are in heaven) refers to 'Pater' (masculine singular).",
+      "Declension: qui (masc. nom. sg.), quae (fem. nom. sg.), quod (neuter nom. sg.)."
+    ],
+    "materials": [
+      "Relative pronouns (qui, quae, quod – who, which, that)",
+      "Vocabulary: 15 relative pronoun phrases from the Vulgate",
+      "Practice: Analyze relative clauses in Magnificat"
+    ],
+    "practice": [
+      "Identify the relative pronouns in the following phrases from the Magnificat and state their case and antecedent.",
+      "Analyze how they introduce descriptive clauses."
+    ]
+  },
+  {
+    "lessonId": "L020",
+    "content": [
+      "The Magnificat, Mary's song of praise from Luke 1:46-55, is a key liturgical text used in Vespers.",
+      "Its Latin text begins: Magnificat anima mea Dominum, et exsultavit spiritus meus in Deo salvatore meo.",
+      "This lesson explores its vocabulary, participles, and relative clauses, building on Module 3's grammar.",
+      "The Magnificat's poetic structure makes it ideal for studying complex sentences in sacred contexts."
+    ],
+    "materials": [
+      "Full text of the Magnificat with vocabulary (e.g., exsultavit – rejoiced, humiles – humble)",
+      "Analyze participles and relative clauses",
+      "Practice: Memorize and recite the Magnificat"
+    ],
+    "practice": [
+      "Memorize and recite the first two verses of the Magnificat:",
+      "Magnificat anima mea Dominum, et exsultavit spiritus meus in Deo salvatore meo."
+    ]
+  },
+  {
+    "lessonId": "L021",
+    "content": [
+      "Third and 4th conjugation verbs are common in liturgical texts, with distinct patterns.",
+      "Third conjugation verbs (e.g., 'rego,' to rule) end in -ere in the infinitive and use short -o, -is, -it endings in the present: rego, regis, regit.",
+      "Fourth conjugation verbs (e.g., 'audio,' to hear) end in -ire and use -io, -is, -it: audio, audis, audit.",
+      "Compare to 1st ('amo') and 2nd ('video') conjugations."
+    ],
+    "materials": [
+      "3rd and 4th conjugation verbs (e.g., rego – rule, audio – hear)",
+      "Vocabulary: 15 verbs from the Vulgate and Mass",
+      "Practice: Conjugate verbs in Sanctus"
+    ],
+    "practice": [
+      "Conjugate the following verbs in the present tense:",
+      "(1) rego (to rule, 3rd conjugation),",
+      "(2) audio (to hear, 4th conjugation),",
+      "(3) facio (to make, 3rd conjugation)."
+    ]
+  },
+  {
+    "lessonId": "L022",
+    "content": [
+      "Gerunds and gerundives are verbal nouns and adjectives, respectively, adding nuance to Latin texts.",
+      "Gerunds are verbal nouns formed from the verb's stem, used in cases like genitive or ablative to express action.",
+      "For 'amare' (to love): gerund is 'amandi' (of loving, genitive), 'amando' (by loving, ablative).",
+      "They don't have a nominative case, as infinitives (e.g., 'amare') serve that role."
+    ],
+    "materials": [
+      "Gerunds (e.g., amandi – of loving)",
+      "Gerundives (e.g., amandus – to be loved)",
+      "Vocabulary: 15 gerunds/gerundives from the Vulgate",
+      "Practice: Analyze gerunds and gerundives in liturgical texts"
+    ],
+    "practice": [
+      "Identify whether the following are gerunds or gerundives in these Vulgate phrases and translate.",
+      "Analyze their grammatical roles."
+    ]
+  },
+  {
+    "lessonId": "L023",
+    "content": [
+      "Infinitives in Latin express the verb's action as a concept, like 'amare' (to love) or 'esse' (to be).",
+      "They're used in indirect statements, where a verb like 'dico' (I say) introduces a clause with an infinitive.",
+      "In 'dico eum amare' (I say that he loves), 'eum' (him, accusative) is the subject of the infinitive 'amare' (present tense).",
+      "Infinitives have present (amare), perfect (amavisse, to have loved), and future (amaturus esse, to be about to love) forms."
+    ],
+    "materials": [
+      "Infinitives (e.g., amare – to love, esse – to be)",
+      "Indirect statements (e.g., dico eum amare – I say that he loves)",
+      "Vocabulary: 15 infinitive phrases from the Vulgate",
+      "Practice: Analyze indirect statements in the Creed"
+    ],
+    "practice": [
+      "Identify the infinitive and its tense in the following phrases from the Creed and Vulgate, and translate.",
+      "Analyze the grammatical relationships."
+    ]
+  },
+  {
+    "lessonId": "L024",
+    "content": [
+      "This lesson reviews Module 3, covering present and perfect participles, relative pronouns, gerunds/gerundives, 3rd/4th conjugation verbs, infinitives, and the Credo and Magnificat.",
+      "Participles act as adjectives, agreeing with nouns, as in 'puer natus' (boy born).",
+      "Relative pronouns introduce clauses, like 'qui potens est' (who is powerful, Magnificat).",
+      "Gerunds and gerundives express action or obligation: 'orandi' (of praying) vs. 'orandus' (to be prayed)."
+    ],
+    "materials": [
+      "Review participles, relative pronouns, gerunds/gerundives, infinitives, 3rd/4th conjugation verbs, Credo, Magnificat",
+      "Practice: Translate excerpts from the Creed and Magnificat",
+      "Vocabulary: Review all 100+ words from Module 3"
+    ],
+    "practice": [
+      "Translate the following excerpts from the Credo and Magnificat, identifying the specified grammar.",
+      "Analyze complex grammatical structures."
+    ]
+  },
+  {
+    "lessonId": "L025",
+    "content": [
+      "The passive voice in Latin indicates that the subject receives the action, unlike the active voice where the subject performs it.",
+      "For 1st conjugation verbs like 'amare' (to love), the present passive uses endings -or, -aris, -atur, -amur, -amini, -antur: 'amor' (I am loved).",
+      "For 2nd conjugation verbs like 'videre' (to see): 'videor' (I am seen), 'videris,' 'videtur.'",
+      "In the imperfect, 'amabar' (I was being loved); in the future, 'amabor' (I will be loved)."
+    ],
+    "materials": [
+      "Passive voice for 1st and 2nd conjugation verbs (e.g., amor – I am loved)",
+      "Vocabulary: 15 passive verbs from the Mass",
+      "Practice: Identify passive verbs in Agnus Dei"
+    ],
+    "practice": [
+      "Identify passive verbs in the following phrases from the Mass and Vulgate, and translate.",
+      "Analyze how passive voice shifts focus to the recipient."
+    ]
+  },
+  {
+    "lessonId": "L026",
+    "content": [
+      "The subjunctive mood in Latin expresses wishes, possibilities, or hypothetical actions, common in prayers like the Pater Noster.",
+      "For 1st conjugation verbs like 'amare' (to love), the present subjunctive changes the stem vowel to -e: amem, ames, amet.",
+      "For 2nd conjugation verbs like 'videre' (to see), it uses -ea: videam, videas, videat.",
+      "These contrast with indicative endings (-o, -s, -t)."
+    ],
+    "materials": [
+      "Present subjunctive for 1st and 2nd conjugation verbs (e.g., amem – I may love)",
+      "Vocabulary: 15 subjunctive verbs from the Mass",
+      "Practice: Identify subjunctives in Pater Noster"
+    ],
+    "practice": [
+      "Identify the present subjunctive verbs in the following phrases from the Pater Noster and translate.",
+      "Analyze how subjunctives express petitions and wishes."
+    ]
+  },
+  {
+    "lessonId": "L027",
+    "content": [
+      "The imperfect and perfect subjunctive moods express hypothetical or past possibilities, used in the Vulgate and prayers like the Confiteor.",
+      "For 1st conjugation verbs like 'amare' (to love), the imperfect subjunctive uses the infinitive plus endings: amarem, amares, amaret.",
+      "The perfect subjunctive uses the perfect stem plus -erim: 'amaverim' (I may have loved), 'visserim' (I may have seen).",
+      "These forms are less common in prayers but enrich narrative texts."
+    ],
+    "materials": [
+      "Imperfect subjunctive (e.g., amarem – I might love)",
+      "Perfect subjunctive (e.g., amaverim – I may have loved)",
+      "Vocabulary: 15 subjunctive verbs from the Vulgate",
+      "Practice: Analyze subjunctives in Confiteor"
+    ],
+    "practice": [
+      "Identify the subjunctive verbs in the following phrases from the Confiteor and Vulgate, and state their tense.",
+      "Analyze hypothetical and conditional meanings."
+    ]
+  },
+  {
+    "lessonId": "L028",
+    "content": [
+      "The Sanctus and Agnus Dei are key parts of the Mass, rich in advanced grammar like passive voice and subjunctives.",
+      "The Sanctus is: Sanctus, sanctus, sanctus Dominus Deus Sabaoth. Pleni sunt caeli et terra gloria tua. Hosanna in excelsis.",
+      "The Agnus Dei is: Agnus Dei, qui tollis peccata mundi, miserere nobis.",
+      "This lesson explores their vocabulary and structure."
+    ],
+    "materials": [
+      "Full texts of Sanctus and Agnus Dei with vocabulary (e.g., Sabaoth – hosts, peccata – sins)",
+      "Analyze passive voice and subjunctives",
+      "Practice: Memorize and recite Sanctus and Agnus Dei"
+    ],
+    "practice": [
+      "Memorize and recite the Sanctus and Agnus Dei.",
+      "Identify subjunctives, passive verbs, and other grammatical elements."
+    ]
+  },
+  {
+    "lessonId": "L029",
+    "content": [
+      "Deponent verbs in Latin have passive forms but active meanings, a unique feature in ecclesiastical texts.",
+      "For example, 'loqui' (to speak, 3rd conjugation deponent) uses passive endings: loquor, loqueris, loquitur (present tense).",
+      "Similarly, 'sequi' (to follow, 3rd conjugation) follows: sequor, sequeris, sequitur.",
+      "Unlike regular passive verbs (e.g., 'amor,' I am loved), deponents convey active actions like speaking or following."
+    ],
+    "materials": [
+      "Deponent verbs (e.g., loqui – to speak, sequi – to follow)",
+      "Vocabulary: 15 deponent verbs from the Vulgate and Mass",
+      "Practice: Identify deponent verbs in liturgical texts"
+    ],
+    "practice": [
+      "Identify the deponent verbs in the following phrases from the Vulgate and Mass, and translate.",
+      "Analyze their unique passive form with active meaning."
+    ]
+  },
+  {
+    "lessonId": "L030",
+    "content": [
+      "Purpose clauses in Latin express the intent of an action, using 'ut' (so that) or 'ne' (lest, so that not) with the subjunctive mood.",
+      "For example, 'venio ut orem' (I come so that I may pray) uses the present subjunctive 'orem' (from 'orare').",
+      "The subjunctive reflects the hypothetical nature of the purpose.",
+      "For negative purpose, 'ne' is used, as in 'laboro ne peccem' (I work so that I may not sin)."
+    ],
+    "materials": [
+      "Purpose clauses with ut/ne + subjunctive (e.g., ut orem – so that I may pray)",
+      "Vocabulary: 15 purpose clause phrases from the Vulgate",
+      "Practice: Analyze purpose clauses in Mass texts"
+    ],
+    "practice": [
+      "Identify the purpose clauses in the following phrases from the Mass and Vulgate, and translate.",
+      "Analyze how ut and ne introduce purpose."
+    ]
+  },
+  {
+    "lessonId": "L031",
+    "content": [
+      "The Gloria and Confiteor are central liturgical texts in the Mass, rich in advanced grammar.",
+      "The Gloria begins: Gloria in excelsis Deo et in terra pax hominibus bonae voluntatis.",
+      "The Confiteor starts: Confiteor Deo omnipotenti... quia peccavi nimis.",
+      "This lesson explores their vocabulary, subjunctives, deponent verbs, and purpose clauses."
+    ],
+    "materials": [
+      "Full texts of Gloria and Confiteor with vocabulary (e.g., laudamus – we praise, peccavi – I have sinned)",
+      "Analyze subjunctives, deponents, and purpose clauses",
+      "Practice: Memorize and recite Gloria and Confiteor"
+    ],
+    "practice": [
+      "Memorize and recite the first lines of the Gloria and Confiteor.",
+      "Identify subjunctives, deponents, and other grammatical elements."
+    ]
+  },
+  {
+    "lessonId": "L032",
+    "content": [
+      "This lesson reviews Module 4, covering passive voice, subjunctives, deponents, purpose clauses, and the Sanctus, Agnus Dei, Gloria, and Confiteor.",
+      "Passive voice emphasizes the recipient, as in 'peccata tolluntur' (sins are taken away).",
+      "Subjunctives express wishes or hypotheticals, like 'sanctificetur' (may it be sanctified, Pater Noster).",
+      "Deponents like 'confiteor' (I confess) use passive forms with active meanings."
+    ],
+    "materials": [
+      "Review passive voice, subjunctives, deponents, purpose clauses, Sanctus, Agnus Dei, Gloria, Confiteor",
+      "Practice: Translate excerpts from Mass texts",
+      "Vocabulary: Review all 100+ words from Module 4"
+    ],
+    "practice": [
+      "Translate the following excerpts from the Mass and Vulgate, identifying the specified grammar.",
+      "Analyze passive verbs, subjunctives, deponents, and purpose clauses."
+    ]
+  },
+  {
+    "lessonId": "L033",
+    "content": [
+      "The Vulgate Bible, St. Jerome's Latin translation, is a cornerstone of ecclesiastical Latin.",
+      "This lesson focuses on Gospel excerpts, starting with John 1:1-5: In principio erat Verbum, et Verbum erat apud Deum, et Deus erat Verbum.",
+      "This text is rich in grammar and theology, ideal for applying Module 5's skills.",
+      "You'll analyze verbs, nouns, and prepositional phrases, building on earlier lessons."
+    ],
+    "materials": [
+      "Excerpts from the Vulgate Gospels (e.g., John 1:1-5, Luke 2:1-7)",
+      "Vocabulary: 20 terms from Gospel texts",
+      "Practice: Translate and analyze John 1:1-5"
+    ],
+    "practice": [
+      "Translate John 1:1-5:",
+      "In principio erat Verbum, et Verbum erat apud Deum, et Deus erat Verbum."
+    ]
+  },
+  {
+    "lessonId": "L034",
+    "content": [
+      "The Psalms in the Vulgate are poetic and central to liturgy, used in the Divine Office and Mass.",
+      "This lesson focuses on Psalm 23:1-4 (Vulgate): Dominus regit me, et nihil mihi deerit.",
+      "The text is rich in grammar, with verbs, datives, and poetic imagery.",
+      "It's ideal for Module 5's application of Latin skills."
+    ],
+    "materials": [
+      "Excerpts from Psalms (e.g., Psalm 23:1-4 in Vulgate numbering)",
+      "Vocabulary: 20 terms from Psalms",
+      "Practice: Translate and analyze Psalm 23:1-4"
+    ],
+    "practice": [
+      "Translate Psalm 23:1-4:",
+      "Dominus regit me, et nihil mihi deerit."
+    ]
+  },
+  {
+    "lessonId": "L035",
+    "content": [
+      "The Ordinary of the Mass includes fixed texts like the Kyrie, Gloria, Credo, Sanctus, and Agnus Dei, used in every Mass.",
+      "This lesson synthesizes Module 5's focus on applying Latin to liturgy, analyzing these texts' grammar and vocabulary.",
+      "For example, the Kyrie's 'Kyrie eleison' (Lord, have mercy) uses Greek but integrates with Latin's 'miserere' (subjunctive).",
+      "The Gloria, Credo, Sanctus, and Agnus Dei were studied in Modules 3-4, now revisited for deeper analysis."
+    ],
+    "materials": [
+      "Key texts of the Mass Ordinary (Kyrie, Gloria, Credo, Sanctus, Agnus Dei)",
+      "Vocabulary: 20 terms from the Mass Ordinary",
+      "Practice: Translate and analyze excerpts from the Mass"
+    ],
+    "practice": [
+      "Translate the following excerpts from the Mass Ordinary, identifying the specified grammar.",
+      "Analyze each text's grammatical structure."
+    ]
+  },
+  {
+    "lessonId": "L036",
+    "content": [
+      "The Pauline Epistles in the Vulgate, like Romans 1:16-17, are theological and dense with advanced grammar.",
+      "Romans 1:16-17 reads: Non enim erubesco Evangelium... in quo iustitia Dei revelatur.",
+      "This lesson analyzes verbs, relative clauses, and prepositional phrases.",
+      "It applies skills from Modules 1-4 to scripture."
+    ],
+    "materials": [
+      "Excerpts from Pauline Epistles (e.g., Romans 1:16-17)",
+      "Vocabulary: 20 terms from Epistles",
+      "Practice: Translate and analyze Romans 1:16-17"
+    ],
+    "practice": [
+      "Translate Romans 1:16-17.",
+      "Identify verbs, relative clauses, and grammatical structures."
+    ]
+  },
+  {
+    "lessonId": "L037",
+    "content": [
+      "This lesson applies Latin skills to major liturgical prayers: Pater Noster, Ave Maria, Gloria Patri, Credo, and Magnificat.",
+      "These prayers, central to Catholic worship, use grammar like subjunctives, participles, and relative clauses.",
+      "This practice deepens fluency in Module 5's liturgical focus.",
+      "You'll synthesize skills from Modules 1-4 to understand theological and linguistic depth."
+    ],
+    "materials": [
+      "Review of major prayers (Pater Noster, Ave Maria, Gloria Patri, Credo, Magnificat)",
+      "Vocabulary: 20 terms from prayers",
+      "Practice: Translate and recite prayers with analysis"
+    ],
+    "practice": [
+      "Translate and recite excerpts from the following prayers, identifying the specified grammar.",
+      "Analyze each prayer's grammatical structure."
+    ]
+  },
+  {
+    "lessonId": "L038",
+    "content": [
+      "This lesson analyzes the full Ordinary of the Mass (Kyrie, Gloria, Credo, Sanctus, Agnus Dei).",
+      "It applies all grammar from Modules 1-4 to achieve Module 5's goal of liturgical fluency.",
+      "Key prayers include the Gloria's 'laudamus te' (we praise you) and the Agnus Dei's 'miserere nobis' (have mercy on us).",
+      "Each text combines subjunctives, passives, participles, and relative clauses."
+    ],
+    "materials": [
+      "Complete Ordinary of the Mass with focus on key prayers",
+      "Vocabulary: 20 terms from the Mass",
+      "Practice: Translate and analyze key Mass sections"
+    ],
+    "practice": [
+      "Translate the following excerpts from the Mass Ordinary, identifying the specified grammar.",
+      "Analyze each section's grammatical structure."
+    ]
+  },
+  {
+    "lessonId": "L039",
+    "content": [
+      "Latin hymns and chants, like Ave Maris Stella and Pange Lingua, are poetic and musical.",
+      "They're used in the Divine Office and Mass.",
+      "This lesson applies Module 5's skills to these texts, focusing on grammar and vocabulary.",
+      "Ave Maris Stella begins: Ave, maris stella, Dei mater alma..."
+    ],
+    "materials": [
+      "Excerpts from hymns (e.g., Ave Maris Stella, Pange Lingua)",
+      "Vocabulary: 20 terms from hymns",
+      "Practice: Translate and recite hymn excerpts"
+    ],
+    "practice": [
+      "Translate and recite excerpts from Ave Maris Stella and Pange Lingua.",
+      "Identify imperatives, vocatives, and other grammatical elements."
+    ]
+  },
+  {
+    "lessonId": "L040",
+    "content": [
+      "This final lesson synthesizes the entire course, applying Latin skills to prayers, the Mass, Vulgate excerpts, and hymns.",
+      "Module 5 culminates in fluency, enabling you to read, translate, and recite ecclesiastical Latin with confidence.",
+      "Your vocabulary now exceeds 500 words, spanning all major liturgical and scriptural texts.",
+      "You are now equipped to engage with Latin texts in Mass, prayer, and study."
+    ],
+    "materials": [
+      "Review all major texts (prayers, Mass, Vulgate, hymns)",
+      "Vocabulary: Review all 500+ course terms",
+      "Practice: Translate and recite mixed excerpts"
+    ],
+    "practice": [
+      "Translate and recite the following mixed excerpts, identifying the specified grammar.",
+      "Demonstrate fluency in ecclesiastical Latin by analyzing complex liturgical and scriptural texts."
+    ]
+  }
 ]

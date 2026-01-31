@@ -15,7 +15,7 @@ import { loadProgress } from "./utils/storage";
 // Lesson route component that reads from URL params
 function LessonRoute() {
   const navigate = useNavigate();
-  const { lessonId: lessonIdParam } = useParams<{ lessonId: string; }>();
+  const { lessonId: lessonIdParam } = useParams<{ lessonId: string }>();
   const lessonId = parseInt(lessonIdParam || "1", 10);
 
   // Validate lesson ID is in valid range (1-40)

@@ -16,7 +16,6 @@ export const logger = {
     }
   },
 
-
   /**
    * Log errors (shown in both development and production)
    */

@@ -1,242 +1,242 @@
 [
-    {
-        "id": "L001",
-        "title": "Introduction to Ecclesiastical Latin and Pronunciation",
-        "moduleId": "M01",
-        "day": 1
-    },
-    {
-        "id": "L002",
-        "title": "Basic Grammar – Nouns and Cases",
-        "moduleId": "M01",
-        "day": 2
-    },
-    {
-        "id": "L003",
-        "title": "Verbs and Present Tense",
-        "moduleId": "M01",
-        "day": 3
-    },
-    {
-        "id": "L004",
-        "title": "Adjectives and Agreement",
-        "moduleId": "M01",
-        "day": 4
-    },
-    {
-        "id": "L005",
-        "title": "The Lord's Prayer (Pater Noster)",
-        "moduleId": "M01",
-        "day": 5
-    },
-    {
-        "id": "L006",
-        "title": "Prepositions and Ablative Case",
-        "moduleId": "M01",
-        "day": 6
-    },
-    {
-        "id": "L007",
-        "title": "The Hail Mary (Ave Maria)",
-        "moduleId": "M01",
-        "day": 7
-    },
-    {
-        "id": "L008",
-        "title": "Module 1 Review and Practice",
-        "moduleId": "M01",
-        "day": 8
-    },
-    {
-        "id": "L009",
-        "title": "3rd Declension Nouns",
-        "moduleId": "M02",
-        "day": 9
-    },
-    {
-        "id": "L010",
-        "title": "Imperfect and Future Tenses",
-        "moduleId": "M02",
-        "day": 10
-    },
-    {
-        "id": "L011",
-        "title": "The Glory Be (Gloria Patri)",
-        "moduleId": "M02",
-        "day": 11
-    },
-    {
-        "id": "L012",
-        "title": "Dative Case and Indirect Objects",
-        "moduleId": "M02",
-        "day": 12
-    },
-    {
-        "id": "L013",
-        "title": "2nd Conjugation Verbs",
-        "moduleId": "M02",
-        "day": 13
-    },
-    {
-        "id": "L014",
-        "title": "The Rosary – Structure and Prayers",
-        "moduleId": "M02",
-        "day": 14
-    },
-    {
-        "id": "L015",
-        "title": "Module 2 Review and Practice",
-        "moduleId": "M02",
-        "day": 15
-    },
-    {
-        "id": "L016",
-        "title": "Advanced Declensions",
-        "moduleId": "M02",
-        "day": 16
-    },
-    {
-        "id": "L017",
-        "title": "The Nicene Creed (Niceno-Constantinopolitan Creed)",
-        "moduleId": "M03",
-        "day": 17
-    },
-    {
-        "id": "L018",
-        "title": "Participles and Ablative Absolute",
-        "moduleId": "M03",
-        "day": 18
-    },
-    {
-        "id": "L019",
-        "title": "Relative Pronouns and Subordinate Clauses",
-        "moduleId": "M03",
-        "day": 19
-    },
-    {
-        "id": "L020",
-        "title": "Perfect Tense: Active Voice",
-        "moduleId": "M03",
-        "day": 20
-    },
-    {
-        "id": "L021",
-        "title": "The Magnificat (Mary's Canticle)",
-        "moduleId": "M03",
-        "day": 21
-    },
-    {
-        "id": "L022",
-        "title": "Questions and Commands",
-        "moduleId": "M03",
-        "day": 22
-    },
-    {
-        "id": "L023",
-        "title": "Module 3 Review and Practice",
-        "moduleId": "M03",
-        "day": 23
-    },
-    {
-        "id": "L024",
-        "title": "Subjunctive Mood: Purpose and Result Clauses",
-        "moduleId": "M03",
-        "day": 24
-    },
-    {
-        "id": "L025",
-        "title": "Perfect Tense: Passive Voice",
-        "moduleId": "M04",
-        "day": 25
-    },
-    {
-        "id": "L026",
-        "title": "Pluperfect and Future Perfect Tenses",
-        "moduleId": "M04",
-        "day": 26
-    },
-    {
-        "id": "L027",
-        "title": "Conditional Sentences",
-        "moduleId": "M04",
-        "day": 27
-    },
-    {
-        "id": "L028",
-        "title": "The Salve Regina (Hail Holy Queen)",
-        "moduleId": "M04",
-        "day": 28
-    },
-    {
-        "id": "L029",
-        "title": "Subjunctive in Indirect Statements",
-        "moduleId": "M04",
-        "day": 29
-    },
-    {
-        "id": "L030",
-        "title": "The Te Deum (We Praise Thee)",
-        "moduleId": "M04",
-        "day": 30
-    },
-    {
-        "id": "L031",
-        "title": "Module 4 Review and Practice",
-        "moduleId": "M04",
-        "day": 31
-    },
-    {
-        "id": "L032",
-        "title": "Advanced Syntax and Complex Sentences",
-        "moduleId": "M04",
-        "day": 32
-    },
-    {
-        "id": "L033",
-        "title": "The Holy Rosary (Complete Structure)",
-        "moduleId": "M05",
-        "day": 33
-    },
-    {
-        "id": "L034",
-        "title": "Bible Study: Vulgate Passages",
-        "moduleId": "M05",
-        "day": 34
-    },
-    {
-        "id": "L035",
-        "title": "The Traditional Latin Mass (Tridentine) – Structure",
-        "moduleId": "M05",
-        "day": 35
-    },
-    {
-        "id": "L036",
-        "title": "Liturgical Texts and Hymns",
-        "moduleId": "M05",
-        "day": 36
-    },
-    {
-        "id": "L037",
-        "title": "Saints and Feast Days in Latin",
-        "moduleId": "M05",
-        "day": 37
-    },
-    {
-        "id": "L038",
-        "title": "Prayers and Devotions",
-        "moduleId": "M05",
-        "day": 38
-    },
-    {
-        "id": "L039",
-        "title": "Module 5 Review and Mastery Assessment",
-        "moduleId": "M05",
-        "day": 39
-    },
-    {
-        "id": "L040",
-        "title": "Comprehensive Final Review",
-        "moduleId": "M05",
-        "day": 40
-    }
+  {
+    "id": "L001",
+    "title": "Introduction to Ecclesiastical Latin and Pronunciation",
+    "moduleId": "M01",
+    "day": 1
+  },
+  {
+    "id": "L002",
+    "title": "Basic Grammar – Nouns and Cases",
+    "moduleId": "M01",
+    "day": 2
+  },
+  {
+    "id": "L003",
+    "title": "Verbs and Present Tense",
+    "moduleId": "M01",
+    "day": 3
+  },
+  {
+    "id": "L004",
+    "title": "Adjectives and Agreement",
+    "moduleId": "M01",
+    "day": 4
+  },
+  {
+    "id": "L005",
+    "title": "The Lord's Prayer (Pater Noster)",
+    "moduleId": "M01",
+    "day": 5
+  },
+  {
+    "id": "L006",
+    "title": "Prepositions and Ablative Case",
+    "moduleId": "M01",
+    "day": 6
+  },
+  {
+    "id": "L007",
+    "title": "The Hail Mary (Ave Maria)",
+    "moduleId": "M01",
+    "day": 7
+  },
+  {
+    "id": "L008",
+    "title": "Module 1 Review and Practice",
+    "moduleId": "M01",
+    "day": 8
+  },
+  {
+    "id": "L009",
+    "title": "3rd Declension Nouns",
+    "moduleId": "M02",
+    "day": 9
+  },
+  {
+    "id": "L010",
+    "title": "Imperfect and Future Tenses",
+    "moduleId": "M02",
+    "day": 10
+  },
+  {
+    "id": "L011",
+    "title": "The Glory Be (Gloria Patri)",
+    "moduleId": "M02",
+    "day": 11
+  },
+  {
+    "id": "L012",
+    "title": "Dative Case and Indirect Objects",
+    "moduleId": "M02",
+    "day": 12
+  },
+  {
+    "id": "L013",
+    "title": "2nd Conjugation Verbs",
+    "moduleId": "M02",
+    "day": 13
+  },
+  {
+    "id": "L014",
+    "title": "The Rosary – Structure and Prayers",
+    "moduleId": "M02",
+    "day": 14
+  },
+  {
+    "id": "L015",
+    "title": "Module 2 Review and Practice",
+    "moduleId": "M02",
+    "day": 15
+  },
+  {
+    "id": "L016",
+    "title": "Advanced Declensions",
+    "moduleId": "M02",
+    "day": 16
+  },
+  {
+    "id": "L017",
+    "title": "The Nicene Creed (Niceno-Constantinopolitan Creed)",
+    "moduleId": "M03",
+    "day": 17
+  },
+  {
+    "id": "L018",
+    "title": "Participles and Ablative Absolute",
+    "moduleId": "M03",
+    "day": 18
+  },
+  {
+    "id": "L019",
+    "title": "Relative Pronouns and Subordinate Clauses",
+    "moduleId": "M03",
+    "day": 19
+  },
+  {
+    "id": "L020",
+    "title": "Perfect Tense: Active Voice",
+    "moduleId": "M03",
+    "day": 20
+  },
+  {
+    "id": "L021",
+    "title": "The Magnificat (Mary's Canticle)",
+    "moduleId": "M03",
+    "day": 21
+  },
+  {
+    "id": "L022",
+    "title": "Questions and Commands",
+    "moduleId": "M03",
+    "day": 22
+  },
+  {
+    "id": "L023",
+    "title": "Module 3 Review and Practice",
+    "moduleId": "M03",
+    "day": 23
+  },
+  {
+    "id": "L024",
+    "title": "Subjunctive Mood: Purpose and Result Clauses",
+    "moduleId": "M03",
+    "day": 24
+  },
+  {
+    "id": "L025",
+    "title": "Perfect Tense: Passive Voice",
+    "moduleId": "M04",
+    "day": 25
+  },
+  {
+    "id": "L026",
+    "title": "Pluperfect and Future Perfect Tenses",
+    "moduleId": "M04",
+    "day": 26
+  },
+  {
+    "id": "L027",
+    "title": "Conditional Sentences",
+    "moduleId": "M04",
+    "day": 27
+  },
+  {
+    "id": "L028",
+    "title": "The Salve Regina (Hail Holy Queen)",
+    "moduleId": "M04",
+    "day": 28
+  },
+  {
+    "id": "L029",
+    "title": "Subjunctive in Indirect Statements",
+    "moduleId": "M04",
+    "day": 29
+  },
+  {
+    "id": "L030",
+    "title": "The Te Deum (We Praise Thee)",
+    "moduleId": "M04",
+    "day": 30
+  },
+  {
+    "id": "L031",
+    "title": "Module 4 Review and Practice",
+    "moduleId": "M04",
+    "day": 31
+  },
+  {
+    "id": "L032",
+    "title": "Advanced Syntax and Complex Sentences",
+    "moduleId": "M04",
+    "day": 32
+  },
+  {
+    "id": "L033",
+    "title": "The Holy Rosary (Complete Structure)",
+    "moduleId": "M05",
+    "day": 33
+  },
+  {
+    "id": "L034",
+    "title": "Bible Study: Vulgate Passages",
+    "moduleId": "M05",
+    "day": 34
+  },
+  {
+    "id": "L035",
+    "title": "The Traditional Latin Mass (Tridentine) – Structure",
+    "moduleId": "M05",
+    "day": 35
+  },
+  {
+    "id": "L036",
+    "title": "Liturgical Texts and Hymns",
+    "moduleId": "M05",
+    "day": 36
+  },
+  {
+    "id": "L037",
+    "title": "Saints and Feast Days in Latin",
+    "moduleId": "M05",
+    "day": 37
+  },
+  {
+    "id": "L038",
+    "title": "Prayers and Devotions",
+    "moduleId": "M05",
+    "day": 38
+  },
+  {
+    "id": "L039",
+    "title": "Module 5 Review and Mastery Assessment",
+    "moduleId": "M05",
+    "day": 39
+  },
+  {
+    "id": "L040",
+    "title": "Comprehensive Final Review",
+    "moduleId": "M05",
+    "day": 40
+  }
 ]

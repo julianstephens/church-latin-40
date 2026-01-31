@@ -56,31 +56,36 @@ export const modules: Module[] = [
   {
     id: 1,
     title: "Foundations of Ecclesiastical Latin",
-    description: "Learn pronunciation, basic grammar, nouns, verbs, and essential prayers",
+    description:
+      "Learn pronunciation, basic grammar, nouns, verbs, and essential prayers",
     days: [1, 2, 3, 4, 5, 6, 7, 8],
   },
   {
     id: 2,
     title: "Building Vocabulary and Grammar",
-    description: "Expand your knowledge with advanced declensions, verb tenses, and the Rosary",
+    description:
+      "Expand your knowledge with advanced declensions, verb tenses, and the Rosary",
     days: [9, 10, 11, 12, 13, 14, 15, 16],
   },
   {
     id: 3,
     title: "Intermediate Grammar and Texts",
-    description: "Master complex grammar with the Creed, Magnificat, and participles",
+    description:
+      "Master complex grammar with the Creed, Magnificat, and participles",
     days: [17, 18, 19, 20, 21, 22, 23, 24],
   },
   {
     id: 4,
     title: "Advanced Grammar and Liturgical Texts",
-    description: "Study passive voice, subjunctives, and great liturgical texts",
+    description:
+      "Study passive voice, subjunctives, and great liturgical texts",
     days: [25, 26, 27, 28, 29, 30, 31, 32],
   },
   {
     id: 5,
     title: "Mastery and Application",
-    description: "Apply your knowledge to the Vulgate Bible, Mass, and complete prayers",
+    description:
+      "Apply your knowledge to the Vulgate Bible, Mass, and complete prayers",
     days: [33, 34, 35, 36, 37, 38, 39, 40],
   },
 ];
@@ -165,7 +170,8 @@ export const vocabQuestionTemplates: VocabQuestionTemplate[] = [
     type: "vocab-matching",
     format: "auto-generated",
     wordCount: 10,
-    instruction: "Match 10 vocabulary words from Pater Noster to their meanings",
+    instruction:
+      "Match 10 vocabulary words from Pater Noster to their meanings",
   },
   {
     id: "D07-VOCAB-MATCHING",
@@ -189,7 +195,8 @@ export const vocabQuestionTemplates: VocabQuestionTemplate[] = [
     type: "vocab-matching",
     format: "auto-generated",
     wordCount: 10,
-    instruction: "Match 10 vocabulary words from Gloria Patri to their meanings",
+    instruction:
+      "Match 10 vocabulary words from Gloria Patri to their meanings",
   },
   {
     id: "D14-VOCAB-MATCHING",
@@ -197,7 +204,8 @@ export const vocabQuestionTemplates: VocabQuestionTemplate[] = [
     type: "vocab-matching",
     format: "auto-generated",
     wordCount: 10,
-    instruction: "Match 10 vocabulary words related to the Rosary to their meanings",
+    instruction:
+      "Match 10 vocabulary words related to the Rosary to their meanings",
   },
 ];
 

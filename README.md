@@ -68,7 +68,7 @@ Stores module (course section) metadata. Modules organize the 40 lessons into 5 
 | Field        | Type   | Description                                |
 | ------------ | ------ | ------------------------------------------ |
 | resourceId   | Text   | Custom module identifier (unique)          |
-| moduleNumber | Number | Module identifier (1-5, unique)             |
+| moduleNumber | Number | Module identifier (1-5, unique)            |
 | name         | Text   | Module title                               |
 | description  | Text   | Module description and learning objectives |
 | lessonCount  | Number | Number of lessons in this module           |
@@ -94,13 +94,13 @@ Stores lesson metadata. Each lesson belongs to one module and contains 3 quiz qu
 
 Stores detailed lesson content. Lazy-loaded on lesson view. Contains lesson text paragraphs (joined with paragraph breaks) and practice exercises. All 40 lessons are seeded with complete content from `scripts/seeder/data/lesson-content.json`.
 
-| Field    | Type     | Description                                  |
-| -------- | -------- | -------------------------------------------- |
-| resourceId | Text   | Custom content identifier (unique)           |
-| lessonId | Relation | Reference to lesson (`church_latin_lessons`) |
-| content  | Text     | Full lesson content with paragraphs (required) |
-| practice | JSON     | Array of practice exercises/instructions     |
-| materials | JSON    | Array of lesson materials/overview items (optional) |
+| Field      | Type     | Description                                         |
+| ---------- | -------- | --------------------------------------------------- |
+| resourceId | Text     | Custom content identifier (unique)                  |
+| lessonId   | Relation | Reference to lesson (`church_latin_lessons`)        |
+| content    | Text     | Full lesson content with paragraphs (required)      |
+| practice   | JSON     | Array of practice exercises/instructions            |
+| materials  | JSON     | Array of lesson materials/overview items (optional) |
 
 **Indexes:** `resourceId`, `lessonId`
 
@@ -139,21 +139,20 @@ The lesson content is seeded from `scripts/seeder/data/lesson-content.json`, whi
 
 Individual quiz questions with stable, unique IDs. Each question belongs to one lesson and one quiz.
 
-| Field              | Type     | Description                                                      |
-| ------------------ | -------- | ---------------------------------------------------------------- |
-| resourceId         | Text     | Custom question identifier (unique)                              |
-| quizId             | Relation | Reference to parent quiz (`church_latin_quizzes`, optional)      |
-| lessonId           | Relation | Reference to lesson (`church_latin_lessons`, required)           |
-| questionId         | Text     | Stable question ID (unique)                                      |
-| questionIndex      | Number   | Position within lesson                                           |
+| Field              | Type     | Description                                                               |
+| ------------------ | -------- | ------------------------------------------------------------------------- |
+| resourceId         | Text     | Custom question identifier (unique)                                       |
+| quizId             | Relation | Reference to parent quiz (`church_latin_quizzes`, optional)               |
+| lessonId           | Relation | Reference to lesson (`church_latin_lessons`, required)                    |
+| questionId         | Text     | Stable question ID (unique)                                               |
+| questionIndex      | Number   | Position within lesson                                                    |
 | type               | Select   | Question type: `multiple-choice`, `matching`, `translation`, `recitation` |
-| question           | Text     | Question text (required)                                         |
-| options            | JSON     | Array of answer options (for multiple-choice/matching)           |
-| correctAnswer      | Text     | Correct answer(s)                                                |
-| explanation        | Text     | Explanation shown after answering                                |
-| vocabWordId        | Relation | Reference to vocabulary word (optional, no cascade delete)        |
-| isTemplateQuestion | Checkbox | Whether this is a template question                              |
-| templateId         | Text     | Template identifier if this is a template question               |
+| question           | Text     | Question text (required)                                                  |
+| options            | JSON     | Array of answer options (for multiple-choice/matching)                    |
+| correctAnswer      | Text     | Correct answer(s)                                                         |
+| explanation        | Text     | Explanation shown after answering                                         |
+| isTemplateQuestion | Checkbox | Whether this is a template question                                       |
+| templateId         | Text     | Template identifier if this is a template question                        |
 
 **Indexes:** `resourceId`, `questionId`
 
@@ -161,17 +160,17 @@ Individual quiz questions with stable, unique IDs. Each question belongs to one 
 
 Stores Latin vocabulary words with context and learning metadata. Used for vocabulary review and reference.
 
-| Field               | Type     | Description                                                                    |
-| ------------------- | -------- | ------------------------------------------------------------------------------ |
-| resourceId          | Text     | Custom vocabulary identifier (unique)                                          |
-| lessonId            | Relation | Reference to lesson (`church_latin_lessons`, required)                         |
-| word                | Text     | Latin word (required)                                                          |
-| meaning             | Text     | English meaning/definition (required)                                          |
-| partOfSpeech        | Select   | Word category: `noun`, `verb`, `adjective`, `adverb`, `preposition`, `pronoun`, `conjunction`, `other` |
-| caseInfo            | Text     | Grammatical case information                                                   |
-| conjugationInfo     | Text     | Verb conjugation information                                                   |
-| frequency           | Select   | Usage frequency: `high`, `medium`, `low`, `unknown`                            |
-| liturgicalContext   | Text     | Where this word appears in liturgical texts                                    |
+| Field             | Type     | Description                                                                                            |
+| ----------------- | -------- | ------------------------------------------------------------------------------------------------------ |
+| resourceId        | Text     | Custom vocabulary identifier (unique)                                                                  |
+| lessonId          | Relation | Reference to lesson (`church_latin_lessons`, required)                                                 |
+| word              | Text     | Latin word (required)                                                                                  |
+| meaning           | Text     | English meaning/definition (required)                                                                  |
+| partOfSpeech      | Select   | Word category: `noun`, `verb`, `adjective`, `adverb`, `preposition`, `pronoun`, `conjunction`, `other` |
+| caseInfo          | Text     | Grammatical case information                                                                           |
+| conjugationInfo   | Text     | Verb conjugation information                                                                           |
+| frequency         | Select   | Usage frequency: `high`, `medium`, `low`, `unknown`                                                    |
+| liturgicalContext | Text     | Where this word appears in liturgical texts                                                            |
 
 **Indexes:** `resourceId`, `lessonId`, `(lessonId, word)`
 
@@ -179,11 +178,11 @@ Stores Latin vocabulary words with context and learning metadata. Used for vocab
 
 Quiz metadata for each lesson. Links lesson to its questions via relation.
 
-| Field       | Type     | Description                                                  |
-| ----------- | -------- | ------------------------------------------------------------ |
-| resourceId  | Text     | Custom quiz identifier (unique)                              |
+| Field       | Type     | Description                                                    |
+| ----------- | -------- | -------------------------------------------------------------- |
+| resourceId  | Text     | Custom quiz identifier (unique)                                |
 | lessonId    | Relation | Reference to lesson (`church_latin_lessons`, unique, required) |
-| questionIds | Relation | Array of question references (`church_latin_quiz_questions`) |
+| questionIds | Relation | Array of question references (`church_latin_quiz_questions`)   |
 
 **Indexes:** `resourceId`, `lessonId`
 
@@ -191,17 +190,17 @@ Quiz metadata for each lesson. Links lesson to its questions via relation.
 
 Stores user progress and learning state for the course, including completed lessons, quiz scores, and theme preferences.
 
-| Field                | Type     | Description                                                         |
-| -------------------- | -------- | ------------------------------------------------------------------- |
-| resourceId           | Text     | Custom progress identifier (unique)                                 |
-| userId               | Text     | Reference to PocketBase user ID (required, unique)                  |
-| completedLessons     | Number   | Count of completed lessons (0-40)                                   |
-| quizScores           | JSON     | Object mapping lesson IDs to quiz scores                            |
-| currentLesson        | Number   | Current lesson being studied (1-40)                                 |
-| theme                | Select   | User's theme preference: `light` or `dark`                          |
-| lastAccessedAt       | Date     | ISO timestamp of most recent access                                 |
-| lastLessonAccessedId | Number   | Last lesson ID viewed by user                                       |
-| totalProgress        | Number   | Cached completion percentage (0-100)                                |
+| Field                | Type   | Description                                        |
+| -------------------- | ------ | -------------------------------------------------- |
+| resourceId           | Text   | Custom progress identifier (unique)                |
+| userId               | Text   | Reference to PocketBase user ID (required, unique) |
+| completedLessons     | Number | Count of completed lessons (0-40)                  |
+| quizScores           | JSON   | Object mapping lesson IDs to quiz scores           |
+| currentLesson        | Number | Current lesson being studied (1-40)                |
+| theme                | Select | User's theme preference: `light` or `dark`         |
+| lastAccessedAt       | Date   | ISO timestamp of most recent access                |
+| lastLessonAccessedId | Number | Last lesson ID viewed by user                      |
+| totalProgress        | Number | Cached completion percentage (0-100)               |
 
 **Indexes:** `resourceId`, `userId`
 
@@ -209,22 +208,22 @@ Stores user progress and learning state for the course, including completed less
 
 Spaced repetition scheduling data for quiz questions. Tracks learning state, due dates, and performance metrics for review.
 
-| Field          | Type     | Description                                                         |
-| -------------- | -------- | ------------------------------------------------------------------- |
-| resourceId     | Text     | Custom review item identifier (unique)                              |
-| userId         | Text     | Reference to user being reviewed (required)                         |
-| lessonId       | Relation | Reference to lesson (`church_latin_lessons`, required)              |
-| questionId     | Text     | Stable question ID (required)                                       |
-| questionType   | Select   | Question category: `multiple-choice`, `matching`, `translation`, `recitation` |
-| state          | Select   | Learning state: `learning`, `review`, `suspended`, `retired`        |
-| dueAt          | Date     | Next review due date (UTC, required)                                |
-| lastReviewedAt | Date     | Last time this item was reviewed                                    |
-| intervalDays   | Number   | Days between reviews                                                |
-| streak         | Number   | Consecutive correct answers                                         |
-| lapses         | Number   | Total number of incorrect answers                                   |
-| lastResult     | Select   | Result of last review: `correct`, `incorrect`, `skipped`             |
-| vocabWordId    | Relation | Reference to vocabulary word (optional, no cascade delete)           |
-| originalQuestionId | Text  | Original question ID reference                                      |
+| Field              | Type     | Description                                                                   |
+| ------------------ | -------- | ----------------------------------------------------------------------------- |
+| resourceId         | Text     | Custom review item identifier (unique)                                        |
+| userId             | Text     | Reference to user being reviewed (required)                                   |
+| lessonId           | Relation | Reference to lesson (`church_latin_lessons`, required)                        |
+| questionId         | Text     | Stable question ID (required)                                                 |
+| questionType       | Select   | Question category: `multiple-choice`, `matching`, `translation`, `recitation` |
+| state              | Select   | Learning state: `learning`, `review`, `suspended`, `retired`                  |
+| dueAt              | Date     | Next review due date (UTC, required)                                          |
+| lastReviewedAt     | Date     | Last time this item was reviewed                                              |
+| intervalDays       | Number   | Days between reviews                                                          |
+| streak             | Number   | Consecutive correct answers                                                   |
+| lapses             | Number   | Total number of incorrect answers                                             |
+| lastResult         | Select   | Result of last review: `correct`, `incorrect`, `skipped`                      |
+| vocabWordId        | Relation | Reference to vocabulary word (optional, no cascade delete)                    |
+| originalQuestionId | Text     | Original question ID reference                                                |
 
 **Indexes:** `resourceId`, `userId`, `lessonId`
 

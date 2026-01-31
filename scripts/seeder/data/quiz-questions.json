@@ -18,13 +18,7 @@
     "type": "matching",
     "lessonId": "L001",
     "question": "Match the Latin word to its English meaning: Deus, ecclesia, fides, pax, gratia",
-    "options": [
-      "God",
-      "church",
-      "faith",
-      "peace",
-      "grace"
-    ],
+    "options": ["God", "church", "faith", "peace", "grace"],
     "correctAnswer": [
       "Deus - God",
       "ecclesia - church",
@@ -47,12 +41,7 @@
     "type": "multiple-choice",
     "lessonId": "L002",
     "question": "What case is used for the subject of a sentence?",
-    "options": [
-      "Nominative",
-      "Accusative",
-      "Genitive",
-      "Dative"
-    ],
+    "options": ["Nominative", "Accusative", "Genitive", "Dative"],
     "correctAnswer": "Nominative"
   },
   {
@@ -83,12 +72,7 @@
     "type": "multiple-choice",
     "lessonId": "L003",
     "question": "What does 'credo' mean?",
-    "options": [
-      "I pray",
-      "I believe",
-      "I hope",
-      "I love"
-    ],
+    "options": ["I pray", "I believe", "I hope", "I love"],
     "correctAnswer": "I believe"
   },
   {
@@ -193,12 +177,7 @@
     "type": "multiple-choice",
     "lessonId": "L006",
     "question": "Which preposition means 'with' in Latin?",
-    "options": [
-      "in",
-      "cum",
-      "ex",
-      "de"
-    ],
+    "options": ["in", "cum", "ex", "de"],
     "correctAnswer": "cum"
   },
   {
@@ -349,12 +328,7 @@
     "type": "multiple-choice",
     "lessonId": "L010",
     "question": "Identify the tense of 'dicebam' in Kyrie Eleison",
-    "options": [
-      "Present",
-      "Imperfect",
-      "Future",
-      "Perfect"
-    ],
+    "options": ["Present", "Imperfect", "Future", "Perfect"],
     "correctAnswer": "Imperfect"
   },
   {
@@ -422,12 +396,7 @@
     "type": "multiple-choice",
     "lessonId": "L012",
     "question": "Identify the dative noun in 'Tibi laus' from Confiteor",
-    "options": [
-      "laus",
-      "tibi",
-      "Domine",
-      "sum"
-    ],
+    "options": ["laus", "tibi", "Domine", "sum"],
     "correctAnswer": "tibi"
   },
   {
@@ -450,12 +419,7 @@
     "type": "multiple-choice",
     "lessonId": "L013",
     "question": "Identify the verb form in 'Tollis peccata' from Agnus Dei",
-    "options": [
-      "Present",
-      "Imperfect",
-      "Future",
-      "Perfect"
-    ],
+    "options": ["Present", "Imperfect", "Future", "Perfect"],
     "correctAnswer": "Present"
   },
   {
@@ -523,12 +487,7 @@
     "type": "multiple-choice",
     "lessonId": "L015",
     "question": "What is the superlative adverb form of 'clarus' (bright)?",
-    "options": [
-      "clare",
-      "clarius",
-      "clarissime",
-      "clariter"
-    ],
+    "options": ["clare", "clarius", "clarissime", "clariter"],
     "correctAnswer": "clarissime"
   },
   {
@@ -551,12 +510,7 @@
     "type": "multiple-choice",
     "lessonId": "L016",
     "question": "Identify the case of 'nobis' in 'Ora pro nobis' from Ave Maria",
-    "options": [
-      "Nominative",
-      "Accusative",
-      "Dative",
-      "Ablative"
-    ],
+    "options": ["Nominative", "Accusative", "Dative", "Ablative"],
     "correctAnswer": "Dative"
   },
   {
@@ -579,12 +533,7 @@
     "type": "multiple-choice",
     "lessonId": "L017",
     "question": "Is ‘exsultans’ in the Magnificat a present or perfect participle?",
-    "options": [
-      "Present",
-      "Perfect",
-      "Future",
-      "Imperfect"
-    ],
+    "options": ["Present", "Perfect", "Future", "Imperfect"],
     "correctAnswer": "Present"
   },
   {
@@ -607,12 +556,7 @@
     "type": "multiple-choice",
     "lessonId": "L018",
     "question": "Identify the participle in ‘factorem caeli et terrae’",
-    "options": [
-      "caeli",
-      "factorem",
-      "terrae",
-      "omnipotentem"
-    ],
+    "options": ["caeli", "factorem", "terrae", "omnipotentem"],
     "correctAnswer": "factorem"
   },
   {
@@ -635,12 +579,7 @@
     "type": "multiple-choice",
     "lessonId": "L019",
     "question": "Identify the case of ‘quae’ in ‘Quae fecit mihi magna’",
-    "options": [
-      "Nominative",
-      "Accusative",
-      "Dative",
-      "Ablative"
-    ],
+    "options": ["Nominative", "Accusative", "Dative", "Ablative"],
     "correctAnswer": "Nominative"
   },
   {
@@ -663,12 +602,7 @@
     "type": "multiple-choice",
     "lessonId": "L020",
     "question": "Identify the participle in ‘Exsultans exsultavit’",
-    "options": [
-      "exsultavit",
-      "anima",
-      "exsultans",
-      "Dominum"
-    ],
+    "options": ["exsultavit", "anima", "exsultans", "Dominum"],
     "correctAnswer": "exsultans"
   },
   {
@@ -691,12 +625,7 @@
     "type": "multiple-choice",
     "lessonId": "L021",
     "question": "Identify the conjugation of ‘facio’ (I make)",
-    "options": [
-      "1st",
-      "2nd",
-      "3rd",
-      "4th"
-    ],
+    "options": ["1st", "2nd", "3rd", "4th"],
     "correctAnswer": "3rd"
   },
   {
@@ -719,12 +648,7 @@
     "type": "multiple-choice",
     "lessonId": "L022",
     "question": "Is ‘orandi’ in ‘Tempus orandi’ a gerund or gerundive?",
-    "options": [
-      "Gerund",
-      "Gerundive",
-      "Participle",
-      "Infinitive"
-    ],
+    "options": ["Gerund", "Gerundive", "Participle", "Infinitive"],
     "correctAnswer": "Gerund"
   },
   {
@@ -747,12 +671,7 @@
     "type": "multiple-choice",
     "lessonId": "L023",
     "question": "Identify the tense of ‘resurrexisse’ in ‘Credo Christum resurrexisse’",
-    "options": [
-      "Present",
-      "Perfect",
-      "Future",
-      "Imperfect"
-    ],
+    "options": ["Present", "Perfect", "Future", "Imperfect"],
     "correctAnswer": "Perfect"
   },
   {
@@ -775,12 +694,7 @@
     "type": "multiple-choice",
     "lessonId": "L024",
     "question": "Identify the tense of ‘exaltavit’ in ‘Exaltavit humiles’",
-    "options": [
-      "Present",
-      "Imperfect",
-      "Future",
-      "Perfect"
-    ],
+    "options": ["Present", "Imperfect", "Future", "Perfect"],
     "correctAnswer": "Perfect"
   },
   {
@@ -803,12 +717,7 @@
     "type": "multiple-choice",
     "lessonId": "L025",
     "question": "Is ‘tolluntur’ in ‘Peccata tolluntur’ active or passive?",
-    "options": [
-      "Active",
-      "Passive",
-      "Participle",
-      "Infinitive"
-    ],
+    "options": ["Active", "Passive", "Participle", "Infinitive"],
     "correctAnswer": "Passive"
   },
   {
@@ -831,12 +740,7 @@
     "type": "multiple-choice",
     "lessonId": "L026",
     "question": "Identify the mood of ‘fiat’ in ‘Fiat voluntas tua’",
-    "options": [
-      "Indicative",
-      "Subjunctive",
-      "Imperative",
-      "Infinitive"
-    ],
+    "options": ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
     "correctAnswer": "Subjunctive"
   },
   {
@@ -859,12 +763,7 @@
     "type": "multiple-choice",
     "lessonId": "L027",
     "question": "Identify the tense of ‘dixerim’ in ‘Si dixerim’",
-    "options": [
-      "Present",
-      "Imperfect",
-      "Perfect",
-      "Future"
-    ],
+    "options": ["Present", "Imperfect", "Perfect", "Future"],
     "correctAnswer": "Perfect"
   },
   {
@@ -887,12 +786,7 @@
     "type": "multiple-choice",
     "lessonId": "L028",
     "question": "Identify the mood of ‘miserere’ in ‘Miserere nobis’",
-    "options": [
-      "Indicative",
-      "Subjunctive",
-      "Imperative",
-      "Infinitive"
-    ],
+    "options": ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
     "correctAnswer": "Subjunctive"
   },
   {
@@ -915,12 +809,7 @@
     "type": "multiple-choice",
     "lessonId": "L029",
     "question": "Is ‘confiteor’ in ‘Confiteor tibi’ a deponent verb?",
-    "options": [
-      "Yes",
-      "No",
-      "Participle",
-      "Passive"
-    ],
+    "options": ["Yes", "No", "Participle", "Passive"],
     "correctAnswer": "Yes"
   },
   {
@@ -943,12 +832,7 @@
     "type": "multiple-choice",
     "lessonId": "L030",
     "question": "Identify the tense of ‘faceret’ in ‘Dixit ut faceret’",
-    "options": [
-      "Present",
-      "Imperfect",
-      "Perfect",
-      "Future"
-    ],
+    "options": ["Present", "Imperfect", "Perfect", "Future"],
     "correctAnswer": "Imperfect"
   },
   {
@@ -971,12 +855,7 @@
     "type": "multiple-choice",
     "lessonId": "L031",
     "question": "Is ‘confiteor’ in the Confiteor a deponent verb?",
-    "options": [
-      "Yes",
-      "No",
-      "Participle",
-      "Subjunctive"
-    ],
+    "options": ["Yes", "No", "Participle", "Subjunctive"],
     "correctAnswer": "Yes"
   },
   {
@@ -999,12 +878,7 @@
     "type": "multiple-choice",
     "lessonId": "L032",
     "question": "Identify the mood of ‘miserere’ in ‘Miserere nobis’",
-    "options": [
-      "Indicative",
-      "Subjunctive",
-      "Imperative",
-      "Infinitive"
-    ],
+    "options": ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
     "correctAnswer": "Subjunctive"
   },
   {
@@ -1019,12 +893,7 @@
     "type": "multiple-choice",
     "lessonId": "L033",
     "question": "Identify the tense of ‘erat’ in ‘Deus erat Verbum’",
-    "options": [
-      "Present",
-      "Imperfect",
-      "Perfect",
-      "Future"
-    ],
+    "options": ["Present", "Imperfect", "Perfect", "Future"],
     "correctAnswer": "Imperfect"
   },
   {
@@ -1032,12 +901,7 @@
     "type": "multiple-choice",
     "lessonId": "L033",
     "question": "Identify the case of ‘tenebris’ in ‘lux in tenebris lucet’",
-    "options": [
-      "Nominative",
-      "Accusative",
-      "Dative",
-      "Ablative"
-    ],
+    "options": ["Nominative", "Accusative", "Dative", "Ablative"],
     "correctAnswer": "Ablative"
   },
   {
@@ -1052,12 +916,7 @@
     "type": "multiple-choice",
     "lessonId": "L034",
     "question": "Identify the tense of ‘collocavit’ in ‘ibi me collocavit’",
-    "options": [
-      "Present",
-      "Imperfect",
-      "Perfect",
-      "Future"
-    ],
+    "options": ["Present", "Imperfect", "Perfect", "Future"],
     "correctAnswer": "Perfect"
   },
   {
@@ -1065,12 +924,7 @@
     "type": "multiple-choice",
     "lessonId": "L034",
     "question": "Identify the case of ‘mihi’ in ‘nihil mihi deerit’",
-    "options": [
-      "Nominative",
-      "Accusative",
-      "Dative",
-      "Ablative"
-    ],
+    "options": ["Nominative", "Accusative", "Dative", "Ablative"],
     "correctAnswer": "Dative"
   },
   {
@@ -1085,12 +939,7 @@
     "type": "multiple-choice",
     "lessonId": "L035",
     "question": "Identify the tense of ‘laudamus’ in ‘Laudamus te’",
-    "options": [
-      "Present",
-      "Imperfect",
-      "Perfect",
-      "Future"
-    ],
+    "options": ["Present", "Imperfect", "Perfect", "Future"],
     "correctAnswer": "Present"
   },
   {
@@ -1098,12 +947,7 @@
     "type": "multiple-choice",
     "lessonId": "L035",
     "question": "Is ‘pleni sunt’ in ‘Pleni sunt caeli’ passive or active?",
-    "options": [
-      "Active",
-      "Passive",
-      "Subjunctive",
-      "Infinitive"
-    ],
+    "options": ["Active", "Passive", "Subjunctive", "Infinitive"],
     "correctAnswer": "Passive"
   },
   {
@@ -1118,12 +962,7 @@
     "type": "multiple-choice",
     "lessonId": "L036",
     "question": "Identify the tense of ‘revelatur’ in ‘Iustitia Dei revelatur’",
-    "options": [
-      "Present",
-      "Imperfect",
-      "Perfect",
-      "Future"
-    ],
+    "options": ["Present", "Imperfect", "Perfect", "Future"],
     "correctAnswer": "Present"
   },
   {
@@ -1131,12 +970,7 @@
     "type": "multiple-choice",
     "lessonId": "L036",
     "question": "Identify the case of ‘fide’ in ‘ex fide in fidem’",
-    "options": [
-      "Nominative",
-      "Accusative",
-      "Dative",
-      "Ablative"
-    ],
+    "options": ["Nominative", "Accusative", "Dative", "Ablative"],
     "correctAnswer": "Ablative"
   },
   {
@@ -1151,12 +985,7 @@
     "type": "multiple-choice",
     "lessonId": "L037",
     "question": "Identify the mood of ‘sanctificetur’ in ‘Sanctificetur nomen tuum’",
-    "options": [
-      "Indicative",
-      "Subjunctive",
-      "Imperative",
-      "Infinitive"
-    ],
+    "options": ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
     "correctAnswer": "Subjunctive"
   },
   {
@@ -1164,12 +993,7 @@
     "type": "multiple-choice",
     "lessonId": "L037",
     "question": "Identify the participle in ‘Natum et invisibilium’",
-    "options": [
-      "natum",
-      "et",
-      "invisibilium",
-      "credo"
-    ],
+    "options": ["natum", "et", "invisibilium", "credo"],
     "correctAnswer": "natum"
   },
   {
@@ -1184,12 +1008,7 @@
     "type": "multiple-choice",
     "lessonId": "L038",
     "question": "Identify the mood of ‘miserere’ in ‘Miserere nobis’",
-    "options": [
-      "Indicative",
-      "Subjunctive",
-      "Imperative",
-      "Infinitive"
-    ],
+    "options": ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
     "correctAnswer": "Subjunctive"
   },
   {
@@ -1197,12 +1016,7 @@
     "type": "multiple-choice",
     "lessonId": "L038",
     "question": "Identify the participle in ‘Factorem caeli’",
-    "options": [
-      "factorem",
-      "caeli",
-      "credo",
-      "omnipotens"
-    ],
+    "options": ["factorem", "caeli", "credo", "omnipotens"],
     "correctAnswer": "factorem"
   },
   {
@@ -1217,12 +1031,7 @@
     "type": "multiple-choice",
     "lessonId": "L039",
     "question": "Identify the case of ‘stella’ in ‘maris stella’",
-    "options": [
-      "Nominative",
-      "Accusative",
-      "Dative",
-      "Vocative"
-    ],
+    "options": ["Nominative", "Accusative", "Dative", "Vocative"],
     "correctAnswer": "Vocative"
   },
   {
@@ -1230,12 +1039,7 @@
     "type": "multiple-choice",
     "lessonId": "L039",
     "question": "Identify the verb form of ‘pange’ in ‘Pange, lingua’",
-    "options": [
-      "Indicative",
-      "Subjunctive",
-      "Imperative",
-      "Infinitive"
-    ],
+    "options": ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
     "correctAnswer": "Imperative"
   },
   {
@@ -1250,12 +1054,7 @@
     "type": "multiple-choice",
     "lessonId": "L040",
     "question": "Identify the mood of ‘miserere’ in ‘Miserere nobis’",
-    "options": [
-      "Indicative",
-      "Subjunctive",
-      "Imperative",
-      "Infinitive"
-    ],
+    "options": ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
     "correctAnswer": "Subjunctive"
   },
   {
@@ -1263,12 +1062,7 @@
     "type": "multiple-choice",
     "lessonId": "L040",
     "question": "Identify the verb form of ‘pange’ in ‘Pange, lingua’",
-    "options": [
-      "Indicative",
-      "Subjunctive",
-      "Imperative",
-      "Infinitive"
-    ],
+    "options": ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
     "correctAnswer": "Imperative"
   }
 ]

@@ -351,14 +351,15 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
                         }}
                         className={`
                         relative min-h-touch-target sm:min-h-0 p-2 sm:p-3 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 touch-manipulation
-                        ${isCompleted
+                        ${
+                          isCompleted
                             ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800 active:bg-green-300 dark:active:bg-green-700"
                             : isCurrent
                               ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800 active:bg-yellow-300 dark:active:bg-yellow-700"
                               : isAvailable
                                 ? "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500"
                                 : "bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300 active:bg-gray-200 dark:active:bg-gray-600"
-                          }
+                        }
                       `}
                       >
                         <span className="block sm:inline">Day {day}</span>

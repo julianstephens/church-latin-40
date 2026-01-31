@@ -17,4 +17,5 @@ lerna-debug.log*
 .next
 out
 build
-REVIEW_QUEUE.md
+*.md
+!README.md

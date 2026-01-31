@@ -16,8 +16,8 @@ const POCKETBASE_URL = config.pocketbaseUrl;
 class CourseDataService {
   private pb: PocketBase;
   private modulesCache: Module[] | null = null;
-  private lessonsCache: { [moduleId: number]: Lesson[]; } = {};
-  private contentCache: { [lessonId: number]: Lesson; } = {};
+  private lessonsCache: { [moduleId: number]: Lesson[] } = {};
+  private contentCache: { [lessonId: number]: Lesson } = {};
 
   constructor() {
     this.pb = new PocketBase(POCKETBASE_URL);
@@ -155,8 +155,8 @@ class CourseDataService {
             filter: `lessonId = "${lessonRecord.id}"`,
           });
 
-        vocabularyList = vocabRecords.map((v: Record<string, unknown>) =>
-          `${v.word} - ${v.meaning}`
+        vocabularyList = vocabRecords.map(
+          (v: Record<string, unknown>) => `${v.word} - ${v.meaning}`,
         ) as string[];
       } catch (vocabError) {
         logger.warn(`No vocabulary found for lesson ${lessonId}`, vocabError);
@@ -196,11 +196,13 @@ class CourseDataService {
       // Parse practice if it's JSON, otherwise keep as is
       let practiceData: unknown[] = [];
       if (contentRecord.practice) {
-        if (typeof contentRecord.practice === 'string') {
+        if (typeof contentRecord.practice === "string") {
           try {
             practiceData = JSON.parse(contentRecord.practice);
           } catch {
-            practiceData = contentRecord.practice ? [contentRecord.practice] : [];
+            practiceData = contentRecord.practice
+              ? [contentRecord.practice]
+              : [];
           }
         } else if (Array.isArray(contentRecord.practice)) {
           practiceData = contentRecord.practice;
@@ -212,7 +214,7 @@ class CourseDataService {
       // Parse materials if it's JSON, otherwise keep as is
       let materialsData: string[] = [];
       if (contentRecord.materials) {
-        if (typeof contentRecord.materials === 'string') {
+        if (typeof contentRecord.materials === "string") {
           try {
             materialsData = JSON.parse(contentRecord.materials);
           } catch {
@@ -226,10 +228,10 @@ class CourseDataService {
       // Split content into paragraphs using \n\n separator
       let contentData: string[] = [];
       if (contentRecord.content) {
-        if (typeof contentRecord.content === 'string') {
+        if (typeof contentRecord.content === "string") {
           contentData = contentRecord.content
-            .split('\n\n')
-            .filter((p: string) => p.trim() !== '');
+            .split("\n\n")
+            .filter((p: string) => p.trim() !== "");
         } else if (Array.isArray(contentRecord.content)) {
           contentData = contentRecord.content as string[];
         } else {
@@ -244,7 +246,7 @@ class CourseDataService {
         materials: materialsData,
         content: contentData,
         vocabulary: vocabularyList,
-        practice: practiceData as unknown[],
+        practice: practiceData as unknown as string[],
         quiz: quizQuestions,
       };
 

@@ -9,7 +9,7 @@ const POCKETBASE_URL = config.pocketbaseUrl;
 
 export interface UserProgress {
   completedLessons: number[];
-  quizScores: { [lessonId: number]: number; };
+  quizScores: { [lessonId: number]: number };
   currentLesson: number;
   theme: "light" | "dark";
   // New fields for better progress tracking

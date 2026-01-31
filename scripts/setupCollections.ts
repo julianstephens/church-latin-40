@@ -50,9 +50,7 @@ function getCollectionRules(
 /**
  * Convert schema indexes to PocketBase index format
  */
-function getCollectionIndexes(
-  schema: (typeof COLLECTIONS)[0],
-): string[] {
+function getCollectionIndexes(schema: (typeof COLLECTIONS)[0]): string[] {
   if (!schema.indexes) return [];
 
   return schema.indexes.map((indexFields, idx) => {
@@ -182,9 +180,9 @@ async function setupCollections(): Promise<void> {
             } else if (
               existingField.type !== field.type ||
               JSON.stringify(existingField.values || []) !==
-              JSON.stringify(field.values || []) ||
+                JSON.stringify(field.values || []) ||
               JSON.stringify(existingField.options || {}) !==
-              JSON.stringify(field.options || {})
+                JSON.stringify(field.options || {})
             ) {
               // Field type or configuration has changed - try to update it
               const pbField: Record<string, unknown> = {
@@ -226,7 +224,9 @@ async function setupCollections(): Promise<void> {
                 const typeChanged = existingField.type !== field.type;
                 if (typeChanged && field.name !== "id") {
                   try {
-                    console.log(`     🔄 Attempting to recreate field: ${field.name}`);
+                    console.log(
+                      `     🔄 Attempting to recreate field: ${field.name}`,
+                    );
                     // Delete the old field
                     const withoutField = existing.filter(
                       (f) => f.name !== field.name,
@@ -261,7 +261,9 @@ async function setupCollections(): Promise<void> {
                   } catch (retryError) {
                     console.log(
                       `     ⚠️  Failed to recreate field ${field.name}: `,
-                      retryError instanceof Error ? retryError.message : retryError,
+                      retryError instanceof Error
+                        ? retryError.message
+                        : retryError,
                     );
                   }
                 } else {
@@ -276,7 +278,11 @@ async function setupCollections(): Promise<void> {
 
           // DELETE FIELDS NOT IN SCHEMA (cleanup old unused fields)
           const schemaFieldNames = new Set(schema.fields.map((f) => f.name));
-          const fieldsToDelete = existing.filter((f) => !schemaFieldNames.has(f.name as string) && (f.name as string) !== "id");
+          const fieldsToDelete = existing.filter(
+            (f) =>
+              !schemaFieldNames.has(f.name as string) &&
+              (f.name as string) !== "id",
+          );
 
           if (fieldsToDelete.length > 0) {
             try {
@@ -291,7 +297,9 @@ async function setupCollections(): Promise<void> {
             } catch (deleteError) {
               console.log(
                 `     ⚠️  Failed to delete unused fields:`,
-                deleteError instanceof Error ? deleteError.message : deleteError,
+                deleteError instanceof Error
+                  ? deleteError.message
+                  : deleteError,
               );
             }
           }
@@ -329,7 +337,10 @@ async function setupCollections(): Promise<void> {
               if (indexes.length > 0) {
                 updatePayload.indexes = indexes;
               }
-              await pb.collections.update(updatedCollection.id, updatePayload as never);
+              await pb.collections.update(
+                updatedCollection.id,
+                updatePayload as never,
+              );
               if (!hasMatchingRules) console.log(`     ✅ Updated rules`);
               if (!hasMatchingIndexes) console.log(`     ✅ Updated indexes`);
             } catch {

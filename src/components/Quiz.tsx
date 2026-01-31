@@ -31,10 +31,12 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [userAnswer, setUserAnswer] = useState("");
-  const [resolvedQuestions, setResolvedQuestions] = useState<ResolvedQuestion[]>([]);
+  const [resolvedQuestions, setResolvedQuestions] = useState<
+    ResolvedQuestion[]
+  >([]);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
   const [matchingState, setMatchingState] = useState<{
-    pairs: { [key: string]: string; };
+    pairs: { [key: string]: string };
     selectedLatin: string | null;
     selectedEnglish: string | null;
     randomizedOptions: string[];
@@ -59,24 +61,27 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
             try {
               // Extract question type and word count from template id
               // Format: D##-VOCAB-TYPE (e.g., D02-VOCAB-MATCHING)
-              const parts = question.templateId!.split('-');
-              const vocabType = `vocab-${parts[2]?.toLowerCase() || 'translation'}`;
+              const parts = question.templateId!.split("-");
+              const vocabType = `vocab-${parts[2]?.toLowerCase() || "translation"}`;
 
               // Determine word count based on type
               let wordCount = 1;
-              if (vocabType === 'vocab-matching') {
+              if (vocabType === "vocab-matching") {
                 wordCount = 5;
               }
 
               // Generate the vocabulary question
-              const generatedQuestion = await vocabularyService.generateQuestion({
-                lessonId,
-                wordCount,
-                type: vocabType as any,
-              });
+              const generatedQuestion =
+                await vocabularyService.generateQuestion({
+                  lessonId,
+                  wordCount,
+                  type: vocabType as any,
+                });
 
               // Extract vocab word IDs from the generated question
-              const usedVocabWordIds = generatedQuestion.usedWords.map(w => w.id);
+              const usedVocabWordIds = generatedQuestion.usedWords.map(
+                (w) => w.id,
+              );
 
               // Create a resolved question with the generated vocab question
               const resolvedQuestion: ResolvedQuestion = {
@@ -84,7 +89,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                 question: generatedQuestion.question,
                 options: generatedQuestion.options,
                 correctAnswer: generatedQuestion.correctAnswer,
-                explanation: generatedQuestion.explanations?.[0] || 'Correct!',
+                explanation: generatedQuestion.explanations?.[0] || "Correct!",
                 generatedVocabQuestion: generatedQuestion,
                 usedVocabWordIds,
               };
@@ -106,7 +111,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
 
         setResolvedQuestions(resolved);
       } catch (error) {
-        logger.error('Failed to resolve template questions:', error);
+        logger.error("Failed to resolve template questions:", error);
         // Fall back to original questions
         setResolvedQuestions(questions as ResolvedQuestion[]);
       } finally {
@@ -199,14 +204,24 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
             // Non-blocking: log errors but don't fail quiz submission
             try {
               // If this is a vocabulary question, track the vocabWordIds
-              if (question.usedVocabWordIds && question.usedVocabWordIds.length > 0) {
+              if (
+                question.usedVocabWordIds &&
+                question.usedVocabWordIds.length > 0
+              ) {
                 // For vocab questions with multiple words (matching), create separate review items for each word
                 for (const vocabWordId of question.usedVocabWordIds) {
-                  await reviewService.handleQuizMiss(lessonId, question.questionId, vocabWordId);
+                  await reviewService.handleQuizMiss(
+                    lessonId,
+                    question.questionId,
+                    vocabWordId,
+                  );
                 }
               } else {
                 // Regular question without vocab tracking
-                await reviewService.handleQuizMiss(lessonId, question.questionId);
+                await reviewService.handleQuizMiss(
+                  lessonId,
+                  question.questionId,
+                );
               }
             } catch (error) {
               console.warn(
@@ -468,8 +483,8 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                     <strong>
                       {Array.isArray(question.correctAnswer)
                         ? question.correctAnswer
-                          .map((ans) => sanitizeOption(ans))
-                          .join(question.type === "matching" ? ", " : " or ")
+                            .map((ans) => sanitizeOption(ans))
+                            .join(question.type === "matching" ? ", " : " or ")
                         : sanitizeOption(question.correctAnswer as string)}
                     </strong>
                   </p>
@@ -596,12 +611,13 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                         key={index}
                         onClick={() => handleMatchingSelect("latin", latin)}
                         disabled={isPaired}
-                        className={`w-full min-h-touch-target p-3 sm:p-4 text-sm sm:text-base rounded-lg text-left transition-colors touch-manipulation ${isPaired
-                          ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
-                          : isSelected
-                            ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
-                            : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-600"
-                          }`}
+                        className={`w-full min-h-touch-target p-3 sm:p-4 text-sm sm:text-base rounded-lg text-left transition-colors touch-manipulation ${
+                          isPaired
+                            ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
+                            : isSelected
+                              ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
+                              : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-600"
+                        }`}
                         aria-label={`Select Latin word ${latin}`}
                         dangerouslySetInnerHTML={{
                           __html: sanitizedLatin,
@@ -626,12 +642,13 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                         key={index}
                         onClick={() => handleMatchingSelect("english", option)}
                         disabled={isPaired}
-                        className={`w-full min-h-touch-target p-3 sm:p-4 text-sm sm:text-base rounded-lg text-left transition-colors touch-manipulation ${isPaired
-                          ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
-                          : isSelected
-                            ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
-                            : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-600"
-                          }`}
+                        className={`w-full min-h-touch-target p-3 sm:p-4 text-sm sm:text-base rounded-lg text-left transition-colors touch-manipulation ${
+                          isPaired
+                            ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
+                            : isSelected
+                              ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
+                              : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-600"
+                        }`}
                         aria-label={`Select English meaning ${option}`}
                         dangerouslySetInnerHTML={{
                           __html: sanitizedOption,
@@ -657,37 +674,37 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
 
         {(question.type === "translation" ||
           question.type === "recitation") && (
-            <div className="space-y-4">
-              <textarea
-                value={userAnswer}
-                onChange={(e) => {
-                  // Limit input to 500 characters
-                  const limited = e.target.value.substring(0, 500);
-                  setUserAnswer(limited);
-                }}
-                placeholder={
-                  question.type === "recitation"
-                    ? "Recite the prayer or text here..."
-                    : "Enter your translation here..."
-                }
-                className="w-full min-h-touch-lg p-3 sm:p-4 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-900 dark:focus:ring-red-600 focus:border-transparent dark:bg-gray-700 dark:text-white touch-manipulation"
-                rows={3}
-                maxLength={500}
-              />
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                <span className="text-xs text-gray-500 dark:text-gray-400">
-                  {userAnswer.length}/500 characters
-                </span>
-                <button
-                  onClick={() => handleAnswer(userAnswer)}
-                  disabled={!userAnswer.trim()}
-                  className="w-full sm:w-auto min-h-touch-target bg-red-900 hover:bg-red-800 active:bg-red-950 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 sm:py-2 rounded-lg transition-colors touch-manipulation"
-                >
-                  Submit Answer
-                </button>
-              </div>
+          <div className="space-y-4">
+            <textarea
+              value={userAnswer}
+              onChange={(e) => {
+                // Limit input to 500 characters
+                const limited = e.target.value.substring(0, 500);
+                setUserAnswer(limited);
+              }}
+              placeholder={
+                question.type === "recitation"
+                  ? "Recite the prayer or text here..."
+                  : "Enter your translation here..."
+              }
+              className="w-full min-h-touch-lg p-3 sm:p-4 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-900 dark:focus:ring-red-600 focus:border-transparent dark:bg-gray-700 dark:text-white touch-manipulation"
+              rows={3}
+              maxLength={500}
+            />
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                {userAnswer.length}/500 characters
+              </span>
+              <button
+                onClick={() => handleAnswer(userAnswer)}
+                disabled={!userAnswer.trim()}
+                className="w-full sm:w-auto min-h-touch-target bg-red-900 hover:bg-red-800 active:bg-red-950 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 sm:py-2 rounded-lg transition-colors touch-manipulation"
+              >
+                Submit Answer
+              </button>
             </div>
-          )}
+          </div>
+        )}
       </div>
     </div>
   );
