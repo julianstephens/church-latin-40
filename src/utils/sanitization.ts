@@ -41,8 +41,14 @@ export function sanitizeQuizAnswer(answer: string): string {
   // eslint-disable-next-line no-control-regex
   sanitized = sanitized.replace(/[\x00-\x1f\x7f]/g, "");
 
-  // Escape HTML to prevent XSS
-  sanitized = escapeHtml(sanitized);
+  // Escape HTML to prevent XSS - but only dangerous characters (<, >)
+  // Quotes are safe in text content and should not be escaped
+  const map: { [key: string]: string; } = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+  };
+  sanitized = sanitized.replace(/[&<>]/g, (char) => map[char]);
 
   return sanitized;
 }
