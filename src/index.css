@@ -78,8 +78,8 @@
            touch-manipulation;
   }
 
-  /* Mobile-specific input enhancements */
-  @media (max-width: 640px) {
+  /* Mobile-specific input enhancements - prevent iOS zoom */
+  @media (max-width: 639px) {
     input[type="text"],
     input[type="email"],
     input[type="password"],
