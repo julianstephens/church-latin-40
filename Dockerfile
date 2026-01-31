@@ -46,10 +46,10 @@ USER appuser
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8080/index.html || exit 1
+    CMD curl -f http://localhost:8888/index.html || exit 1
 
-# Expose port (not 80, use 8080 for non-root)
-EXPOSE 8080
+# Expose port (non-standard to avoid conflicts)
+EXPOSE 8888
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
