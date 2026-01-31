@@ -307,6 +307,65 @@ export class ReviewService {
     }
 
     /**
+     * Get all upcoming review items (due in the future)
+     * @param limit Maximum number of items to return
+     * @returns Array of upcoming review items
+     */
+    async getUpcomingReviewItems(limit: number = 50): Promise<ReviewItem[]> {
+        try {
+            const authStore = pb.authStore;
+            if (!authStore.isValid || !authStore.model) {
+                throw new Error("User not authenticated");
+            }
+
+            const userId = authStore.model.id;
+            const now = new Date().toISOString();
+
+            // Fetch review items due in the future, ordered by dueAt
+            const records = await pb
+                .collection("church_latin_review_items")
+                .getList(1, limit, {
+                    filter: `userId = "${userId}" && dueAt > "${now}" && state != "retired" && state != "suspended"`,
+                    sort: "dueAt",
+                });
+
+            return records.items as unknown as ReviewItem[];
+        } catch (error) {
+            console.error("Failed to fetch upcoming review items:", error);
+            throw error;
+        }
+    }
+
+    /**
+     * Get all suspended review items
+     * @param limit Maximum number of items to return
+     * @returns Array of suspended review items
+     */
+    async getSuspendedReviewItems(limit: number = 50): Promise<ReviewItem[]> {
+        try {
+            const authStore = pb.authStore;
+            if (!authStore.isValid || !authStore.model) {
+                throw new Error("User not authenticated");
+            }
+
+            const userId = authStore.model.id;
+
+            // Fetch suspended review items, ordered by dueAt
+            const records = await pb
+                .collection("church_latin_review_items")
+                .getList(1, limit, {
+                    filter: `userId = "${userId}" && state = "suspended"`,
+                    sort: "dueAt",
+                });
+
+            return records.items as unknown as ReviewItem[];
+        } catch (error) {
+            console.error("Failed to fetch suspended review items:", error);
+            throw error;
+        }
+    }
+
+    /**
      * Suspend or unsuspend a review item
      * @param lessonId PocketBase lesson collection ID
      * @param questionId Stable question ID

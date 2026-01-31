@@ -246,15 +246,25 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
                   </span>{" "}
                   question{dueReviewCount === 1 ? "" : "s"} due for review
                 </p>
-                <button
-                  onClick={() => {
-                    window.location.href = "/review";
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-purple-700 hover:bg-purple-800 dark:bg-purple-600 dark:hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors duration-200"
-                >
-                  <BookOpen className="h-4 w-4" />
-                  Start Review Session
-                </button>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <button
+                    onClick={() => {
+                      window.location.href = "/review";
+                    }}
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-purple-700 hover:bg-purple-800 dark:bg-purple-600 dark:hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors duration-200"
+                  >
+                    <BookOpen className="h-4 w-4" />
+                    Start Review Session
+                  </button>
+                  <button
+                    onClick={() => {
+                      window.location.href = "/review-list";
+                    }}
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-transparent border border-purple-700 hover:bg-purple-100 dark:hover:bg-purple-900/30 dark:border-purple-600 text-purple-700 dark:text-purple-400 font-semibold rounded-lg transition-colors duration-200"
+                  >
+                    View All Items
+                  </button>
+                </div>
               </div>
             </div>
           </div>

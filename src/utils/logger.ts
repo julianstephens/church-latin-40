@@ -8,6 +8,16 @@ const isDevelopment = import.meta.env.MODE === "development";
 
 export const logger = {
   /**
+   * Log data (shown in development only)
+   */
+  info: (message: string): void => {
+    if (isDevelopment) {
+      console.info(message);
+    }
+  },
+
+
+  /**
    * Log errors (shown in both development and production)
    */
   error: (message: string, error?: unknown): void => {

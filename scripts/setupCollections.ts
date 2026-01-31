@@ -47,6 +47,21 @@ function getCollectionRules(
   }
 }
 
+/**
+ * Convert schema indexes to PocketBase index format
+ */
+function getCollectionIndexes(
+  schema: (typeof COLLECTIONS)[0],
+): string[] {
+  if (!schema.indexes) return [];
+
+  return schema.indexes.map((indexFields, idx) => {
+    const fieldList = indexFields.join(", ");
+    const indexName = `idx_${schema.name}_${idx}`;
+    return `CREATE INDEX ${indexName} ON ${schema.name} (${fieldList})`;
+  });
+}
+
 async function setupCollections(): Promise<void> {
   try {
     if (DRY_RUN) console.log("🏜️  DRY RUN MODE\n");
@@ -111,33 +126,9 @@ async function setupCollections(): Promise<void> {
         console.log(`  ⏭️  ${schema.displayName}: Already exists`);
 
         if (!DRY_RUN) {
-          const existing = collection.fields as Array<Record<string, unknown>>;
-          const rules = getCollectionRules(schema);
+          let existing = collection.fields as Array<Record<string, unknown>>;
 
-          // Update rules if they don't match
-          const hasMatchingRules =
-            collection.listRule === rules.listRule &&
-            collection.viewRule === rules.viewRule &&
-            collection.createRule === rules.createRule &&
-            collection.updateRule === rules.updateRule &&
-            collection.deleteRule === rules.deleteRule;
-
-          if (!hasMatchingRules) {
-            try {
-              await pb.collections.update(collection.id, {
-                listRule: rules.listRule,
-                viewRule: rules.viewRule,
-                createRule: rules.createRule,
-                updateRule: rules.updateRule,
-                deleteRule: rules.deleteRule,
-              } as never);
-              console.log(`     ✅ Updated rules`);
-            } catch {
-              console.log(`     ⚠️  Failed to update rules`);
-            }
-          }
-
-          // Update fields
+          // Update fields FIRST
           for (const field of schema.fields) {
             const existingField = existing.find((f) => f.name === field.name);
 
@@ -188,6 +179,139 @@ async function setupCollections(): Promise<void> {
                   // Silently skip - field may already exist or have other issues
                 }
               }
+            } else if (
+              existingField.type !== field.type ||
+              JSON.stringify(existingField.values || []) !==
+              JSON.stringify(field.values || []) ||
+              JSON.stringify(existingField.options || {}) !==
+              JSON.stringify(field.options || {})
+            ) {
+              // Field type or configuration has changed - try to update it
+              const pbField: Record<string, unknown> = {
+                ...existingField,
+                type: field.type,
+              };
+
+              // Update based on new type
+              if (field.type === "select" && field.values) {
+                pbField.values = field.values;
+                if (field.maxSelect) pbField.maxSelect = field.maxSelect;
+                // Remove number-specific options
+                delete pbField.options;
+              } else if (field.type === "relation" && field.collectionId) {
+                const targetId = collectionIdMap.get(field.collectionId);
+                if (targetId) {
+                  pbField.collectionId = targetId;
+                } else {
+                  continue;
+                }
+                if (field.maxSelect) pbField.maxSelect = field.maxSelect;
+                if (field.cascadeDelete) pbField.cascadeDelete = true;
+              } else if (field.options) {
+                pbField.options = field.options;
+                delete pbField.values;
+              }
+
+              try {
+                const updatedFields = existing.map((f) =>
+                  f.name === field.name ? pbField : f,
+                );
+                await pb.collections.update(collection.id, {
+                  fields: updatedFields,
+                } as never);
+                console.log(`     ✅ Updated field: ${field.name}`);
+                Object.assign(existingField, pbField);
+              } catch (error) {
+                // If direct update fails and type changed, try delete + recreate
+                const typeChanged = existingField.type !== field.type;
+                if (typeChanged && field.name !== "id") {
+                  try {
+                    console.log(`     🔄 Attempting to recreate field: ${field.name}`);
+                    // Delete the old field
+                    const withoutField = existing.filter(
+                      (f) => f.name !== field.name,
+                    );
+                    await pb.collections.update(collection.id, {
+                      fields: withoutField,
+                    } as never);
+
+                    // Add the new field with correct type
+                    const newField: Record<string, unknown> = {
+                      name: field.name,
+                      type: field.type,
+                      required: field.required || false,
+                    };
+                    if (field.unique) newField.unique = true;
+                    if (field.type === "select" && field.values) {
+                      newField.values = field.values;
+                      if (field.maxSelect) newField.maxSelect = field.maxSelect;
+                    } else if (field.options) {
+                      newField.options = field.options;
+                    }
+
+                    const withNewField = [...withoutField, newField];
+                    await pb.collections.update(collection.id, {
+                      fields: withNewField,
+                    } as never);
+
+                    console.log(
+                      `     ✅ Recreated field: ${field.name} (converted type)`,
+                    );
+                    existing = withNewField;
+                  } catch (retryError) {
+                    console.log(
+                      `     ⚠️  Failed to recreate field ${field.name}: `,
+                      retryError instanceof Error ? retryError.message : retryError,
+                    );
+                  }
+                } else {
+                  console.log(
+                    `     ⚠️  Failed to update field ${field.name}:`,
+                    error instanceof Error ? error.message : error,
+                  );
+                }
+              }
+            }
+          }
+
+          // UPDATE RULES AND INDEXES LAST (after all field changes)
+          const rules = getCollectionRules(schema);
+          const indexes = getCollectionIndexes(schema);
+
+          // Fetch fresh collection state after field updates
+          const updatedCollection = await pb.collections.getOne(schema.name);
+
+          // Check if rules need updating
+          const hasMatchingRules =
+            updatedCollection.listRule === rules.listRule &&
+            updatedCollection.viewRule === rules.viewRule &&
+            updatedCollection.createRule === rules.createRule &&
+            updatedCollection.updateRule === rules.updateRule &&
+            updatedCollection.deleteRule === rules.deleteRule;
+
+          // Check if indexes need updating
+          const currentIndexes = (updatedCollection.indexes || []) as string[];
+          const hasMatchingIndexes =
+            currentIndexes.length === indexes.length &&
+            currentIndexes.every((idx, i) => idx === indexes[i]);
+
+          if (!hasMatchingRules || !hasMatchingIndexes) {
+            try {
+              const updatePayload: Record<string, unknown> = {
+                listRule: rules.listRule,
+                viewRule: rules.viewRule,
+                createRule: rules.createRule,
+                updateRule: rules.updateRule,
+                deleteRule: rules.deleteRule,
+              };
+              if (indexes.length > 0) {
+                updatePayload.indexes = indexes;
+              }
+              await pb.collections.update(updatedCollection.id, updatePayload as never);
+              if (!hasMatchingRules) console.log(`     ✅ Updated rules`);
+              if (!hasMatchingIndexes) console.log(`     ✅ Updated indexes`);
+            } catch {
+              console.log(`     ⚠️  Failed to update rules/indexes`);
             }
           }
         }
@@ -224,6 +348,7 @@ async function setupCollections(): Promise<void> {
             });
 
             const rules = getCollectionRules(schema);
+            const indexes = getCollectionIndexes(schema);
             const createPayload = {
               name: schema.name,
               displayName: schema.displayName,
@@ -234,9 +359,13 @@ async function setupCollections(): Promise<void> {
               createRule: rules.createRule,
               updateRule: rules.updateRule,
               deleteRule: rules.deleteRule,
-            } as never;
+            } as Record<string, unknown>;
 
-            await pb.collections.create(createPayload);
+            if (indexes.length > 0) {
+              createPayload.indexes = indexes;
+            }
+
+            await pb.collections.create(createPayload as never);
 
             console.log(`  ✅ ${schema.displayName}: Created`);
             existingCollections.add(schema.name);

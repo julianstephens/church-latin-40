@@ -1,0 +1,1274 @@
+[
+  {
+    "questionId": "D01-Q01",
+    "type": "multiple-choice",
+    "lessonId": "L001",
+    "question": "How is the vowel 'a' pronounced in Ecclesiastical Latin?",
+    "options": [
+      "Like 'ay' in 'day'",
+      "Like 'ah' in 'father'",
+      "Like 'a' in 'cat'",
+      "Like 'aw' in 'saw'"
+    ],
+    "correctAnswer": "Like 'ah' in 'father'",
+    "explanation": "In Ecclesiastical Latin, 'a' is always pronounced like 'ah' in 'father'."
+  },
+  {
+    "questionId": "D01-Q02",
+    "type": "matching",
+    "lessonId": "L001",
+    "question": "Match the Latin word to its English meaning: Deus, ecclesia, fides, pax, gratia",
+    "options": [
+      "God",
+      "church",
+      "faith",
+      "peace",
+      "grace"
+    ],
+    "correctAnswer": [
+      "Deus - God",
+      "ecclesia - church",
+      "fides - faith",
+      "pax - peace",
+      "gratia - grace"
+    ],
+    "explanation": "Match each Latin word to its corresponding English translation."
+  },
+  {
+    "questionId": "D01-Q03",
+    "type": "recitation",
+    "lessonId": "L001",
+    "question": "Recite the first line of the Pater Noster",
+    "correctAnswer": "Pater noster qui es in caelis",
+    "explanation": "This is the opening line of the Lord's Prayer in Latin."
+  },
+  {
+    "questionId": "D02-Q01",
+    "type": "multiple-choice",
+    "lessonId": "L002",
+    "question": "What case is used for the subject of a sentence?",
+    "options": [
+      "Nominative",
+      "Accusative",
+      "Genitive",
+      "Dative"
+    ],
+    "correctAnswer": "Nominative"
+  },
+  {
+    "questionId": "D02-Q02",
+    "type": "translation",
+    "lessonId": "L002",
+    "question": "Decline 'regina' (queen) in nominative and accusative singular:",
+    "correctAnswer": "regina, reginam",
+    "explanation": "1st declension nouns end in -a (nom.) and -am (acc.) in singular."
+  },
+  {
+    "questionId": "D02-Q03",
+    "type": "translation",
+    "lessonId": "L002",
+    "question": "Translate: 'Agnus Dei'",
+    "correctAnswer": "Lamb of God"
+  },
+  {
+    "questionId": "D03-Q01",
+    "type": "translation",
+    "lessonId": "L003",
+    "question": "Conjugate 'amo' (I love) in present tense:",
+    "correctAnswer": "amo, amas, amat, amamus, amatis, amant",
+    "explanation": "1st conjugation present tense endings: -o, -as, -at, -amus, -atis, -ant"
+  },
+  {
+    "questionId": "D03-Q02",
+    "type": "multiple-choice",
+    "lessonId": "L003",
+    "question": "What does 'credo' mean?",
+    "options": [
+      "I pray",
+      "I believe",
+      "I hope",
+      "I love"
+    ],
+    "correctAnswer": "I believe"
+  },
+  {
+    "questionId": "D03-Q03",
+    "type": "translation",
+    "lessonId": "L003",
+    "question": "Translate: 'Glorificamus te'",
+    "correctAnswer": "We glorify you"
+  },
+  {
+    "questionId": "D04-Q01",
+    "type": "translation",
+    "lessonId": "L004",
+    "question": "Decline 'sanctus' (holy) with 'regina' (queen) in nominative singular:",
+    "correctAnswer": "sancta regina",
+    "explanation": "Adjectives must agree with nouns in gender, number, and case."
+  },
+  {
+    "questionId": "D04-Q02",
+    "type": "translation",
+    "lessonId": "L004",
+    "question": "Translate: 'Mater misericordiae'",
+    "correctAnswer": "Mother of mercy"
+  },
+  {
+    "questionId": "D04-Q03",
+    "type": "matching",
+    "lessonId": "L004",
+    "question": "Match 10 adjectives to their meanings: sanctus, beatus, misericors, etc.",
+    "options": [
+      "holy",
+      "blessed",
+      "merciful",
+      "almighty",
+      "eternal",
+      "great",
+      "good",
+      "beautiful",
+      "true",
+      "divine"
+    ],
+    "correctAnswer": [
+      "sanctus - holy",
+      "beatus - blessed",
+      "misericors - merciful",
+      "omnipotens - almighty",
+      "aeternus - eternal",
+      "magnus - great",
+      "bonus - good",
+      "pulcher - beautiful",
+      "verus - true",
+      "divinus - divine"
+    ]
+  },
+  {
+    "questionId": "D05-Q01",
+    "type": "recitation",
+    "lessonId": "L005",
+    "question": "Recite the Pater Noster (full or partial)",
+    "correctAnswer": "Pater noster, qui es in caelis, sanctificetur nomen tuum...",
+    "explanation": "Recite as much as memorized, focusing on correct pronunciation."
+  },
+  {
+    "questionId": "D05-Q02",
+    "type": "translation",
+    "lessonId": "L005",
+    "question": "Translate: 'Fiat voluntas tua'",
+    "correctAnswer": "Thy will be done"
+  },
+  {
+    "questionId": "D05-Q03",
+    "type": "matching",
+    "lessonId": "L005",
+    "question": "Match 10 vocabulary words from Pater Noster to their meanings",
+    "options": [
+      "father",
+      "heaven",
+      "name",
+      "kingdom",
+      "will",
+      "bread",
+      "daily",
+      "debt",
+      "temptation",
+      "evil"
+    ],
+    "correctAnswer": [
+      "pater - father",
+      "caelum - heaven",
+      "nomen - name",
+      "regnum - kingdom",
+      "voluntas - will",
+      "panis - bread",
+      "quotidianus - daily",
+      "debitum - debt",
+      "temptatio - temptation",
+      "malum - evil"
+    ]
+  },
+  {
+    "questionId": "D06-Q01",
+    "type": "multiple-choice",
+    "lessonId": "L006",
+    "question": "Which preposition means 'with' in Latin?",
+    "options": [
+      "in",
+      "cum",
+      "ex",
+      "de"
+    ],
+    "correctAnswer": "cum"
+  },
+  {
+    "questionId": "D06-Q02",
+    "type": "translation",
+    "lessonId": "L006",
+    "question": "Translate: 'In principio'",
+    "correctAnswer": "In the beginning"
+  },
+  {
+    "questionId": "D06-Q03",
+    "type": "translation",
+    "lessonId": "L006",
+    "question": "Decline 'caelum' (heaven) in ablative singular",
+    "correctAnswer": "caelo",
+    "explanation": "2nd declension neuter nouns take -o in the ablative singular."
+  },
+  {
+    "questionId": "D07-Q01",
+    "type": "recitation",
+    "lessonId": "L007",
+    "question": "Recite the Ave Maria (full or partial)",
+    "correctAnswer": "Ave Maria, gratia plena, Dominus tecum...",
+    "explanation": "Recite as much as memorized, focusing on correct pronunciation."
+  },
+  {
+    "questionId": "D07-Q02",
+    "type": "translation",
+    "lessonId": "L007",
+    "question": "Translate: 'Gratia plena'",
+    "correctAnswer": "Full of grace"
+  },
+  {
+    "questionId": "D07-Q03",
+    "type": "matching",
+    "lessonId": "L007",
+    "question": "Match 10 vocabulary words from Ave Maria to their meanings",
+    "options": [
+      "hail",
+      "grace",
+      "full",
+      "Lord",
+      "with you",
+      "blessed",
+      "women",
+      "fruit",
+      "womb",
+      "holy"
+    ],
+    "correctAnswer": [
+      "ave - hail",
+      "gratia - grace",
+      "plena - full",
+      "Dominus - Lord",
+      "tecum - with you",
+      "benedicta - blessed",
+      "mulieribus - women",
+      "fructus - fruit",
+      "ventris - womb",
+      "sancta - holy"
+    ]
+  },
+  {
+    "questionId": "D08-Q01",
+    "type": "translation",
+    "lessonId": "L008",
+    "question": "Conjugate 'oro' (I pray) in present tense",
+    "correctAnswer": "oro, oras, orat, oramus, oratis, orant",
+    "explanation": "1st conjugation present tense endings: -o, -as, -at, -amus, -atis, -ant"
+  },
+  {
+    "questionId": "D08-Q02",
+    "type": "translation",
+    "lessonId": "L008",
+    "question": "Translate: 'Pax vobis'",
+    "correctAnswer": "Peace be with you"
+  },
+  {
+    "questionId": "D08-Q03",
+    "type": "recitation",
+    "lessonId": "L008",
+    "question": "Recite either Pater Noster or Ave Maria",
+    "correctAnswer": "Pater noster, qui es in caelis... or Ave Maria, gratia plena...",
+    "explanation": "Choose one prayer and recite as much as memorized."
+  },
+  {
+    "questionId": "D09-Q01",
+    "type": "translation",
+    "lessonId": "L009",
+    "question": "Decline 'rex' (king) in nominative and accusative singular",
+    "correctAnswer": "rex, regem",
+    "explanation": "3rd declension nouns have varied endings; rex uses -em in accusative."
+  },
+  {
+    "questionId": "D09-Q02",
+    "type": "translation",
+    "lessonId": "L009",
+    "question": "Translate: 'Verbum Dei'",
+    "correctAnswer": "Word of God"
+  },
+  {
+    "questionId": "D09-Q03",
+    "type": "matching",
+    "lessonId": "L009",
+    "question": "Match 10 3rd declension nouns to their meanings",
+    "options": [
+      "king",
+      "light",
+      "word",
+      "peace",
+      "name",
+      "body",
+      "blood",
+      "river",
+      "time",
+      "virtue"
+    ],
+    "correctAnswer": [
+      "rex - king",
+      "lumen - light",
+      "verbum - word",
+      "pax - peace",
+      "nomen - name",
+      "corpus - body",
+      "sanguis - blood",
+      "flumen - river",
+      "tempus - time",
+      "virtus - virtue"
+    ]
+  },
+  {
+    "questionId": "D10-Q01",
+    "type": "translation",
+    "lessonId": "L010",
+    "question": "Conjugate 'venio' (I come) in imperfect and future tenses",
+    "correctAnswer": "Imperfect: veniebam, veniebas, veniebat, veniebamus, veniebatis, veniebant; Future: veniam, venies, veniet, veniemus, venietis, venient",
+    "explanation": "4th conjugation verbs use -ie- for imperfect and -ia- for future."
+  },
+  {
+    "questionId": "D10-Q02",
+    "type": "translation",
+    "lessonId": "L010",
+    "question": "Translate: 'Miserere mei'",
+    "correctAnswer": "Have mercy on me"
+  },
+  {
+    "questionId": "D10-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L010",
+    "question": "Identify the tense of 'dicebam' in Kyrie Eleison",
+    "options": [
+      "Present",
+      "Imperfect",
+      "Future",
+      "Perfect"
+    ],
+    "correctAnswer": "Imperfect"
+  },
+  {
+    "questionId": "D11-Q01",
+    "type": "recitation",
+    "lessonId": "L011",
+    "question": "Recite the Gloria Patri (full or partial)",
+    "correctAnswer": "Gloria Patri, et Filio, et Spiritui Sancto...",
+    "explanation": "Recite as much as memorized, focusing on correct pronunciation."
+  },
+  {
+    "questionId": "D11-Q02",
+    "type": "translation",
+    "lessonId": "L011",
+    "question": "Translate: 'Sicut erat in principio'",
+    "correctAnswer": "As it was in the beginning"
+  },
+  {
+    "questionId": "D11-Q03",
+    "type": "matching",
+    "lessonId": "L011",
+    "question": "Match 10 vocabulary words from Gloria Patri to their meanings",
+    "options": [
+      "glory",
+      "father",
+      "son",
+      "spirit",
+      "holy",
+      "as",
+      "was",
+      "is",
+      "will be",
+      "world/age"
+    ],
+    "correctAnswer": [
+      "gloria - glory",
+      "patri - father",
+      "filio - son",
+      "spiritui - spirit",
+      "sancto - holy",
+      "sicut - as",
+      "erat - was",
+      "est - is",
+      "erit - will be",
+      "saeculum - world/age"
+    ]
+  },
+  {
+    "questionId": "D12-Q01",
+    "type": "translation",
+    "lessonId": "L012",
+    "question": "Decline 'filius' (son) in dative singular",
+    "correctAnswer": "filio",
+    "explanation": "2nd declension nouns take -o in the dative singular."
+  },
+  {
+    "questionId": "D12-Q02",
+    "type": "translation",
+    "lessonId": "L012",
+    "question": "Translate: 'Domine, non sum dignus'",
+    "correctAnswer": "Lord, I am not worthy"
+  },
+  {
+    "questionId": "D12-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L012",
+    "question": "Identify the dative noun in 'Tibi laus' from Confiteor",
+    "options": [
+      "laus",
+      "tibi",
+      "Domine",
+      "sum"
+    ],
+    "correctAnswer": "tibi"
+  },
+  {
+    "questionId": "D13-Q01",
+    "type": "translation",
+    "lessonId": "L013",
+    "question": "Conjugate 'video' (I see) in present tense",
+    "correctAnswer": "video, vides, videt, videmus, videtis, vident",
+    "explanation": "2nd conjugation present tense endings: -eo, -es, -et, -emus, -etis, -ent"
+  },
+  {
+    "questionId": "D13-Q02",
+    "type": "translation",
+    "lessonId": "L013",
+    "question": "Translate: 'Miserere nobis' from Agnus Dei",
+    "correctAnswer": "Have mercy on us"
+  },
+  {
+    "questionId": "D13-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L013",
+    "question": "Identify the verb form in 'Tollis peccata' from Agnus Dei",
+    "options": [
+      "Present",
+      "Imperfect",
+      "Future",
+      "Perfect"
+    ],
+    "correctAnswer": "Present"
+  },
+  {
+    "questionId": "D14-Q01",
+    "type": "recitation",
+    "lessonId": "L014",
+    "question": "Recite one decade of the Rosary (Pater Noster, one Ave Maria, Gloria Patri)",
+    "correctAnswer": "Pater noster, qui es in caelis... Ave Maria, gratia plena... Gloria Patri, et Filio...",
+    "explanation": "Recite the prayers with correct pronunciation, as practiced in earlier lessons."
+  },
+  {
+    "questionId": "D14-Q02",
+    "type": "translation",
+    "lessonId": "L014",
+    "question": "Translate: 'Ora pro nobis' from the Ave Maria",
+    "correctAnswer": "Pray for us"
+  },
+  {
+    "questionId": "D14-Q03",
+    "type": "matching",
+    "lessonId": "L014",
+    "question": "Match 10 vocabulary words related to the Rosary to their meanings",
+    "options": [
+      "mystery",
+      "decade",
+      "rosary",
+      "nativity",
+      "resurrection",
+      "annunciation",
+      "visitation",
+      "cross",
+      "crown",
+      "joy"
+    ],
+    "correctAnswer": [
+      "mysterium - mystery",
+      "decas - decade",
+      "rosarium - rosary",
+      "nativitas - nativity",
+      "resurrectio - resurrection",
+      "annuntiatio - annunciation",
+      "visitatio - visitation",
+      "crux - cross",
+      "corona - crown",
+      "gaudium - joy"
+    ]
+  },
+  {
+    "questionId": "D15-Q01",
+    "type": "translation",
+    "lessonId": "L015",
+    "question": "Form the adverb from 'sanctus' (holy)",
+    "correctAnswer": "sancte",
+    "explanation": "1st/2nd declension adjectives form adverbs with -e."
+  },
+  {
+    "questionId": "D15-Q02",
+    "type": "translation",
+    "lessonId": "L015",
+    "question": "Translate: 'Valde gloriosa' from Salve Regina",
+    "correctAnswer": "Very glorious"
+  },
+  {
+    "questionId": "D15-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L015",
+    "question": "What is the superlative adverb form of 'clarus' (bright)?",
+    "options": [
+      "clare",
+      "clarius",
+      "clarissime",
+      "clariter"
+    ],
+    "correctAnswer": "clarissime"
+  },
+  {
+    "questionId": "D16-Q01",
+    "type": "translation",
+    "lessonId": "L016",
+    "question": "Conjugate 'video' (I see) in imperfect tense",
+    "correctAnswer": "videbam, videbas, videbat, videbamus, videbatis, videbant",
+    "explanation": "2nd conjugation imperfect tense uses -ebam, -ebas, -ebat, etc."
+  },
+  {
+    "questionId": "D16-Q02",
+    "type": "translation",
+    "lessonId": "L016",
+    "question": "Translate: 'In saecula saeculorum' from Gloria Patri",
+    "correctAnswer": "Forever and ever"
+  },
+  {
+    "questionId": "D16-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L016",
+    "question": "Identify the case of 'nobis' in 'Ora pro nobis' from Ave Maria",
+    "options": [
+      "Nominative",
+      "Accusative",
+      "Dative",
+      "Ablative"
+    ],
+    "correctAnswer": "Dative"
+  },
+  {
+    "questionId": "D17-Q01",
+    "type": "translation",
+    "lessonId": "L017",
+    "question": "Form the present participle of 'amare' (to love)",
+    "correctAnswer": "amans",
+    "explanation": "Present participles use -ns or -nt- with the verb’s present stem."
+  },
+  {
+    "questionId": "D17-Q02",
+    "type": "translation",
+    "lessonId": "L017",
+    "question": "Translate: 'Puer natus' from the Vulgate",
+    "correctAnswer": "Boy born"
+  },
+  {
+    "questionId": "D17-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L017",
+    "question": "Is ‘exsultans’ in the Magnificat a present or perfect participle?",
+    "options": [
+      "Present",
+      "Perfect",
+      "Future",
+      "Imperfect"
+    ],
+    "correctAnswer": "Present"
+  },
+  {
+    "questionId": "D18-Q01",
+    "type": "recitation",
+    "lessonId": "L018",
+    "question": "Recite the first section of the Credo",
+    "correctAnswer": "Credo in unum Deum, Patrem omnipotentem, factorem caeli et terrae...",
+    "explanation": "Recite with correct pronunciation, as practiced in earlier lessons."
+  },
+  {
+    "questionId": "D18-Q02",
+    "type": "translation",
+    "lessonId": "L018",
+    "question": "Translate: ‘Patrem omnipotentem’",
+    "correctAnswer": "Father almighty"
+  },
+  {
+    "questionId": "D18-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L018",
+    "question": "Identify the participle in ‘factorem caeli et terrae’",
+    "options": [
+      "caeli",
+      "factorem",
+      "terrae",
+      "omnipotentem"
+    ],
+    "correctAnswer": "factorem"
+  },
+  {
+    "questionId": "D19-Q01",
+    "type": "translation",
+    "lessonId": "L019",
+    "question": "Decline ‘qui’ for masculine accusative singular",
+    "correctAnswer": "quem",
+    "explanation": "Relative pronouns agree with their antecedent in gender/number, but their case depends on the clause."
+  },
+  {
+    "questionId": "D19-Q02",
+    "type": "translation",
+    "lessonId": "L019",
+    "question": "Translate: ‘Qui potens est’ from Magnificat",
+    "correctAnswer": "Who is powerful"
+  },
+  {
+    "questionId": "D19-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L019",
+    "question": "Identify the case of ‘quae’ in ‘Quae fecit mihi magna’",
+    "options": [
+      "Nominative",
+      "Accusative",
+      "Dative",
+      "Ablative"
+    ],
+    "correctAnswer": "Nominative"
+  },
+  {
+    "questionId": "D20-Q01",
+    "type": "recitation",
+    "lessonId": "L020",
+    "question": "Recite the first two verses of the Magnificat",
+    "correctAnswer": "Magnificat anima mea Dominum, et exsultavit spiritus meus in Deo salvatore meo",
+    "explanation": "Recite with correct pronunciation, as practiced."
+  },
+  {
+    "questionId": "D20-Q02",
+    "type": "translation",
+    "lessonId": "L020",
+    "question": "Translate: ‘Quae fecit mihi magna’",
+    "correctAnswer": "Who has done great things for me"
+  },
+  {
+    "questionId": "D20-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L020",
+    "question": "Identify the participle in ‘Exsultans exsultavit’",
+    "options": [
+      "exsultavit",
+      "anima",
+      "exsultans",
+      "Dominum"
+    ],
+    "correctAnswer": "exsultans"
+  },
+  {
+    "questionId": "D21-Q01",
+    "type": "translation",
+    "lessonId": "L021",
+    "question": "Conjugate ‘audio’ (I hear) in present tense",
+    "correctAnswer": "audio, audis, audit, audimus, auditis, audiunt",
+    "explanation": "4th conjugation present tense uses -io, -is, -it, -imus, -itis, -iunt."
+  },
+  {
+    "questionId": "D21-Q02",
+    "type": "translation",
+    "lessonId": "L021",
+    "question": "Translate: ‘Pleni sunt caeli’ from Sanctus",
+    "correctAnswer": "The heavens are full"
+  },
+  {
+    "questionId": "D21-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L021",
+    "question": "Identify the conjugation of ‘facio’ (I make)",
+    "options": [
+      "1st",
+      "2nd",
+      "3rd",
+      "4th"
+    ],
+    "correctAnswer": "3rd"
+  },
+  {
+    "questionId": "D22-Q01",
+    "type": "translation",
+    "lessonId": "L022",
+    "question": "Form the gerundive of ‘amare’ (to love)",
+    "correctAnswer": "amandus",
+    "explanation": "Gerundives use -ndus, -nda, -ndum, agreeing with nouns."
+  },
+  {
+    "questionId": "D22-Q02",
+    "type": "translation",
+    "lessonId": "L022",
+    "question": "Translate: ‘Ad laudandum nomen’",
+    "correctAnswer": "For praising the name"
+  },
+  {
+    "questionId": "D22-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L022",
+    "question": "Is ‘orandi’ in ‘Tempus orandi’ a gerund or gerundive?",
+    "options": [
+      "Gerund",
+      "Gerundive",
+      "Participle",
+      "Infinitive"
+    ],
+    "correctAnswer": "Gerund"
+  },
+  {
+    "questionId": "D23-Q01",
+    "type": "translation",
+    "lessonId": "L023",
+    "question": "Form the perfect infinitive of ‘amare’ (to love)",
+    "correctAnswer": "amavisse",
+    "explanation": "Perfect infinitives use the perfect stem with -isse."
+  },
+  {
+    "questionId": "D23-Q02",
+    "type": "translation",
+    "lessonId": "L023",
+    "question": "Translate: ‘Scio eum venire’",
+    "correctAnswer": "I know that he is coming"
+  },
+  {
+    "questionId": "D23-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L023",
+    "question": "Identify the tense of ‘resurrexisse’ in ‘Credo Christum resurrexisse’",
+    "options": [
+      "Present",
+      "Perfect",
+      "Future",
+      "Imperfect"
+    ],
+    "correctAnswer": "Perfect"
+  },
+  {
+    "questionId": "D24-Q01",
+    "type": "translation",
+    "lessonId": "L024",
+    "question": "Form the gerund of ‘orare’ (to pray)",
+    "correctAnswer": "orandi",
+    "explanation": "Gerunds use -ndi in the genitive from the verb’s stem."
+  },
+  {
+    "questionId": "D24-Q02",
+    "type": "translation",
+    "lessonId": "L024",
+    "question": "Translate: ‘Qui potens est’ from Magnificat",
+    "correctAnswer": "Who is powerful"
+  },
+  {
+    "questionId": "D24-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L024",
+    "question": "Identify the tense of ‘exaltavit’ in ‘Exaltavit humiles’",
+    "options": [
+      "Present",
+      "Imperfect",
+      "Future",
+      "Perfect"
+    ],
+    "correctAnswer": "Perfect"
+  },
+  {
+    "questionId": "D25-Q01",
+    "type": "translation",
+    "lessonId": "L025",
+    "question": "Conjugate ‘laudare’ (to praise) in present passive singular",
+    "correctAnswer": "laudor, laudaris, laudatur",
+    "explanation": "1st conjugation present passive uses -or, -aris, -atur."
+  },
+  {
+    "questionId": "D25-Q02",
+    "type": "translation",
+    "lessonId": "L025",
+    "question": "Translate: ‘Deus laudatur’",
+    "correctAnswer": "God is praised"
+  },
+  {
+    "questionId": "D25-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L025",
+    "question": "Is ‘tolluntur’ in ‘Peccata tolluntur’ active or passive?",
+    "options": [
+      "Active",
+      "Passive",
+      "Participle",
+      "Infinitive"
+    ],
+    "correctAnswer": "Passive"
+  },
+  {
+    "questionId": "D26-Q01",
+    "type": "translation",
+    "lessonId": "L026",
+    "question": "Conjugate ‘laudare’ (to praise) in present subjunctive singular",
+    "correctAnswer": "laudem, laudes, laudet",
+    "explanation": "1st conjugation present subjunctive uses -em, -es, -et."
+  },
+  {
+    "questionId": "D26-Q02",
+    "type": "translation",
+    "lessonId": "L026",
+    "question": "Translate: ‘Sanctificetur nomen tuum’",
+    "correctAnswer": "May your name be sanctified"
+  },
+  {
+    "questionId": "D26-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L026",
+    "question": "Identify the mood of ‘fiat’ in ‘Fiat voluntas tua’",
+    "options": [
+      "Indicative",
+      "Subjunctive",
+      "Imperative",
+      "Infinitive"
+    ],
+    "correctAnswer": "Subjunctive"
+  },
+  {
+    "questionId": "D27-Q01",
+    "type": "translation",
+    "lessonId": "L027",
+    "question": "Conjugate ‘videre’ (to see) in imperfect subjunctive singular",
+    "correctAnswer": "viderem, videres, videret",
+    "explanation": "Imperfect subjunctive uses the infinitive with -m, -s, -t."
+  },
+  {
+    "questionId": "D27-Q02",
+    "type": "translation",
+    "lessonId": "L027",
+    "question": "Translate: ‘Misereatur vestri’",
+    "correctAnswer": "May he have mercy on you"
+  },
+  {
+    "questionId": "D27-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L027",
+    "question": "Identify the tense of ‘dixerim’ in ‘Si dixerim’",
+    "options": [
+      "Present",
+      "Imperfect",
+      "Perfect",
+      "Future"
+    ],
+    "correctAnswer": "Perfect"
+  },
+  {
+    "questionId": "D28-Q01",
+    "type": "recitation",
+    "lessonId": "L028",
+    "question": "Recite the Sanctus or Agnus Dei (full or partial)",
+    "correctAnswer": "Sanctus, sanctus, sanctus... or Agnus Dei, qui tollis...",
+    "explanation": "Recite with correct pronunciation, as practiced."
+  },
+  {
+    "questionId": "D28-Q02",
+    "type": "translation",
+    "lessonId": "L028",
+    "question": "Translate: ‘Miserere nobis’ from Agnus Dei",
+    "correctAnswer": "Have mercy on us"
+  },
+  {
+    "questionId": "D28-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L028",
+    "question": "Identify the mood of ‘miserere’ in ‘Miserere nobis’",
+    "options": [
+      "Indicative",
+      "Subjunctive",
+      "Imperative",
+      "Infinitive"
+    ],
+    "correctAnswer": "Subjunctive"
+  },
+  {
+    "questionId": "D29-Q01",
+    "type": "translation",
+    "lessonId": "L029",
+    "question": "Conjugate ‘loqui’ (to speak) in present tense singular",
+    "correctAnswer": "loquor, loqueris, loquitur",
+    "explanation": "Deponent verbs use passive endings but have active meanings."
+  },
+  {
+    "questionId": "D29-Q02",
+    "type": "translation",
+    "lessonId": "L029",
+    "question": "Translate: ‘Sequere me’",
+    "correctAnswer": "Follow me"
+  },
+  {
+    "questionId": "D29-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L029",
+    "question": "Is ‘confiteor’ in ‘Confiteor tibi’ a deponent verb?",
+    "options": [
+      "Yes",
+      "No",
+      "Participle",
+      "Passive"
+    ],
+    "correctAnswer": "Yes"
+  },
+  {
+    "questionId": "D30-Q01",
+    "type": "translation",
+    "lessonId": "L030",
+    "question": "Form the present subjunctive of ‘orare’ (to pray) for ‘I’",
+    "correctAnswer": "orem",
+    "explanation": "1st conjugation present subjunctive uses -em for first person singular."
+  },
+  {
+    "questionId": "D30-Q02",
+    "type": "translation",
+    "lessonId": "L030",
+    "question": "Translate: ‘Venio ut orem’",
+    "correctAnswer": "I come so that I may pray"
+  },
+  {
+    "questionId": "D30-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L030",
+    "question": "Identify the tense of ‘faceret’ in ‘Dixit ut faceret’",
+    "options": [
+      "Present",
+      "Imperfect",
+      "Perfect",
+      "Future"
+    ],
+    "correctAnswer": "Imperfect"
+  },
+  {
+    "questionId": "D31-Q01",
+    "type": "recitation",
+    "lessonId": "L031",
+    "question": "Recite the first line of the Gloria or Confiteor",
+    "correctAnswer": "Gloria in excelsis Deo or Confiteor Deo omnipotenti",
+    "explanation": "Recite with correct pronunciation, as practiced."
+  },
+  {
+    "questionId": "D31-Q02",
+    "type": "translation",
+    "lessonId": "L031",
+    "question": "Translate: ‘Peccavi nimis’ from Confiteor",
+    "correctAnswer": "I have sinned greatly"
+  },
+  {
+    "questionId": "D31-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L031",
+    "question": "Is ‘confiteor’ in the Confiteor a deponent verb?",
+    "options": [
+      "Yes",
+      "No",
+      "Participle",
+      "Subjunctive"
+    ],
+    "correctAnswer": "Yes"
+  },
+  {
+    "questionId": "D32-Q01",
+    "type": "translation",
+    "lessonId": "L032",
+    "question": "Conjugate ‘loqui’ (to speak) in present tense singular",
+    "correctAnswer": "loquor, loqueris, loquitur",
+    "explanation": "Deponent verbs use passive endings with active meanings."
+  },
+  {
+    "questionId": "D32-Q02",
+    "type": "translation",
+    "lessonId": "L032",
+    "question": "Translate: ‘Ut laudemus’ from Gloria",
+    "correctAnswer": "So that we may praise"
+  },
+  {
+    "questionId": "D32-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L032",
+    "question": "Identify the mood of ‘miserere’ in ‘Miserere nobis’",
+    "options": [
+      "Indicative",
+      "Subjunctive",
+      "Imperative",
+      "Infinitive"
+    ],
+    "correctAnswer": "Subjunctive"
+  },
+  {
+    "questionId": "D33-Q01",
+    "type": "translation",
+    "lessonId": "L033",
+    "question": "Translate: ‘In principio erat Verbum’ from John 1:1",
+    "correctAnswer": "In the beginning was the Word"
+  },
+  {
+    "questionId": "D33-Q02",
+    "type": "multiple-choice",
+    "lessonId": "L033",
+    "question": "Identify the tense of ‘erat’ in ‘Deus erat Verbum’",
+    "options": [
+      "Present",
+      "Imperfect",
+      "Perfect",
+      "Future"
+    ],
+    "correctAnswer": "Imperfect"
+  },
+  {
+    "questionId": "D33-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L033",
+    "question": "Identify the case of ‘tenebris’ in ‘lux in tenebris lucet’",
+    "options": [
+      "Nominative",
+      "Accusative",
+      "Dative",
+      "Ablative"
+    ],
+    "correctAnswer": "Ablative"
+  },
+  {
+    "questionId": "D34-Q01",
+    "type": "translation",
+    "lessonId": "L034",
+    "question": "Translate: ‘Dominus regit me’ from Psalm 23:1",
+    "correctAnswer": "The Lord rules me"
+  },
+  {
+    "questionId": "D34-Q02",
+    "type": "multiple-choice",
+    "lessonId": "L034",
+    "question": "Identify the tense of ‘collocavit’ in ‘ibi me collocavit’",
+    "options": [
+      "Present",
+      "Imperfect",
+      "Perfect",
+      "Future"
+    ],
+    "correctAnswer": "Perfect"
+  },
+  {
+    "questionId": "D34-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L034",
+    "question": "Identify the case of ‘mihi’ in ‘nihil mihi deerit’",
+    "options": [
+      "Nominative",
+      "Accusative",
+      "Dative",
+      "Ablative"
+    ],
+    "correctAnswer": "Dative"
+  },
+  {
+    "questionId": "D35-Q01",
+    "type": "translation",
+    "lessonId": "L035",
+    "question": "Translate: ‘Qui tollis peccata’ from Agnus Dei",
+    "correctAnswer": "Who takes away sins"
+  },
+  {
+    "questionId": "D35-Q02",
+    "type": "multiple-choice",
+    "lessonId": "L035",
+    "question": "Identify the tense of ‘laudamus’ in ‘Laudamus te’",
+    "options": [
+      "Present",
+      "Imperfect",
+      "Perfect",
+      "Future"
+    ],
+    "correctAnswer": "Present"
+  },
+  {
+    "questionId": "D35-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L035",
+    "question": "Is ‘pleni sunt’ in ‘Pleni sunt caeli’ passive or active?",
+    "options": [
+      "Active",
+      "Passive",
+      "Subjunctive",
+      "Infinitive"
+    ],
+    "correctAnswer": "Passive"
+  },
+  {
+    "questionId": "D36-Q01",
+    "type": "translation",
+    "lessonId": "L036",
+    "question": "Translate: ‘Iustitia Dei revelatur’ from Romans 1:16-17",
+    "correctAnswer": "The justice of God is revealed"
+  },
+  {
+    "questionId": "D36-Q02",
+    "type": "multiple-choice",
+    "lessonId": "L036",
+    "question": "Identify the tense of ‘revelatur’ in ‘Iustitia Dei revelatur’",
+    "options": [
+      "Present",
+      "Imperfect",
+      "Perfect",
+      "Future"
+    ],
+    "correctAnswer": "Present"
+  },
+  {
+    "questionId": "D36-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L036",
+    "question": "Identify the case of ‘fide’ in ‘ex fide in fidem’",
+    "options": [
+      "Nominative",
+      "Accusative",
+      "Dative",
+      "Ablative"
+    ],
+    "correctAnswer": "Ablative"
+  },
+  {
+    "questionId": "D37-Q01",
+    "type": "translation",
+    "lessonId": "L037",
+    "question": "Translate: ‘Ora pro nobis’ from Ave Maria",
+    "correctAnswer": "Pray for us"
+  },
+  {
+    "questionId": "D37-Q02",
+    "type": "multiple-choice",
+    "lessonId": "L037",
+    "question": "Identify the mood of ‘sanctificetur’ in ‘Sanctificetur nomen tuum’",
+    "options": [
+      "Indicative",
+      "Subjunctive",
+      "Imperative",
+      "Infinitive"
+    ],
+    "correctAnswer": "Subjunctive"
+  },
+  {
+    "questionId": "D37-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L037",
+    "question": "Identify the participle in ‘Natum et invisibilium’",
+    "options": [
+      "natum",
+      "et",
+      "invisibilium",
+      "credo"
+    ],
+    "correctAnswer": "natum"
+  },
+  {
+    "questionId": "D38-Q01",
+    "type": "translation",
+    "lessonId": "L038",
+    "question": "Translate: ‘Pleni sunt caeli’ from Sanctus",
+    "correctAnswer": "The heavens are full"
+  },
+  {
+    "questionId": "D38-Q02",
+    "type": "multiple-choice",
+    "lessonId": "L038",
+    "question": "Identify the mood of ‘miserere’ in ‘Miserere nobis’",
+    "options": [
+      "Indicative",
+      "Subjunctive",
+      "Imperative",
+      "Infinitive"
+    ],
+    "correctAnswer": "Subjunctive"
+  },
+  {
+    "questionId": "D38-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L038",
+    "question": "Identify the participle in ‘Factorem caeli’",
+    "options": [
+      "factorem",
+      "caeli",
+      "credo",
+      "omnipotens"
+    ],
+    "correctAnswer": "factorem"
+  },
+  {
+    "questionId": "D39-Q01",
+    "type": "translation",
+    "lessonId": "L039",
+    "question": "Translate: ‘Ave, maris stella’",
+    "correctAnswer": "Hail, star of the sea"
+  },
+  {
+    "questionId": "D39-Q02",
+    "type": "multiple-choice",
+    "lessonId": "L039",
+    "question": "Identify the case of ‘stella’ in ‘maris stella’",
+    "options": [
+      "Nominative",
+      "Accusative",
+      "Dative",
+      "Vocative"
+    ],
+    "correctAnswer": "Vocative"
+  },
+  {
+    "questionId": "D39-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L039",
+    "question": "Identify the verb form of ‘pange’ in ‘Pange, lingua’",
+    "options": [
+      "Indicative",
+      "Subjunctive",
+      "Imperative",
+      "Infinitive"
+    ],
+    "correctAnswer": "Imperative"
+  },
+  {
+    "questionId": "D40-Q01",
+    "type": "translation",
+    "lessonId": "L040",
+    "question": "Translate: ‘Lux in tenebris lucet’ from John 1",
+    "correctAnswer": "The light shines in the darkness"
+  },
+  {
+    "questionId": "D40-Q02",
+    "type": "multiple-choice",
+    "lessonId": "L040",
+    "question": "Identify the mood of ‘miserere’ in ‘Miserere nobis’",
+    "options": [
+      "Indicative",
+      "Subjunctive",
+      "Imperative",
+      "Infinitive"
+    ],
+    "correctAnswer": "Subjunctive"
+  },
+  {
+    "questionId": "D40-Q03",
+    "type": "multiple-choice",
+    "lessonId": "L040",
+    "question": "Identify the verb form of ‘pange’ in ‘Pange, lingua’",
+    "options": [
+      "Indicative",
+      "Subjunctive",
+      "Imperative",
+      "Infinitive"
+    ],
+    "correctAnswer": "Imperative"
+  }
+]

@@ -1,0 +1,656 @@
+word,meaning,lessonId,partOfSpeech,frequency
+Deus,God,L001,noun,high
+ecclesia,church,L001,noun,high
+fides,faith,L001,noun,high
+spes,hope,L001,noun,high
+caritas,charity,L001,noun,high
+pax,peace,L001,noun,high
+lux,light,L001,noun,high
+vita,life,L001,noun,high
+amor,love,L001,noun,medium
+veritas,truth,L001,noun,high
+gratia,grace,L001,noun,high
+gloria,glory,L001,noun,high
+sanctus,holy,L001,adjective,high
+benedictus,blessed,L001,verb,high
+magnus,great,L001,adjective,high
+bonus,good,L001,adjective,high
+verus,true,L001,adjective,high
+novus,new,L001,adjective,high
+antiquus,ancient,L001,adjective,medium
+aeternus,eternal,L001,adjective,low
+panis,bread,L002,noun,high
+vinum,wine,L002,noun,high
+corpus,body,L002,noun,high
+sanguis,blood,L002,noun,high
+aqua,water,L002,noun,high
+ignis,fire,L002,noun,high
+terra,earth,L002,noun,high
+caelum,heaven,L002,noun,high
+agnus,lamb,L002,noun,high
+pastor,shepherd,L002,noun,high
+regina,queen,L002,noun,high
+mater,mother,L002,noun,high
+pater,father,L002,noun,high
+filius,son,L002,noun,high
+spiritus,spirit,L002,noun,high
+amo,I love,L003,verb,high
+oro,I pray,L003,verb,high
+credo,I believe,L003,verb,high
+spero,I hope,L003,verb,high
+video,I see,L003,verb,high
+audio,I hear,L003,verb,medium
+venio,I come,L003,verb,high
+do,I give,L003,verb,high
+facio,I make,L003,verb,high
+dico,I say,L003,verb,high
+sum,I am,L003,auxiliary,high
+habeo,I have,L003,verb,high
+possum,I can,L003,verb,high
+volo,I want,L003,verb,high
+nolo,I don't want,L003,verb,high
+sanctus,holy,L004,adjective,high
+beatus,blessed,L004,adjective,high
+misericors,merciful,L004,noun,high
+omnipotens,almighty,L004,adjective,high
+aeternus,eternal,L004,adjective,low
+magnus,great,L004,adjective,high
+bonus,good,L004,adjective,high
+pulcher,beautiful,L004,noun,high
+verus,true,L004,adjective,high
+divinus,divine,L004,adjective,''
+justus,just,L004,noun,''
+pius,pious,L004,noun,high
+fortis,strong,L004,adjective,high
+sacer,sacred,L004,noun,''
+gloriosus,glorious,L004,adjective,high
+pater,father,L005,noun,high
+caelum,heaven,L005,noun,high
+nomen,name,L005,noun,high
+regnum,kingdom,L005,noun,high
+voluntas,will,L005,noun,high
+panis,bread,L005,noun,high
+quotidianus,daily,L005,adjective,''
+debitum,debt,L005,verb,high
+temptatio,temptation,L005,noun,''
+malum,evil,L005,noun,high
+noster,our,L005,determiner,high
+qui,who,L005,pronoun,high
+es,you are,L005,auxiliary,high
+fiat,let it be,L005,verb,high
+da,give,L005,verb,high
+dimitte,forgive,L005,verb,high
+libera,deliver,L005,adjective,high
+nos,us,L005,pronoun,high
+sicut,as,L005,subordinating conjunction,high
+et,and,L005,coordinating conjunction,high
+in,in,L006,adposition,high
+cum,with,L006,subordinating conjunction,high
+ex,from,L006,adposition,high
+de,about/of,L006,adposition,high
+sine,without,L006,adposition,high
+ad,to/toward,L006,adposition,high
+per,through,L006,adposition,high
+pro,for,L006,adposition,high
+ab,by/from,L006,adposition,high
+sub,under,L006,adposition,high
+principio,beginning,L006,noun,high
+mundo,world,L006,noun,high
+caelo,heaven,L006,noun,high
+terra,earth,L006,noun,high
+aeternitate,eternity,L006,noun,''
+ave,hail,L007,verb,''
+Maria,Mary,L007,proper noun,high
+gratia,grace,L007,noun,high
+plena,full,L007,adjective,high
+Dominus,Lord,L007,noun,high
+tecum,with you,L007,determiner,high
+benedicta,blessed,L007,verb,high
+mulieribus,women,L007,noun,high
+fructus,fruit,L007,noun,high
+ventris,womb,L007,noun,high
+Jesus,Jesus,L007,proper noun,''
+sancta,holy,L007,adjective,high
+mater,mother,L007,noun,high
+Dei,God,L007,noun,high
+ora,pray,L007,noun,high
+pro,for,L007,adposition,high
+nobis,us,L007,pronoun,high
+peccatoribus,sinners,L007,noun,high
+nunc,now,L007,adverb,high
+hora,hour,L007,noun,high
+Deus,God,L008,noun,high
+ecclesia,church,L008,noun,high
+fides,faith,L008,noun,high
+panis,bread,L008,noun,high
+vinum,wine,L008,noun,high
+amo,I love,L008,verb,high
+oro,I pray,L008,verb,high
+credo,I believe,L008,verb,high
+sanctus,holy,L008,adjective,high
+beatus,blessed,L008,adjective,high
+in,in,L008,adposition,high
+cum,with,L008,subordinating conjunction,high
+pater,father,L008,noun,high
+caelum,heaven,L008,noun,high
+gratia,grace,L008,noun,high
+rex,king,L009,noun,high
+lumen,light,L009,noun,high
+verbum,word,L009,noun,high
+pax,peace,L009,noun,high
+nomen,name,L009,noun,high
+corpus,body,L009,noun,high
+sanguis,blood,L009,noun,high
+flumen,river,L009,noun,high
+tempus,time,L009,noun,high
+virtus,virtue,L009,noun,high
+lux,light,L009,noun,high
+salus,salvation,L009,noun,high
+fons,fountain,L009,noun,high
+pes,foot,L009,noun,high
+pars,part,L009,noun,high
+venio,I come,L010,verb,high
+dico,I say,L010,verb,high
+facio,I make,L010,verb,high
+sum,I am,L010,auxiliary,high
+habeo,I have,L010,verb,high
+possum,I can,L010,verb,high
+volo,I want,L010,verb,high
+nolo,I don’t want,L010,verb,high
+eo,I go,L010,pronoun,high
+sto,I stand,L010,verb,high
+duco,I lead,L010,verb,''
+mitto,I send,L010,verb,high
+rego,I rule,L010,noun,''
+laudo,I praise,L010,verb,low
+vivo,I live,L010,noun,high
+gloria,glory,L011,noun,high
+patri,father,L011,noun,high
+filio,son,L011,noun,high
+spiritui,spirit,L011,noun,high
+sancto,holy,L011,adjective,high
+sicut,as,L011,subordinating conjunction,high
+erat,was,L011,auxiliary,high
+est,is,L011,auxiliary,high
+erit,will be,L011,auxiliary,high
+saeculum,world/age,L011,noun,high
+in,in,L011,adposition,high
+principio,beginning,L011,noun,high
+nunc,now,L011,adverb,high
+semper,always,L011,adverb,high
+amen,amen,L011,adverb,high
+Domine,Lord,L012,noun,high
+dignus,worthy,L012,adjective,high
+mihi,to me,L012,pronoun,high
+nobis,to us,L012,pronoun,high
+tibi,to you,L012,pronoun,high
+ei,to him/her,L012,pronoun,high
+eis,to them,L012,pronoun,high
+filius,son,L012,noun,high
+pater,father,L012,noun,high
+regina,queen,L012,noun,high
+sanctus,holy,L012,adjective,high
+peccator,sinner,L012,noun,high
+servus,servant,L012,noun,high
+mater,mother,L012,noun,high
+frater,brother,L012,noun,high
+video,I see,L013,verb,high
+moneo,I warn,L013,verb,''
+teneo,I hold,L013,verb,''
+doceo,I teach,L013,verb,medium
+moveo,I move,L013,verb,''
+jubeo,I order,L013,verb,''
+timeo,I fear,L013,verb,medium
+debeo,I owe,L013,verb,high
+habeo,I have,L013,verb,high
+augeo,I increase,L013,verb,''
+luceo,I shine,L013,verb,''
+maneo,I remain,L013,verb,low
+careo,I lack,L013,verb,''
+respondeo,I respond,L013,verb,medium
+gaudeo,I rejoice,L013,verb,medium
+mysterium,mystery,L014,noun,high
+decas,decade,L014,noun,''
+rosarium,rosary,L014,noun,''
+nativitas,nativity,L014,noun,''
+resurrectio,resurrection,L014,noun,high
+annuntiatio,annunciation,L014,noun,''
+visitatio,visitation,L014,noun,high
+crux,cross,L014,noun,low
+corona,crown,L014,noun,high
+gaudium,joy,L014,noun,high
+dolor,sorrow,L014,noun,high
+gloria,glory,L014,noun,high
+lumen,light,L014,noun,high
+preces,prayers,L014,noun,high
+meditatio,meditation,L014,noun,high
+sancte,holily,L015,adverb,low
+fortiter,strongly,L015,adverb,high
+bene,well,L015,adverb,high
+semper,always,L015,adverb,high
+nunc,now,L015,adverb,high
+valde,very,L015,adverb,high
+citius,more quickly,L015,adverb,high
+optime,best,L015,adverb,high
+dulce,sweetly,L015,noun,high
+clare,brightly,L015,verb,high
+maior,greater,L015,adjective,high
+sanctior,more holy,L015,adjective,''
+fortior,stronger,L015,adjective,high
+sanctissimus,most holy,L015,adjective,''
+clarissimus,most bright,L015,adjective,low
+rex,king,L016,noun,high
+lumen,light,L016,noun,high
+verbum,word,L016,noun,high
+video,I see,L016,verb,high
+moneo,I warn,L016,verb,''
+sancte,holily,L016,adverb,low
+semper,always,L016,adverb,high
+mysterium,mystery,L016,noun,high
+decas,decade,L016,noun,''
+nobis,to us,L016,pronoun,high
+tibi,to you,L016,pronoun,high
+gloria,glory,L016,noun,high
+pax,peace,L016,noun,high
+fortiter,strongly,L016,adverb,high
+maior,greater,L016,adjective,high
+amans,loving,L017,verb,low
+videns,seeing,L017,verb,high
+veniens,coming,L017,verb,high
+dicens,saying,L017,verb,high
+audiens,hearing,L017,verb,high
+amatus,loved,L017,verb,''
+visus,seen,L017,verb,high
+natus,born,L017,verb,high
+missus,sent,L017,verb,high
+factus,made,L017,verb,high
+exsultans,rejoicing,L017,verb,''
+regnans,reigning,L017,verb,medium
+tenens,holding,L017,verb,high
+dans,giving,L017,verb,high
+sperans,hoping,L017,verb,high
+credo,I believe,L018,verb,high
+omnipotens,almighty,L018,adjective,high
+factor,maker,L018,noun,high
+caelum,heaven,L018,noun,high
+terra,earth,L018,noun,high
+visibilium,visible,L018,adjective,''
+invisibilium,invisible,L018,adjective,''
+natum,born,L018,verb,high
+consubstantialem,consubstantial,L018,adjective,''
+incarnatus,incarnate,L018,verb,''
+passus,suffered,L018,verb,high
+resurrexit,he rose,L018,verb,high
+ascendit,he ascended,L018,verb,high
+judicare,to judge,L018,verb,''
+venturus,about to come,L018,adjective,high
+qui,who (masc.),L019,pronoun,high
+quae,who/which (fem.),L019,pronoun,high
+quod,which (neuter),L019,subordinating conjunction,high
+cui,to whom (dat.),L019,pronoun,high
+quem,whom (masc. acc.),L019,pronoun,high
+quam,whom (fem. acc.),L019,subordinating conjunction,high
+cuius,whose,L019,pronoun,high
+quibus,to whom (pl.),L019,pronoun,high
+virgo,virgin,L019,noun,high
+liber,book,L019,noun,high
+nomen,name,L019,noun,high
+sanctum,holy,L019,adjective,high
+potens,powerful,L019,verb,high
+magna,great things,L019,adjective,high
+peperit,gave birth,L019,verb,high
+magnificat,it magnifies,L020,verb,''
+anima,soul,L020,noun,high
+exsultavit,rejoiced,L020,verb,high
+spiritus,spirit,L020,noun,high
+salvator,savior,L020,noun,high
+humiles,humble,L020,adjective,high
+dispersit,scattered,L020,verb,high
+potens,powerful,L020,verb,high
+sanctum,holy,L020,adjective,high
+esurientes,hungry,L020,verb,medium
+implevit,filled,L020,verb,high
+timor,fear,L020,noun,high
+generatio,generation,L020,noun,high
+magna,great things,L020,adjective,high
+nomen,name,L020,noun,high
+rego,I rule,L021,noun,''
+facio,I make,L021,verb,high
+mitto,I send,L021,verb,high
+duco,I lead,L021,verb,''
+vivo,I live,L021,noun,high
+audio,I hear,L021,verb,medium
+venio,I come,L021,verb,high
+scio,I know,L021,verb,high
+invenio,I find,L021,verb,high
+sentio,I feel,L021,verb,''
+capio,I take,L021,verb,''
+fugio,I flee,L021,verb,low
+quaero,I seek,L021,verb,high
+patior,I suffer,L021,verb,''
+gradior,I walk,L021,noun,''
+amandi,of loving,L022,verb,''
+amandus,to be loved,L022,verb,''
+videndi,of seeing,L022,verb,''
+videndus,to be seen,L022,verb,''
+faciendi,of making,L022,verb,''
+faciendus,to be made,L022,verb,''
+orandi,of praying,L022,verb,''
+orandus,to be prayed,L022,verb,''
+veniendi,of coming,L022,verb,medium
+veniendus,to be come,L022,verb,''
+laudandi,of praising,L022,verb,''
+laudandus,to be praised,L022,verb,''
+dicendi,of saying,L022,verb,''
+dicendus,to be said,L022,verb,''
+audiendi,of hearing,L022,verb,low
+amare,to love,L023,verb,high
+esse,to be,L023,auxiliary,high
+venire,to come,L023,verb,high
+dicere,to say,L023,verb,high
+scire,to know,L023,verb,high
+laudare,to praise,L023,verb,high
+orare,to pray,L023,verb,high
+videre,to see,L023,verb,high
+audire,to hear,L023,verb,high
+facere,to make,L023,verb,high
+amavisse,to have loved,L023,verb,''
+resurrexisse,to have risen,L023,verb,low
+venturus esse,to be about to come,L023,,''
+credere,to believe,L023,verb,high
+volere,to want,L023,verb,''
+amans,loving,L024,verb,low
+amatus,loved,L024,verb,''
+qui,who,L024,pronoun,high
+quae,which,L024,pronoun,high
+quod,that,L024,subordinating conjunction,high
+amandi,of loving,L024,verb,''
+amandus,to be loved,L024,verb,''
+rego,I rule,L024,noun,''
+audio,I hear,L024,verb,medium
+magnificat,it magnifies,L024,verb,''
+exsultavit,rejoiced,L024,verb,high
+natum,born,L024,verb,high
+potens,powerful,L024,verb,high
+sanctum,holy,L024,adjective,high
+venire,to come,L024,verb,high
+amor,I am loved,L025,noun,medium
+videor,I am seen,L025,verb,''
+laudor,I am praised,L025,noun,''
+benedicitur,he is blessed,L025,verb,''
+creatur,he is created,L025,verb,''
+tollitur,it is taken away,L025,verb,medium
+dicitur,it is said,L025,verb,high
+auditur,it is heard,L025,verb,high
+mittitur,it is sent,L025,verb,''
+accipitur,it is received,L025,verb,''
+amabar,I was being loved,L025,verb,''
+videbar,I was being seen,L025,verb,''
+laudabitur,he will be praised,L025,verb,medium
+creabatur,he was being created,L025,verb,''
+tolluntur,they are taken away,L025,verb,medium
+amem,I may love,L026,verb,''
+videam,I may see,L026,verb,high
+sanctificetur,may it be sanctified,L026,verb,high
+adveniat,may it come,L026,verb,low
+fiat,may it be,L026,verb,high
+laudem,I may praise,L026,noun,high
+moneam,I may warn,L026,verb,''
+benedicat,may he bless,L026,verb,high
+orem,I may pray,L026,noun,medium
+credam,I may believe,L026,verb,low
+veniam,I may come,L026,noun,high
+audiam,I may hear,L026,verb,high
+faciam,I may make,L026,verb,high
+regam,I may rule,L026,verb,''
+vivam,I may live,L026,noun,''
+amarem,I might love,L027,verb,''
+viderem,I might see,L027,verb,high
+amaverim,I may have loved,L027,verb,''
+visserim,I may have seen,L027,verb,''
+laudarem,I might praise,L027,verb,''
+monerem,I might warn,L027,verb,''
+misereatur,may he have mercy,L027,verb,high
+rogo,I ask,L027,verb,high
+dixerim,I may have said,L027,verb,low
+fecerim,I may have made,L027,verb,high
+audiverim,I may have heard,L027,verb,''
+venerim,I may have come,L027,verb,medium
+regarem,I might rule,L027,adjective,''
+fui,I may have been,L027,auxiliary,high
+crederem,I might believe,L027,verb,''
+sanctus,holy,L028,adjective,high
+Sabaoth,hosts,L028,verb,low
+pleni,full,L028,adjective,high
+caeli,heavens,L028,noun,high
+terra,earth,L028,noun,high
+gloria,glory,L028,noun,high
+hosanna,hosanna,L028,noun,medium
+excelsis,highest,L028,verb,high
+agnus,lamb,L028,noun,high
+peccata,sins,L028,noun,high
+miserere,have mercy,L028,verb,high
+dona,grant,L028,noun,high
+nobis,to us,L028,pronoun,high
+pax,peace,L028,noun,high
+mundi,world,L028,noun,high
+loquor,I speak,L029,verb,high
+sequor,I follow,L029,verb,low
+patior,I suffer,L029,verb,''
+confiteor,I confess,L029,verb,medium
+proficiscor,I set out,L029,verb,''
+oror,I pray,L029,adverb,''
+morior,I die,L029,verb,high
+nascor,I am born,L029,verb,''
+egredior,I go out,L029,verb,''
+ingredior,I enter,L029,noun,high
+loquens,speaking,L029,verb,high
+secutus,having followed,L029,verb,high
+passus,having suffered,L029,verb,high
+natus,having been born,L029,verb,high
+gressus,having gone,L029,noun,high
+ut,so that,L030,subordinating conjunction,high
+ne,lest,L030,subordinating conjunction,high
+orem,I may pray,L030,noun,medium
+peccem,I may sin,L030,verb,low
+faciam,I may do,L030,verb,high
+veniam,I may come,L030,noun,high
+salvet,he may save,L030,verb,high
+laudemus,we may praise,L030,verb,medium
+glorificetur,he may be glorified,L030,verb,medium
+vivam,I may live,L030,noun,''
+credam,I may believe,L030,verb,low
+audiam,I may hear,L030,verb,high
+faceret,he might do,L030,verb,high
+veniret,he might come,L030,verb,high
+oraret,he might pray,L030,verb,high
+laudamus,we praise,L031,verb,medium
+benedicimus,we bless,L031,verb,medium
+adoramus,we adore,L031,verb,low
+peccavi,I have sinned,L031,verb,high
+confiteor,I confess,L031,verb,medium
+rogo,I ask,L031,verb,high
+misereatur,may he have mercy,L031,verb,high
+gloria,glory,L031,noun,high
+pax,peace,L031,noun,high
+voluntas,will,L031,noun,high
+peccatum,sin,L031,noun,high
+nimis,greatly,L031,adverb,high
+omnipotens,almighty,L031,adjective,high
+sit,may there be,L031,auxiliary,high
+orare,to pray,L031,verb,high
+laudatur,he is praised,L032,verb,low
+amem,I may love,L032,verb,''
+amarem,I might love,L032,verb,''
+amaverim,I may have loved,L032,verb,''
+confiteor,I confess,L032,verb,medium
+loquor,I speak,L032,verb,high
+ut,so that,L032,subordinating conjunction,high
+orem,I may pray,L032,noun,medium
+sanctificetur,may it be sanctified,L032,verb,high
+miserere,have mercy,L032,verb,high
+Sabaoth,hosts,L032,verb,low
+peccavi,I have sinned,L032,verb,high
+glorificetur,may he be glorified,L032,verb,medium
+pax,peace,L032,noun,high
+sequere,follow,L032,verb,high
+Verbum,Word,L033,noun,high
+erat,was,L033,auxiliary,high
+lux,light,L033,noun,high
+tenebris,darkness,L033,noun,high
+lucet,shines,L033,verb,high
+Deum,God,L033,noun,high
+principio,beginning,L033,noun,high
+factum,made,L033,verb,high
+vita,life,L033,noun,high
+hominibus,men,L033,noun,high
+natus,born,L033,verb,high
+praecepit,he ordered,L033,verb,high
+caesar,emperor,L033,noun,''
+virgo,virgin,L033,noun,high
+nativitas,birth,L033,noun,''
+locus,place,L033,noun,high
+stella,star,L033,noun,high
+pastor,shepherd,L033,noun,high
+angelus,angel,L033,noun,high
+dominus,Lord,L033,noun,high
+regit,he rules,L034,verb,low
+mihi,to me,L034,pronoun,high
+pascua,pasture,L034,noun,high
+collocavit,he has placed,L034,verb,high
+nihil,nothing,L034,pronoun,high
+deerit,it will be lacking,L034,verb,low
+anima,soul,L034,noun,high
+convertit,he restores,L034,verb,high
+deduxit,he has led,L034,verb,high
+virga,rod,L034,noun,high
+umbra,shadow,L034,noun,high
+mors,death,L034,noun,high
+valle,valley,L034,noun,high
+dominus,Lord,L034,noun,high
+pastor,shepherd,L034,noun,high
+aquae,waters,L034,noun,high
+recte,rightly,L034,adverb,high
+confortat,he strengthens,L034,verb,''
+inimicus,enemy,L034,adjective,high
+mensam,table,L034,noun,high
+Kyrie,Lord,L035,other,''
+eleison,have mercy,L035,proper noun,''
+gloria,glory,L035,noun,high
+credo,I believe,L035,verb,high
+sanctus,holy,L035,adjective,high
+Sabaoth,hosts,L035,verb,low
+pleni,full,L035,adjective,high
+hosanna,hosanna,L035,noun,medium
+agnus,lamb,L035,noun,high
+peccata,sins,L035,noun,high
+miserere,have mercy,L035,verb,high
+dona,grant,L035,noun,high
+pax,peace,L035,noun,high
+sedes,you sit,L035,noun,high
+dexteram,right hand,L035,adjective,high
+Patris,Father,L035,noun,high
+laudamus,we praise,L035,verb,medium
+benedicimus,we bless,L035,verb,medium
+adoramus,we adore,L035,verb,low
+factorem,maker,L035,noun,high
+Evangelium,Gospel,L036,noun,high
+erubesco,I am ashamed,L036,verb,medium
+iustitia,justice,L036,noun,high
+revelatur,it is revealed,L036,verb,low
+fides,faith,L036,noun,high
+credo,I believe,L036,verb,high
+scriptum,written,L036,verb,high
+Dei,of God,L036,noun,high
+salus,salvation,L036,noun,high
+omnis,all,L036,determiner,high
+qui,who,L036,pronoun,high
+vivit,he lives,L036,verb,high
+iustus,just,L036,adjective,high
+ex,from,L036,adposition,high
+in,in,L036,adposition,high
+gratia,grace,L036,noun,high
+veritas,truth,L036,noun,high
+peccatum,sin,L036,noun,high
+redemptio,redemption,L036,noun,high
+testimonium,testimony,L036,noun,high
+Pater,Father,L037,noun,high
+gratia,grace,L037,noun,high
+gloria,glory,L037,noun,high
+credo,I believe,L037,verb,high
+exsultavit,rejoiced,L037,verb,high
+sanctificetur,may it be sanctified,L037,verb,high
+fiat,may it be,L037,verb,high
+natum,born,L037,verb,high
+factorem,maker,L037,noun,high
+ora,pray,L037,noun,high
+nobis,to us,L037,pronoun,high
+qui,who,L037,pronoun,high
+potens,powerful,L037,verb,high
+humiles,humble,L037,adjective,high
+ave,hail,L037,verb,''
+dominus,Lord,L037,noun,high
+peccatoribus,sinners,L037,noun,high
+regnum,kingdom,L037,noun,high
+voluntas,will,L037,noun,high
+anima,soul,L037,noun,high
+miserere,have mercy,L038,verb,high
+sanctus,holy,L038,adjective,high
+credo,I believe,L038,verb,high
+peccata,sins,L038,noun,high
+gloria,glory,L038,noun,high
+Kyrie,Lord,L038,other,''
+eleison,have mercy,L038,proper noun,''
+Sabaoth,hosts,L038,verb,low
+hosanna,hosanna,L038,noun,medium
+excelsis,highest,L038,verb,high
+agnus,lamb,L038,noun,high
+dona,grant,L038,noun,high
+pax,peace,L038,noun,high
+sedes,you sit,L038,noun,high
+dexteram,right hand,L038,adjective,high
+Patris,Father,L038,noun,high
+laudamus,we praise,L038,verb,medium
+benedicimus,we bless,L038,verb,medium
+factorem,maker,L038,noun,high
+omnipotens,almighty,L038,adjective,high
+stella,star,L039,noun,high
+mater,mother,L039,noun,high
+pange,sing,L039,proper noun,''
+mysterium,mystery,L039,noun,high
+gloriosi,glorious,L039,adjective,medium
+virgo,virgin,L039,noun,high
+alma,nourishing,L039,adjective,''
+solvens,loosening,L039,verb,''
+crux,cross,L039,noun,low
+sanguis,blood,L039,noun,high
+pretiosi,precious,L039,adjective,high
+fides,faith,L039,noun,high
+salus,salvation,L039,noun,high
+regis,king,L039,noun,high
+caelestis,heavenly,L039,adjective,high
+hostis,enemy,L039,noun,high
+nomen,name,L039,noun,high
+laudes,praises,L039,noun,high
+corpus,body,L039,noun,high
+redemptor,redeemer,L039,noun,high
+Verbum,Word,L040,noun,high
+sanctus,holy,L040,adjective,high
+miserere,have mercy,L040,verb,high
+stella,star,L040,noun,high
+iustitia,justice,L040,noun,high
+credo,I believe,L040,verb,high
+fiat,may it be,L040,verb,high
+laudatur,he is praised,L040,verb,low
+natum,born,L040,verb,high
+confiteor,I confess,L040,verb,medium
+qui,who,L040,pronoun,high
+lux,light,L040,noun,high
+pange,sing,L040,proper noun,''
+gloria,glory,L040,noun,high
+pax,peace,L040,noun,high
+Evangelium,Gospel,L040,noun,high
+regit,he rules,L040,verb,low
+anima,soul,L040,noun,high
+peccata,sins,L040,noun,high
+mysterium,mystery,L040,noun,high

@@ -15,7 +15,7 @@ export interface CollectionSchema {
   displayName: string;
   type: string;
   fields: SchemaField[];
-  indexes?: string[];
+  indexes?: string[][];
 }
 
 export const COLLECTIONS: CollectionSchema[] = [
@@ -24,18 +24,21 @@ export const COLLECTIONS: CollectionSchema[] = [
     displayName: "Church Latin Modules",
     type: "base",
     fields: [
+      { name: "resourceId", type: "text", required: true, unique: true },
       { name: "moduleNumber", type: "number", required: true, unique: true },
       { name: "name", type: "text", required: true },
       { name: "description", type: "text" },
       { name: "lessonCount", type: "number" },
       { name: "displayOrder", type: "number" },
     ],
+    indexes: [["resourceId"], ["moduleNumber"]],
   },
   {
     name: "church_latin_lessons",
     displayName: "Church Latin Lessons",
     type: "base",
     fields: [
+      { name: "resourceId", type: "text", required: true, unique: true },
       {
         name: "moduleId",
         type: "relation",
@@ -48,12 +51,14 @@ export const COLLECTIONS: CollectionSchema[] = [
       { name: "name", type: "text", required: true },
       { name: "displayOrder", type: "number" },
     ],
+    indexes: [["resourceId"], ["lessonNumber"]],
   },
   {
     name: "church_latin_lesson_content",
     displayName: "Church Latin Lesson Content",
     type: "base",
     fields: [
+      { name: "resourceId", type: "text", required: true, unique: true },
       {
         name: "lessonId",
         type: "relation",
@@ -69,12 +74,14 @@ export const COLLECTIONS: CollectionSchema[] = [
       { name: "pronunciationGuide", type: "text" },
       { name: "culturalNotes", type: "text" },
     ],
+    indexes: [["resourceId"], ["lessonId"]],
   },
   {
     name: "church_latin_quiz_questions",
     displayName: "Church Latin Quiz Questions",
     type: "base",
     fields: [
+      { name: "resourceId", type: "text", required: true, unique: true },
       {
         name: "quizId",
         type: "relation",
@@ -111,12 +118,14 @@ export const COLLECTIONS: CollectionSchema[] = [
       { name: "isTemplateQuestion", type: "checkbox" },
       { name: "templateId", type: "text" },
     ],
+    indexes: [["resourceId"], ["questionId"]],
   },
   {
     name: "church_latin_vocabulary",
     displayName: "Church Latin Vocabulary",
     type: "base",
     fields: [
+      { name: "resourceId", type: "text", required: true, unique: true },
       {
         name: "lessonId",
         type: "relation",
@@ -136,18 +145,19 @@ export const COLLECTIONS: CollectionSchema[] = [
       { name: "conjugationInfo", type: "text" },
       {
         name: "frequency",
-        type: "number",
-        options: { min: 1, max: 5 },
+        type: "select",
+        values: ["high", "medium", "low", "unknown"],
       },
       { name: "liturgicalContext", type: "text" },
     ],
-    indexes: [["lessonId"], ["lessonId", "word"]],
+    indexes: [["resourceId"], ["lessonId"], ["lessonId", "word"]],
   },
   {
     name: "church_latin_quizzes",
     displayName: "Church Latin Quizzes",
     type: "base",
     fields: [
+      { name: "resourceId", type: "text", required: true, unique: true },
       {
         name: "lessonId",
         type: "relation",
@@ -165,12 +175,14 @@ export const COLLECTIONS: CollectionSchema[] = [
         cascadeDelete: true,
       },
     ],
+    indexes: [["resourceId"], ["lessonId"]],
   },
   {
     name: "church_latin_user_progress",
     displayName: "Church Latin User Progress",
     type: "base",
     fields: [
+      { name: "resourceId", type: "text", required: true, unique: true },
       { name: "userId", type: "text", required: true, unique: true },
       { name: "completedLessons", type: "number", options: { min: 0 } },
       { name: "quizScores", type: "json" },
@@ -184,12 +196,14 @@ export const COLLECTIONS: CollectionSchema[] = [
       { name: "lastLessonAccessedId", type: "number" },
       { name: "totalProgress", type: "number", options: { min: 0, max: 100 } },
     ],
+    indexes: [["resourceId"], ["userId"]],
   },
   {
     name: "church_latin_review_items",
     displayName: "Church Latin Review Items",
     type: "base",
     fields: [
+      { name: "resourceId", type: "text", required: true, unique: true },
       { name: "userId", type: "text", required: true },
       {
         name: "lessonId",
@@ -229,12 +243,14 @@ export const COLLECTIONS: CollectionSchema[] = [
       },
       { name: "originalQuestionId", type: "text" },
     ],
+    indexes: [["resourceId"], ["userId"], ["lessonId"]],
   },
   {
     name: "church_latin_review_events",
     displayName: "Church Latin Review Events",
     type: "base",
     fields: [
+      { name: "resourceId", type: "text", required: true, unique: true },
       { name: "userId", type: "text", required: true },
       {
         name: "lessonId",
@@ -259,5 +275,6 @@ export const COLLECTIONS: CollectionSchema[] = [
       { name: "occurredAt", type: "date", required: true },
       { name: "answer", type: "json" },
     ],
+    indexes: [["resourceId"], ["userId"], ["lessonId"]],
   },
 ];
