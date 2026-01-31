@@ -1,4 +1,5 @@
 import PocketBase from 'pocketbase';
+import { isAnonymousMode } from './anonymousSession';
 
 const POCKETBASE_URL = import.meta.env.VITE_POCKETBASE_URL;
 const POCKETBASE_COLLECTION = import.meta.env.VITE_POCKETBASE_COLLECTION || 'user_progress';
@@ -19,12 +20,27 @@ class PocketBaseService {
     private pbUserId: string | null = null;
     private userIdPromise: Promise<string> | null = null;
     private resolveUserId: ((userId: string) => void) | null = null;
+    private anonymousMode: boolean = false;
 
     constructor() {
         this.pb = new PocketBase(POCKETBASE_URL);
         this.userIdPromise = new Promise((resolve) => {
             this.resolveUserId = resolve;
         });
+    }
+
+    /**
+     * Set anonymous mode - skip PocketBase, use localStorage only
+     */
+    setAnonymousMode(enabled: boolean): void {
+        this.anonymousMode = enabled;
+        if (enabled) {
+            this.pbUserId = 'anonymous';
+            if (this.resolveUserId) {
+                this.resolveUserId('anonymous');
+            }
+            console.log('[PocketBase Service] Anonymous mode enabled');
+        }
     }
 
     /**
@@ -113,6 +129,11 @@ class PocketBaseService {
     }
 
     async loadProgress(): Promise<UserProgress> {
+        // In anonymous mode, always use localStorage
+        if (this.anonymousMode || isAnonymousMode()) {
+            return this.loadProgressFromLocalStorage();
+        }
+
         if (!this.pbUserId) {
             throw new Error('User ID not set');
         }
@@ -149,6 +170,11 @@ class PocketBaseService {
     }
 
     async saveProgress(progress: UserProgress): Promise<void> {
+        // In anonymous mode, always use localStorage
+        if (this.anonymousMode || isAnonymousMode()) {
+            return this.saveProgressToLocalStorage(progress);
+        }
+
         if (!this.pbUserId) {
             throw new Error('User ID not set');
         }

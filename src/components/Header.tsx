@@ -1,6 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Book, Cross, Github, LogOut, Moon, Sun } from 'lucide-react';
+import { Book, Cross, Github, LogIn, LogOut, Moon, Sun } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Tooltip } from 'react-tooltip';
+import { disableAnonymousMode, isAnonymousMode } from '../services/anonymousSession';
 import { useTheme } from './ThemeProvider';
 
 interface HeaderProps {
@@ -10,6 +12,13 @@ interface HeaderProps {
 export function Header({ onHomeClick }: HeaderProps) {
   const { logout } = useAuth0();
   const { theme, toggleTheme } = useTheme();
+  const anonMode = isAnonymousMode();
+  const goto = useNavigate();
+
+  const handleExitAnonymousMode = () => {
+    disableAnonymousMode();
+    window.location.href = "/";
+  };
 
   return (
     <header className="bg-white dark:bg-gray-900 shadow-lg border-b-2 border-red-900 dark:border-red-800">
@@ -58,13 +67,26 @@ export function Header({ onHomeClick }: HeaderProps) {
               )}
             </button>
 
-            <button
-              onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            >
-              <LogOut data-tooltip-id="logoutButton" data-tooltip-content="Logout" className="h-5 w-5 text-gray-700 dark:text-gray-300" />
-              <Tooltip id="logoutButton" />
-            </button >
+            {
+              anonMode ? (
+                <button
+                  onClick={handleExitAnonymousMode}
+                  className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                >
+                  <LogIn data-tooltip-id="loginButton" data-tooltip-content="Login" className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                  <Tooltip id="loginButton" />
+                </button >
+              ) :
+                (
+                  <button
+                    onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+                    className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    <LogOut data-tooltip-id="logoutButton" data-tooltip-content="Logout" className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                    <Tooltip id="logoutButton" />
+                  </button >
+                )
+            }
 
 
           </div>

@@ -1,8 +1,14 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Cross } from 'lucide-react';
+import { Cross, Zap } from 'lucide-react';
+import { enableAnonymousMode } from './services/anonymousSession';
 
 const LoginPage = () => {
     const { loginWithRedirect, isAuthenticated, isLoading, error } = useAuth0();
+
+    const handleAnonymousMode = () => {
+        enableAnonymousMode();
+        window.location.reload();
+    };
 
     if (isLoading) {
         return (
@@ -69,12 +75,26 @@ const LoginPage = () => {
                                     Sign in with your account to begin your Latin learning journey
                                 </p>
 
-                                <button
-                                    onClick={() => loginWithRedirect()}
-                                    className="block mx-auto mt-4 bg-red-900 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-400 text-white font-semibold py-2 px-4 rounded"
-                                >
-                                    Log In
-                                </button>
+                                <div className="space-y-3">
+                                    <button
+                                        onClick={() => loginWithRedirect()}
+                                        className="w-full bg-red-900 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-400 text-white font-semibold py-2 px-4 rounded transition-colors"
+                                    >
+                                        Log In with Auth0
+                                    </button>
+
+                                    <button
+                                        onClick={handleAnonymousMode}
+                                        className="w-full border-2 border-gray-400 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold py-2 px-4 rounded transition-colors flex items-center justify-center gap-2"
+                                    >
+                                        <Zap className="h-4 w-4" />
+                                        Continue Anonymously
+                                    </button>
+                                </div>
+
+                                <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-4">
+                                    Anonymous mode uses browser storage. Progress will be lost if you clear your browser data.
+                                </p>
 
                                 <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
                                     <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 text-center">
