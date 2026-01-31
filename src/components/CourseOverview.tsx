@@ -1,6 +1,7 @@
 import { Calendar, CheckCircle, Clock, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { modules } from '../data/courseData';
+import { Module } from '../data/courseData';
+import { courseDataService } from '../services/courseDataService';
 import { pocketbaseService } from '../services/pocketbase';
 import { loadProgress, saveProgress } from '../utils/storage';
 import { SkipToDayDialog } from './SkipToDayDialog';
@@ -12,20 +13,25 @@ interface CourseOverviewProps {
 export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [selectedSkipDay, setSelectedSkipDay] = useState(1);
+  const [modules, setModules] = useState<Module[]>([]);
   const [progress, setProgress] = useState(null as any);
   const [showEnglish, setShowEnglish] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadInitialProgress = async () => {
+    const loadInitialData = async () => {
       try {
         // Wait for PocketBase authentication to complete
         await pocketbaseService.waitForUserId(5000);
 
+        // Fetch modules from PocketBase or fallback
+        const fetchedModules = await courseDataService.getModules();
+        setModules(fetchedModules);
+
         const initialProgress = await loadProgress();
         setProgress(initialProgress);
       } catch (error) {
-        console.error('Failed to load progress:', error);
+        console.error('Failed to load data:', error);
         // Set default progress on error
         setProgress({
           completedLessons: [],
@@ -38,7 +44,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
       }
     };
 
-    loadInitialProgress();
+    loadInitialData();
   }, []);
 
   if (isLoading || !progress) {

@@ -8,6 +8,10 @@ export interface UserProgress {
     quizScores: { [lessonId: number]: number; };
     currentLesson: number;
     theme: 'light' | 'dark';
+    // New fields for better progress tracking
+    lastAccessedAt?: string; // ISO timestamp
+    lastLessonAccessedId?: number; // Last lesson the user viewed
+    totalProgress?: number; // Cached percentage (0-100)
 }
 
 class PocketBaseService {
@@ -120,12 +124,20 @@ class PocketBaseService {
 
             if (records.items && records.items.length > 0) {
                 const record = records.items[0];
-                return {
+                const theme = (record.theme === 'dark' || record.theme === 'light') ? record.theme : 'light';
+
+                const progress = {
                     completedLessons: record.completedLessons || [],
                     quizScores: record.quizScores || {},
                     currentLesson: record.currentLesson || 1,
-                    theme: record.theme || 'light',
+                    theme: theme,
+                    lastAccessedAt: record.lastAccessedAt,
+                    lastLessonAccessedId: record.lastLessonAccessedId,
+                    totalProgress: record.totalProgress,
                 };
+
+                console.log(`[PB Service] Loaded progress with theme: ${progress.theme}`);
+                return progress;
             }
 
             return this.getDefaultProgress();
@@ -142,6 +154,13 @@ class PocketBaseService {
         }
 
         try {
+            // Add/update timestamp and calculate total progress
+            const progressWithMetadata: UserProgress = {
+                ...progress,
+                lastAccessedAt: new Date().toISOString(),
+                totalProgress: Math.round((progress.completedLessons.length / 40) * 100),
+            };
+
             // Find existing record
             const records = await this.pb.collection(POCKETBASE_COLLECTION).getList(1, 1, {
                 filter: `userId = "${this.pbUserId}"`,
@@ -150,11 +169,11 @@ class PocketBaseService {
             if (records.items && records.items.length > 0) {
                 // Update existing record
                 const recordId = records.items[0].id;
-                await this.pb.collection(POCKETBASE_COLLECTION).update(recordId, progress);
+                await this.pb.collection(POCKETBASE_COLLECTION).update(recordId, progressWithMetadata);
             } else {
                 // Create new record
                 await this.pb.collection(POCKETBASE_COLLECTION).create({
-                    ...progress,
+                    ...progressWithMetadata,
                     userId: this.pbUserId,
                 });
             }
@@ -167,10 +186,20 @@ class PocketBaseService {
 
     private loadProgressFromLocalStorage(): UserProgress {
         try {
-            const storageKey = `church-latin-progress-${this.pbUserId}`;
-            const stored = localStorage.getItem(storageKey);
-            if (stored) {
-                return JSON.parse(stored);
+            // Try multiple localStorage keys for backward compatibility
+            const keys = [
+                `church-latin-progress-${this.pbUserId}`, // Newer key with user ID
+                'church-latin-progress', // Legacy key without user ID
+            ];
+
+            for (const key of keys) {
+                if (key.includes('null') || key.includes('undefined')) continue;
+                const stored = localStorage.getItem(key);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    console.log(`Loaded progress from localStorage key: ${key}`);
+                    return parsed;
+                }
             }
         } catch (error) {
             console.error('Failed to load from localStorage:', error);
@@ -180,8 +209,15 @@ class PocketBaseService {
 
     private saveProgressToLocalStorage(progress: UserProgress): void {
         try {
-            const storageKey = `church-latin-progress-${this.pbUserId}`;
-            localStorage.setItem(storageKey, JSON.stringify(progress));
+            // Save with both legacy and new keys for compatibility
+            const modernKey = `church-latin-progress-${this.pbUserId}`;
+            const legacyKey = 'church-latin-progress';
+
+            if (!modernKey.includes('null') && !modernKey.includes('undefined')) {
+                localStorage.setItem(modernKey, JSON.stringify(progress));
+            }
+            // Always save to legacy key as fallback
+            localStorage.setItem(legacyKey, JSON.stringify(progress));
         } catch (error) {
             console.error('Failed to save to localStorage:', error);
         }
@@ -193,6 +229,9 @@ class PocketBaseService {
             quizScores: {},
             currentLesson: 1,
             theme: 'light',
+            lastAccessedAt: new Date().toISOString(),
+            lastLessonAccessedId: undefined,
+            totalProgress: 0,
         };
     }
 
@@ -219,6 +258,19 @@ class PocketBaseService {
             }
         } catch (error) {
             console.error('Failed to initialize user progress:', error);
+        }
+    }
+
+    /**
+     * Track when a user accesses a specific lesson
+     */
+    async trackLessonAccess(lessonId: number): Promise<void> {
+        try {
+            const progress = await this.loadProgress();
+            progress.lastLessonAccessedId = lessonId;
+            await this.saveProgress(progress);
+        } catch (error) {
+            console.error('Failed to track lesson access:', error);
         }
     }
 }

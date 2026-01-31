@@ -1,6 +1,7 @@
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle, Play } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { lessons, modules } from '../data/courseData';
+import { Lesson as LessonType } from '../data/courseData';
+import { courseDataService } from '../services/courseDataService';
 import { pocketbaseService } from '../services/pocketbase';
 import { loadProgress } from '../utils/storage';
 import { Quiz } from './Quiz';
@@ -17,33 +18,35 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
   const [materialCompleted, setMaterialCompleted] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [lesson, setLesson] = useState<LessonType | null>(null);
 
   // Reset material completed state when lesson changes
   useEffect(() => {
     setMaterialCompleted(false);
   }, [lessonId]);
 
-  // Load completion status
+  // Load lesson content and completion status
   useEffect(() => {
-    const loadCompletion = async () => {
+    const loadLessonData = async () => {
       try {
         // Wait for PocketBase authentication to complete
         await pocketbaseService.waitForUserId(5000);
 
+        // Fetch lesson content from PocketBase or fallback
+        const lessonData = await courseDataService.getLessonContent(lessonId);
+        setLesson(lessonData);
+
         const progress = await loadProgress();
         setIsCompleted(progress.completedLessons.includes(lessonId));
       } catch (error) {
-        console.error('Failed to load completion status:', error);
+        console.error('Failed to load lesson data:', error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadCompletion();
+    loadLessonData();
   }, [lessonId]);
-
-  const lesson = lessons.find(l => l.id === lessonId);
-  const module = modules.find(m => m.id === lesson?.module);
 
   if (isLoading) {
     return (
@@ -53,7 +56,7 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
     );
   }
 
-  if (!lesson || !module) {
+  if (!lesson) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center">
@@ -91,7 +94,7 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-              Module {module.id} • Day {lesson.id}
+              Module {lesson.module} • Day {lesson.id}
             </p>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               {lesson.title}

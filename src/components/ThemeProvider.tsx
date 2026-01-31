@@ -51,52 +51,68 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     }
   }, [theme, setThemeAndApply]);
 
-  // Initialize theme on mount
+  // Initialize theme on mount - ONLY RUN ONCE
   useEffect(() => {
-    // Only run on client-side
     if (typeof window === 'undefined') return;
+
+    let isMounted = true;
 
     const initializeTheme = async () => {
       try {
-        // Wait for PocketBase user ID to be set (ensures authentication is complete)
         await pocketbaseService.waitForUserId(5000);
+        if (!isMounted) return;
 
-        // Get saved preference
         const progress = await loadProgress();
         const savedTheme = progress.theme;
+        console.log(`[Theme Init] Loaded theme from progress: ${savedTheme}`);
 
-        if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
-          // Use saved theme if it exists and is valid
-          setThemeAndApply(savedTheme);
-          setIsSystemTheme(false);
-        } else {
-          // Otherwise use system preference
+        if (isMounted) {
+          if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+            console.log(`[Theme Init] Applying saved theme: ${savedTheme}`);
+            setThemeAndApply(savedTheme);
+            setIsSystemTheme(false);
+          } else {
+            const systemTheme = getSystemTheme();
+            console.log(`[Theme Init] Using system theme: ${systemTheme}`);
+            setThemeAndApply(systemTheme);
+            setIsSystemTheme(true);
+          }
+        }
+      } catch (error) {
+        console.error('[Theme Init] Failed to initialize theme:', error);
+        if (isMounted) {
           const systemTheme = getSystemTheme();
+          console.log(`[Theme Init] Fallback to system theme on error: ${systemTheme}`);
           setThemeAndApply(systemTheme);
           setIsSystemTheme(true);
         }
-      } catch (error) {
-        console.error('Failed to initialize theme:', error);
-        // Fallback to system theme on error
-        const systemTheme = getSystemTheme();
-        setThemeAndApply(systemTheme);
-        setIsSystemTheme(true);
       }
     };
 
     initializeTheme();
 
-    // Listen for system theme changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    return () => {
+      isMounted = false;
+    };
+  }, []); // Empty dependency array - only run once on mount
+
+  // Listen for system theme changes - only when using system theme
+  useEffect(() => {
+    if (typeof window === 'undefined' || !isSystemTheme) return;
+
     const handleSystemThemeChange = (e: MediaQueryListEvent) => {
-      if (isSystemTheme) {
-        setThemeAndApply(e.matches ? 'dark' : 'light');
-      }
+      const newSystemTheme = e.matches ? 'dark' : 'light';
+      console.log(`[Theme Update] System theme changed to: ${newSystemTheme}`);
+      setThemeAndApply(newSystemTheme);
     };
 
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     mediaQuery.addEventListener('change', handleSystemThemeChange);
-    return () => mediaQuery.removeEventListener('change', handleSystemThemeChange);
-  }, [setThemeAndApply, isSystemTheme]);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleSystemThemeChange);
+    };
+  }, [isSystemTheme, setThemeAndApply]);
 
   // Don't render until theme is initialized to prevent flash of default theme
   if (theme === null) {
