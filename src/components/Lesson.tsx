@@ -109,7 +109,9 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
             </h1>
           </div>
 
-          {isCompleted && <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />}
+          {isCompleted && (
+            <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />
+          )}
         </div>
       </div>
 
@@ -130,7 +132,9 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
                   <div className="bg-red-900 dark:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs sm:text-sm font-bold mt-0.5 flex-shrink-0">
                     {index + 1}
                   </div>
-                  <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">{material}</p>
+                  <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                    {material}
+                  </p>
                 </li>
               ))}
             </ul>

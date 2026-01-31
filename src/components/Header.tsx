@@ -112,7 +112,9 @@ export function Header({ onHomeClick }: HeaderProps) {
                   data-tooltip-content="Anonymous session expires after 24 hours"
                 >
                   <Clock className="h-4 w-4" />
-                  <span className="whitespace-nowrap">{sessionTimeRemaining || "Loading..."}</span>
+                  <span className="whitespace-nowrap">
+                    {sessionTimeRemaining || "Loading..."}
+                  </span>
                 </div>
                 <Tooltip id="anonSessionTimer" />
                 <button

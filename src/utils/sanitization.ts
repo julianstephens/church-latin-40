@@ -8,7 +8,7 @@
  * Converts dangerous characters to HTML entities
  */
 export function escapeHtml(text: string): string {
-  const map: { [key: string]: string; } = {
+  const map: { [key: string]: string } = {
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
@@ -43,7 +43,7 @@ export function sanitizeQuizAnswer(answer: string): string {
 
   // Escape HTML to prevent XSS - but only dangerous characters (<, >)
   // Quotes are safe in text content and should not be escaped
-  const map: { [key: string]: string; } = {
+  const map: { [key: string]: string } = {
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
@@ -66,7 +66,7 @@ export function sanitizeOption(option: string): string {
   // These come from our database so they should already be clean,
   // but defense in depth is important. We only escape dangerous characters (<, >)
   // not quotes, which are safe in text content.
-  const map: { [key: string]: string; } = {
+  const map: { [key: string]: string } = {
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
