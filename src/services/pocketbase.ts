@@ -9,7 +9,7 @@ const POCKETBASE_URL = config.pocketbaseUrl;
 
 export interface UserProgress {
   completedLessons: number[];
-  quizScores: { [lessonId: number]: number };
+  quizScores: { [lessonId: number]: number; };
   currentLesson: number;
   theme: "light" | "dark";
   // New fields for better progress tracking
@@ -30,6 +30,13 @@ class PocketBaseService {
     this.userIdPromise = new Promise((resolve) => {
       this.resolveUserId = resolve;
     });
+  }
+
+  /**
+   * Get the PocketBase instance for direct access
+   */
+  getPocketBase(): PocketBase {
+    return this.pb;
   }
 
   /**
@@ -65,6 +72,9 @@ class PocketBaseService {
         if (this.resolveUserId) {
           this.resolveUserId(this.pbUserId);
         }
+        logger.debug(
+          `[PocketBase Service] Successfully authenticated user: ${this.pbUserId}`,
+        );
         return this.pbUserId;
       } catch (authError: unknown) {
         // User doesn't exist, create them
@@ -74,11 +84,18 @@ class PocketBaseService {
           (error.message as string)?.includes("Invalid credentials")
         ) {
           try {
-            // const newRecord = await this.pb.collection('users').create({
-            //     email,
-            //     password,
-            //     passwordConfirm: password,
-            // });
+            logger.debug(
+              `[PocketBase Service] User does not exist, creating new user for: ${email}`,
+            );
+            // Create new user using the unauthenticated API
+            const newRecord = await this.pb.collection("users").create({
+              email,
+              password,
+              passwordConfirm: password,
+            });
+            logger.debug(
+              `[PocketBase Service] User created successfully: ${newRecord.id}`,
+            );
 
             // Authenticate the newly created user
             const authRecord = await this.pb
@@ -88,8 +105,17 @@ class PocketBaseService {
             if (this.resolveUserId) {
               this.resolveUserId(this.pbUserId);
             }
+            logger.debug(
+              `[PocketBase Service] Successfully authenticated new user: ${this.pbUserId}`,
+            );
             return this.pbUserId;
-          } catch (createError) {
+          } catch (createError: unknown) {
+            // If user creation fails due to API rules, log detailed error
+            const createErr = createError as Record<string, unknown>;
+            logger.error(
+              "[PocketBase Service] Failed to create user. Ensure 'users' collection has 'Create' rule set to allow unauthenticated creation:",
+              createErr,
+            );
             console.error("Failed to create PocketBase user:", createError);
             throw createError;
           }

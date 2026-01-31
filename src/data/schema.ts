@@ -95,7 +95,7 @@ export const COLLECTIONS: CollectionSchema[] = [
       {
         name: "type",
         type: "select",
-        values: ["multipleChoice", "freeResponse", "recitation"],
+        values: ["multiple-choice", "matching", "translation", "recitation"],
       },
       { name: "question", type: "text", required: true },
       { name: "options", type: "json" },
@@ -163,7 +163,7 @@ export const COLLECTIONS: CollectionSchema[] = [
       {
         name: "questionType",
         type: "select",
-        values: ["multipleChoice", "freeResponse"],
+        values: ["multiple-choice", "matching", "translation", "recitation"],
       },
       {
         name: "state",

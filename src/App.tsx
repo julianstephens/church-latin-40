@@ -7,13 +7,14 @@ import { Header } from "./components/Header";
 import { Lesson } from "./components/Lesson";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { ReviewPage } from "./pages/ReviewPage";
 import { pocketbaseService } from "./services/pocketbase";
 import { loadProgress } from "./utils/storage";
 
 // Lesson route component that reads from URL params
 function LessonRoute() {
   const navigate = useNavigate();
-  const { lessonId: lessonIdParam } = useParams<{ lessonId: string }>();
+  const { lessonId: lessonIdParam } = useParams<{ lessonId: string; }>();
   const lessonId = parseInt(lessonIdParam || "1", 10);
 
   // Validate lesson ID is in valid range (1-40)
@@ -130,6 +131,7 @@ function App() {
             }
           />
           <Route path="/lesson/:lessonId" element={<LessonRoute />} />
+          <Route path="/review" element={<ReviewPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </ThemeProvider>

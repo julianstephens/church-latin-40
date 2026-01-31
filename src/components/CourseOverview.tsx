@@ -1,8 +1,9 @@
-import { Calendar, CheckCircle, Clock, Users } from "lucide-react";
+import { BookOpen, Calendar, CheckCircle, Clock, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Module } from "../data/courseData";
 import { courseDataService } from "../services/courseDataService";
 import { pocketbaseService } from "../services/pocketbase";
+import { reviewService } from "../services/reviewService";
 import { logger } from "../utils/logger";
 import { loadProgress, saveProgress, UserProgress } from "../utils/storage";
 import { SkipToDayDialog } from "./SkipToDayDialog";
@@ -18,6 +19,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
   const [progress, setProgress] = useState<UserProgress | null>(null);
   const [showEnglish, setShowEnglish] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [dueReviewCount, setDueReviewCount] = useState(0);
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -50,6 +52,27 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
 
     loadInitialData();
   }, []);
+
+  // Fetch due review items count
+  useEffect(() => {
+    const fetchReviewCount = async () => {
+      try {
+        const dueItems = await reviewService.getDueReviewItems(1000);
+        setDueReviewCount(dueItems.length);
+      } catch (error) {
+        logger.debug(
+          "[CourseOverview] Failed to fetch due review count:",
+          error,
+        );
+        setDueReviewCount(0);
+      }
+    };
+
+    // Only fetch if authenticated
+    if (progress && pocketbaseService.getPocketBase().authStore.isValid) {
+      fetchReviewCount();
+    }
+  }, [progress]);
 
   if (isLoading || !progress) {
     return (
@@ -204,6 +227,40 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
         </div>
       </div>
 
+      {/* Review Queue Widget */}
+      {dueReviewCount > 0 && (
+        <div className="mb-8 sm:mb-12">
+          <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 border-2 border-purple-200 dark:border-purple-700 rounded-xl shadow-lg p-4 sm:p-6 max-w-2xl mx-auto">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0">
+                <BookOpen className="h-8 w-8 sm:h-10 sm:w-10 text-purple-700 dark:text-purple-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-1">
+                  Review Queue
+                </h3>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4">
+                  You have{" "}
+                  <span className="font-bold text-purple-700 dark:text-purple-400">
+                    {dueReviewCount}
+                  </span>{" "}
+                  question{dueReviewCount === 1 ? "" : "s"} due for review
+                </p>
+                <button
+                  onClick={() => {
+                    window.location.href = "/review";
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-purple-700 hover:bg-purple-800 dark:bg-purple-600 dark:hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors duration-200"
+                >
+                  <BookOpen className="h-4 w-4" />
+                  Start Review Session
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Modules */}
       <div className="space-y-4 sm:space-y-6">
         <h3 className="text-xl sm:text-2xl font-bold text-center text-gray-900 dark:text-white mb-6 sm:mb-8">
@@ -284,15 +341,14 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
                         }}
                         className={`
                         relative min-h-touch-target sm:min-h-0 p-2 sm:p-3 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 touch-manipulation
-                        ${
-                          isCompleted
+                        ${isCompleted
                             ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800 active:bg-green-300 dark:active:bg-green-700"
                             : isCurrent
                               ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800 active:bg-yellow-300 dark:active:bg-yellow-700"
                               : isAvailable
                                 ? "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500"
                                 : "bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300 active:bg-gray-200 dark:active:bg-gray-600"
-                        }
+                          }
                       `}
                       >
                         <span className="block sm:inline">Day {day}</span>

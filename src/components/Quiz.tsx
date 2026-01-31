@@ -1,6 +1,7 @@
 import { ArrowRight, CheckCircle, RotateCcw, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { QuizQuestion } from "../data/courseData";
+import { reviewService } from "../services/reviewService";
 import {
   normalizeAnswerForComparison,
   sanitizeOption,
@@ -20,7 +21,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
   const [showResults, setShowResults] = useState(false);
   const [userAnswer, setUserAnswer] = useState("");
   const [matchingState, setMatchingState] = useState<{
-    pairs: { [key: string]: string };
+    pairs: { [key: string]: string; };
     selectedLatin: string | null;
     selectedEnglish: string | null;
     randomizedOptions: string[];
@@ -73,7 +74,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
     }
   };
 
-  const handleAnswer = (answer: string) => {
+  const handleAnswer = async (answer: string) => {
     // Sanitize the answer to prevent XSS
     const sanitized = sanitizeQuizAnswer(answer);
     const newAnswers = [...userAnswers, sanitized];
@@ -95,6 +96,33 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
         completeLesson(lessonId);
       }
       setShowResults(true);
+
+      // Handle review queue: create review items for incorrect answers
+      if (score < 100) {
+        // Process sequentially to avoid PocketBase auto-cancellation
+        for (let i = 0; i < newAnswers.length; i++) {
+          const answer = newAnswers[i];
+          const question = questions[i];
+          const isCorrect = isAnswerCorrect(question, answer);
+
+          console.debug(
+            `[Review] Q${i + 1} (${question.questionId}): ${isCorrect ? "correct" : "incorrect"}`,
+            { answer, correctAnswer: question.correctAnswer },
+          );
+
+          if (!isCorrect) {
+            // Non-blocking: log errors but don't fail quiz submission
+            try {
+              await reviewService.handleQuizMiss(lessonId, question.questionId);
+            } catch (error) {
+              console.warn(
+                `Failed to create review item for question ${question.questionId}:`,
+                error,
+              );
+            }
+          }
+        }
+      }
     }
   };
 
@@ -173,6 +201,53 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
       }
     });
     return Math.round((correct / questions.length) * 100);
+  };
+
+  const isAnswerCorrect = (question: QuizQuestion, answer: string): boolean => {
+    const normalizedAnswer = normalizeAnswerForComparison(answer);
+
+    if (Array.isArray(question.correctAnswer)) {
+      // Type guard to check if it's a matching question with options
+      if ("options" in question && question.type === "matching") {
+        // For matching questions, check if all pairs are correct
+        const userPairs = answer.split(", ");
+        const correctPairs = question.correctAnswer as string[];
+        let matchingScore = 0;
+
+        userPairs.forEach((userPair) => {
+          if (
+            correctPairs.some(
+              (correctPair) =>
+                normalizeAnswerForComparison(userPair) ===
+                normalizeAnswerForComparison(correctPair),
+            )
+          ) {
+            matchingScore++;
+          }
+        });
+
+        // Award full credit if 80% or more pairs are correct
+        return matchingScore >= Math.ceil(correctPairs.length * 0.8);
+      } else {
+        // For other array-type questions (multiple correct answers)
+        return (question.correctAnswer as string[]).some(
+          (correctAns) =>
+            normalizedAnswer === normalizeAnswerForComparison(correctAns),
+        );
+      }
+    } else {
+      const correctAnswer = normalizeAnswerForComparison(
+        question.correctAnswer as string,
+      );
+
+      // For recitation questions, be more lenient
+      if (question.type === "recitation") {
+        return normalizedAnswer.startsWith(correctAnswer);
+      } else {
+        // For other types, require exact match
+        return normalizedAnswer === correctAnswer;
+      }
+    }
   };
 
   const resetQuiz = () => {
@@ -299,8 +374,8 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                     <strong>
                       {Array.isArray(question.correctAnswer)
                         ? question.correctAnswer
-                            .map((ans) => sanitizeOption(ans))
-                            .join(" or ")
+                          .map((ans) => sanitizeOption(ans))
+                          .join(question.type === "matching" ? ", " : " or ")
                         : sanitizeOption(question.correctAnswer as string)}
                     </strong>
                   </p>
@@ -414,13 +489,12 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                         key={index}
                         onClick={() => handleMatchingSelect("latin", latin)}
                         disabled={isPaired}
-                        className={`w-full min-h-touch-target p-3 sm:p-4 text-sm sm:text-base rounded-lg text-left transition-colors touch-manipulation ${
-                          isPaired
+                        className={`w-full min-h-touch-target p-3 sm:p-4 text-sm sm:text-base rounded-lg text-left transition-colors touch-manipulation ${isPaired
                             ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
                             : isSelected
                               ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
                               : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-600"
-                        }`}
+                          }`}
                         aria-label={`Select Latin word ${latin}`}
                         dangerouslySetInnerHTML={{
                           __html: sanitizedLatin,
@@ -445,13 +519,12 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                         key={index}
                         onClick={() => handleMatchingSelect("english", option)}
                         disabled={isPaired}
-                        className={`w-full min-h-touch-target p-3 sm:p-4 text-sm sm:text-base rounded-lg text-left transition-colors touch-manipulation ${
-                          isPaired
+                        className={`w-full min-h-touch-target p-3 sm:p-4 text-sm sm:text-base rounded-lg text-left transition-colors touch-manipulation ${isPaired
                             ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
                             : isSelected
                               ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
                               : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-600"
-                        }`}
+                          }`}
                         aria-label={`Select English meaning ${option}`}
                         dangerouslySetInnerHTML={{
                           __html: sanitizedOption,
@@ -477,37 +550,37 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
 
         {(question.type === "translation" ||
           question.type === "recitation") && (
-          <div className="space-y-4">
-            <textarea
-              value={userAnswer}
-              onChange={(e) => {
-                // Limit input to 500 characters
-                const limited = e.target.value.substring(0, 500);
-                setUserAnswer(limited);
-              }}
-              placeholder={
-                question.type === "recitation"
-                  ? "Recite the prayer or text here..."
-                  : "Enter your translation here..."
-              }
-              className="w-full min-h-touch-lg p-3 sm:p-4 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-900 dark:focus:ring-red-600 focus:border-transparent dark:bg-gray-700 dark:text-white touch-manipulation"
-              rows={3}
-              maxLength={500}
-            />
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                {userAnswer.length}/500 characters
-              </span>
-              <button
-                onClick={() => handleAnswer(userAnswer)}
-                disabled={!userAnswer.trim()}
-                className="w-full sm:w-auto min-h-touch-target bg-red-900 hover:bg-red-800 active:bg-red-950 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 sm:py-2 rounded-lg transition-colors touch-manipulation"
-              >
-                Submit Answer
-              </button>
+            <div className="space-y-4">
+              <textarea
+                value={userAnswer}
+                onChange={(e) => {
+                  // Limit input to 500 characters
+                  const limited = e.target.value.substring(0, 500);
+                  setUserAnswer(limited);
+                }}
+                placeholder={
+                  question.type === "recitation"
+                    ? "Recite the prayer or text here..."
+                    : "Enter your translation here..."
+                }
+                className="w-full min-h-touch-lg p-3 sm:p-4 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-900 dark:focus:ring-red-600 focus:border-transparent dark:bg-gray-700 dark:text-white touch-manipulation"
+                rows={3}
+                maxLength={500}
+              />
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  {userAnswer.length}/500 characters
+                </span>
+                <button
+                  onClick={() => handleAnswer(userAnswer)}
+                  disabled={!userAnswer.trim()}
+                  className="w-full sm:w-auto min-h-touch-target bg-red-900 hover:bg-red-800 active:bg-red-950 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 sm:py-2 rounded-lg transition-colors touch-manipulation"
+                >
+                  Submit Answer
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     </div>
   );
