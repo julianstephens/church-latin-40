@@ -20,7 +20,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
   const [showResults, setShowResults] = useState(false);
   const [userAnswer, setUserAnswer] = useState("");
   const [matchingState, setMatchingState] = useState<{
-    pairs: { [key: string]: string };
+    pairs: { [key: string]: string; };
     selectedLatin: string | null;
     selectedEnglish: string | null;
     randomizedOptions: string[];
@@ -154,11 +154,21 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
           }
         }
       } else {
-        if (
-          normalizedAnswer ===
-          normalizeAnswerForComparison(question.correctAnswer as string)
-        ) {
-          correct++;
+        const correctAnswer = normalizeAnswerForComparison(
+          question.correctAnswer as string,
+        );
+
+        // For recitation questions, be more lenient:
+        // Accept if the user's answer starts with the correct answer or contains it as the beginning
+        if (question.type === "recitation") {
+          if (normalizedAnswer.startsWith(correctAnswer)) {
+            correct++;
+          }
+        } else {
+          // For other types (translation, etc.), require exact match
+          if (normalizedAnswer === correctAnswer) {
+            correct++;
+          }
         }
       }
     });
@@ -245,9 +255,18 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                 );
               }
             } else {
-              isCorrect =
-                userAns.toLowerCase().trim() ===
-                question.correctAnswer.toLowerCase().trim();
+              const normalizedUserAns = userAns.toLowerCase().trim();
+              const normalizedCorrectAns = question.correctAnswer
+                .toLowerCase()
+                .trim();
+
+              // For recitation questions, accept if user's answer starts with the correct answer
+              if (question.type === "recitation") {
+                isCorrect = normalizedUserAns.startsWith(normalizedCorrectAns);
+              } else {
+                // For other types, require exact match
+                isCorrect = normalizedUserAns === normalizedCorrectAns;
+              }
             }
 
             return (
@@ -280,8 +299,8 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                     <strong>
                       {Array.isArray(question.correctAnswer)
                         ? question.correctAnswer
-                            .map((ans) => sanitizeOption(ans))
-                            .join(" or ")
+                          .map((ans) => sanitizeOption(ans))
+                          .join(" or ")
                         : sanitizeOption(question.correctAnswer as string)}
                     </strong>
                   </p>
@@ -395,13 +414,12 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                         key={index}
                         onClick={() => handleMatchingSelect("latin", latin)}
                         disabled={isPaired}
-                        className={`w-full p-4 rounded-lg text-left transition-colors ${
-                          isPaired
+                        className={`w-full p-4 rounded-lg text-left transition-colors ${isPaired
                             ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
                             : isSelected
                               ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
                               : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50"
-                        }`}
+                          }`}
                         aria-label={`Select Latin word ${latin}`}
                         dangerouslySetInnerHTML={{
                           __html: sanitizedLatin,
@@ -426,13 +444,12 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                         key={index}
                         onClick={() => handleMatchingSelect("english", option)}
                         disabled={isPaired}
-                        className={`w-full p-4 rounded-lg text-left transition-colors ${
-                          isPaired
+                        className={`w-full p-4 rounded-lg text-left transition-colors ${isPaired
                             ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
                             : isSelected
                               ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
                               : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50"
-                        }`}
+                          }`}
                         aria-label={`Select English meaning ${option}`}
                         dangerouslySetInnerHTML={{
                           __html: sanitizedOption,
@@ -458,37 +475,37 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
 
         {(question.type === "translation" ||
           question.type === "recitation") && (
-          <div className="space-y-4">
-            <textarea
-              value={userAnswer}
-              onChange={(e) => {
-                // Limit input to 500 characters
-                const limited = e.target.value.substring(0, 500);
-                setUserAnswer(limited);
-              }}
-              placeholder={
-                question.type === "recitation"
-                  ? "Recite the prayer or text here..."
-                  : "Enter your translation here..."
-              }
-              className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-900 dark:focus:ring-red-600 focus:border-transparent dark:bg-gray-700 dark:text-white"
-              rows={3}
-              maxLength={500}
-            />
-            <div className="flex justify-between items-center">
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                {userAnswer.length}/500 characters
-              </span>
-              <button
-                onClick={() => handleAnswer(userAnswer)}
-                disabled={!userAnswer.trim()}
-                className="bg-red-900 hover:bg-red-800 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-2 rounded-lg transition-colors"
-              >
-                Submit Answer
-              </button>
+            <div className="space-y-4">
+              <textarea
+                value={userAnswer}
+                onChange={(e) => {
+                  // Limit input to 500 characters
+                  const limited = e.target.value.substring(0, 500);
+                  setUserAnswer(limited);
+                }}
+                placeholder={
+                  question.type === "recitation"
+                    ? "Recite the prayer or text here..."
+                    : "Enter your translation here..."
+                }
+                className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-900 dark:focus:ring-red-600 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                rows={3}
+                maxLength={500}
+              />
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  {userAnswer.length}/500 characters
+                </span>
+                <button
+                  onClick={() => handleAnswer(userAnswer)}
+                  disabled={!userAnswer.trim()}
+                  className="bg-red-900 hover:bg-red-800 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-2 rounded-lg transition-colors"
+                >
+                  Submit Answer
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     </div>
   );
