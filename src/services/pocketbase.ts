@@ -1,14 +1,17 @@
-import PocketBase from 'pocketbase';
-import { isAnonymousMode } from './anonymousSession';
+import PocketBase from "pocketbase";
+import POCKETBASE_COLLECTIONS from "../utils/collections";
+import { logger } from "../utils/logger";
+import { isAnonymousMode } from "./anonymousSession";
+import { getEnvironmentConfig } from "./envValidation";
 
-const POCKETBASE_URL = import.meta.env.VITE_POCKETBASE_URL;
-const POCKETBASE_COLLECTION = import.meta.env.VITE_POCKETBASE_COLLECTION || 'user_progress';
+const config = getEnvironmentConfig();
+const POCKETBASE_URL = config.pocketbaseUrl;
 
 export interface UserProgress {
     completedLessons: number[];
     quizScores: { [lessonId: number]: number; };
     currentLesson: number;
-    theme: 'light' | 'dark';
+    theme: "light" | "dark";
     // New fields for better progress tracking
     lastAccessedAt?: string; // ISO timestamp
     lastLessonAccessedId?: number; // Last lesson the user viewed
@@ -35,11 +38,11 @@ class PocketBaseService {
     setAnonymousMode(enabled: boolean): void {
         this.anonymousMode = enabled;
         if (enabled) {
-            this.pbUserId = 'anonymous';
+            this.pbUserId = "anonymous";
             if (this.resolveUserId) {
-                this.resolveUserId('anonymous');
+                this.resolveUserId("anonymous");
             }
-            console.log('[PocketBase Service] Anonymous mode enabled');
+            logger.debug("[PocketBase Service] Anonymous mode enabled");
         }
     }
 
@@ -55,15 +58,21 @@ class PocketBaseService {
 
             try {
                 // Try to authenticate existing user
-                const authRecord = await this.pb.collection('users').authWithPassword(email, password);
+                const authRecord = await this.pb
+                    .collection("users")
+                    .authWithPassword(email, password);
                 this.pbUserId = authRecord.record.id;
                 if (this.resolveUserId) {
                     this.resolveUserId(this.pbUserId);
                 }
                 return this.pbUserId;
-            } catch (authError: any) {
+            } catch (authError: unknown) {
                 // User doesn't exist, create them
-                if (authError.status === 400 || authError.message?.includes('Invalid credentials')) {
+                const error = authError as Record<string, unknown>;
+                if (
+                    error.status === 400 ||
+                    (error.message as string)?.includes("Invalid credentials")
+                ) {
                     try {
                         // const newRecord = await this.pb.collection('users').create({
                         //     email,
@@ -72,14 +81,16 @@ class PocketBaseService {
                         // });
 
                         // Authenticate the newly created user
-                        const authRecord = await this.pb.collection('users').authWithPassword(email, password);
+                        const authRecord = await this.pb
+                            .collection("users")
+                            .authWithPassword(email, password);
                         this.pbUserId = authRecord.record.id;
                         if (this.resolveUserId) {
                             this.resolveUserId(this.pbUserId);
                         }
                         return this.pbUserId;
                     } catch (createError) {
-                        console.error('Failed to create PocketBase user:', createError);
+                        console.error("Failed to create PocketBase user:", createError);
                         throw createError;
                     }
                 } else {
@@ -87,7 +98,7 @@ class PocketBaseService {
                 }
             }
         } catch (error) {
-            console.error('Failed to authenticate with PocketBase:', error);
+            console.error("Failed to authenticate with PocketBase:", error);
             throw error;
         }
     }
@@ -99,7 +110,7 @@ class PocketBaseService {
     private generatePasswordFromEmail(email: string): string {
         // Use email + a fixed salt to generate a consistent password
         // This is deterministic so we can recreate it if needed
-        const base = email.toLowerCase().split('@')[0];
+        const base = email.toLowerCase().split("@")[0];
         return `${base}!PocketBase2024`;
     }
 
@@ -117,13 +128,16 @@ class PocketBaseService {
         }
 
         if (!this.userIdPromise) {
-            throw new Error('User ID promise not initialized');
+            throw new Error("User ID promise not initialized");
         }
 
         return Promise.race([
             this.userIdPromise,
             new Promise<string>((_, reject) =>
-                setTimeout(() => reject(new Error('User ID not set within timeout')), timeoutMs)
+                setTimeout(
+                    () => reject(new Error("User ID not set within timeout")),
+                    timeoutMs,
+                ),
             ),
         ]);
     }
@@ -135,20 +149,30 @@ class PocketBaseService {
         }
 
         if (!this.pbUserId) {
-            throw new Error('User ID not set');
+            throw new Error("User ID not set");
         }
 
         try {
-            const records = await this.pb.collection(POCKETBASE_COLLECTION).getList(1, 1, {
-                filter: `userId = "${this.pbUserId}"`,
-            });
+            const records = await this.pb
+                .collection(POCKETBASE_COLLECTIONS.USER_PROGRESS)
+                .getList(1, 1, {
+                    filter: `userId = "${this.pbUserId}"`,
+                });
 
             if (records.items && records.items.length > 0) {
                 const record = records.items[0];
-                const theme = (record.theme === 'dark' || record.theme === 'light') ? record.theme : 'light';
+                const theme =
+                    record.theme === "dark" || record.theme === "light"
+                        ? record.theme
+                        : "light";
+
+                // Ensure completedLessons is an array
+                const completedLessons = Array.isArray(record.completedLessons)
+                    ? record.completedLessons
+                    : [];
 
                 const progress = {
-                    completedLessons: record.completedLessons || [],
+                    completedLessons: completedLessons,
                     quizScores: record.quizScores || {},
                     currentLesson: record.currentLesson || 1,
                     theme: theme,
@@ -157,14 +181,16 @@ class PocketBaseService {
                     totalProgress: record.totalProgress,
                 };
 
-                console.log(`[PB Service] Loaded progress with theme: ${progress.theme}`);
+                logger.debug(
+                    `[PB Service] Loaded progress with theme: ${progress.theme}, completed lessons: ${progress.completedLessons.length}`,
+                );
                 return progress;
             }
 
             return this.getDefaultProgress();
         } catch (error) {
-            console.error('Failed to load progress from PocketBase:', error);
-            console.warn('Falling back to localStorage');
+            console.error("Failed to load progress from PocketBase:", error);
+            logger.warn('Falling back to localStorage');
             return this.loadProgressFromLocalStorage();
         }
     }
@@ -176,7 +202,7 @@ class PocketBaseService {
         }
 
         if (!this.pbUserId) {
-            throw new Error('User ID not set');
+            throw new Error("User ID not set");
         }
 
         try {
@@ -184,28 +210,34 @@ class PocketBaseService {
             const progressWithMetadata: UserProgress = {
                 ...progress,
                 lastAccessedAt: new Date().toISOString(),
-                totalProgress: Math.round((progress.completedLessons.length / 40) * 100),
+                totalProgress: Math.round(
+                    (progress.completedLessons.length / 40) * 100,
+                ),
             };
 
             // Find existing record
-            const records = await this.pb.collection(POCKETBASE_COLLECTION).getList(1, 1, {
-                filter: `userId = "${this.pbUserId}"`,
-            });
+            const records = await this.pb
+                .collection(POCKETBASE_COLLECTIONS.USER_PROGRESS)
+                .getList(1, 1, {
+                    filter: `userId = "${this.pbUserId}"`,
+                });
 
             if (records.items && records.items.length > 0) {
                 // Update existing record
                 const recordId = records.items[0].id;
-                await this.pb.collection(POCKETBASE_COLLECTION).update(recordId, progressWithMetadata);
+                await this.pb
+                    .collection(POCKETBASE_COLLECTIONS.USER_PROGRESS)
+                    .update(recordId, progressWithMetadata);
             } else {
                 // Create new record
-                await this.pb.collection(POCKETBASE_COLLECTION).create({
+                await this.pb.collection(POCKETBASE_COLLECTIONS.USER_PROGRESS).create({
                     ...progressWithMetadata,
                     userId: this.pbUserId,
                 });
             }
         } catch (error) {
-            console.error('Failed to save progress to PocketBase:', error);
-            console.warn('Falling back to localStorage');
+            console.error("Failed to save progress to PocketBase:", error);
+            logger.warn("Falling back to localStorage");
             this.saveProgressToLocalStorage(progress);
         }
     }
@@ -215,20 +247,20 @@ class PocketBaseService {
             // Try multiple localStorage keys for backward compatibility
             const keys = [
                 `church-latin-progress-${this.pbUserId}`, // Newer key with user ID
-                'church-latin-progress', // Legacy key without user ID
+                "church-latin-progress", // Legacy key without user ID
             ];
 
             for (const key of keys) {
-                if (key.includes('null') || key.includes('undefined')) continue;
+                if (key.includes("null") || key.includes("undefined")) continue;
                 const stored = localStorage.getItem(key);
                 if (stored) {
                     const parsed = JSON.parse(stored);
-                    console.log(`Loaded progress from localStorage key: ${key}`);
+                    logger.debug(`Loaded progress from localStorage key: ${key}`);
                     return parsed;
                 }
             }
         } catch (error) {
-            console.error('Failed to load from localStorage:', error);
+            console.error("Failed to load from localStorage:", error);
         }
         return this.getDefaultProgress();
     }
@@ -237,15 +269,15 @@ class PocketBaseService {
         try {
             // Save with both legacy and new keys for compatibility
             const modernKey = `church-latin-progress-${this.pbUserId}`;
-            const legacyKey = 'church-latin-progress';
+            const legacyKey = "church-latin-progress";
 
-            if (!modernKey.includes('null') && !modernKey.includes('undefined')) {
+            if (!modernKey.includes("null") && !modernKey.includes("undefined")) {
                 localStorage.setItem(modernKey, JSON.stringify(progress));
             }
             // Always save to legacy key as fallback
             localStorage.setItem(legacyKey, JSON.stringify(progress));
         } catch (error) {
-            console.error('Failed to save to localStorage:', error);
+            console.error("Failed to save to localStorage:", error);
         }
     }
 
@@ -254,7 +286,7 @@ class PocketBaseService {
             completedLessons: [],
             quizScores: {},
             currentLesson: 1,
-            theme: 'light',
+            theme: "light",
             lastAccessedAt: new Date().toISOString(),
             lastLessonAccessedId: undefined,
             totalProgress: 0,
@@ -263,27 +295,29 @@ class PocketBaseService {
 
     async initializeUserProgress(): Promise<void> {
         if (!this.pbUserId) {
-            throw new Error('User ID not set');
+            throw new Error("User ID not set");
         }
 
         try {
             // Check if user already has a record
-            const records = await this.pb.collection(POCKETBASE_COLLECTION).getList(1, 1, {
-                filter: `userId = "${this.pbUserId}"`,
-            });
+            const records = await this.pb
+                .collection(POCKETBASE_COLLECTIONS.USER_PROGRESS)
+                .getList(1, 1, {
+                    filter: `userId = "${this.pbUserId}"`,
+                });
 
             const recordExists = records.items && records.items.length > 0;
 
             if (!recordExists) {
                 // Create a new record with default progress
                 const defaultProgress = this.getDefaultProgress();
-                await this.pb.collection(POCKETBASE_COLLECTION).create({
+                await this.pb.collection(POCKETBASE_COLLECTIONS.USER_PROGRESS).create({
                     ...defaultProgress,
                     userId: this.pbUserId,
                 });
             }
         } catch (error) {
-            console.error('Failed to initialize user progress:', error);
+            console.error("Failed to initialize user progress:", error);
         }
     }
 
@@ -296,7 +330,7 @@ class PocketBaseService {
             progress.lastLessonAccessedId = lessonId;
             await this.saveProgress(progress);
         } catch (error) {
-            console.error('Failed to track lesson access:', error);
+            console.error("Failed to track lesson access:", error);
         }
     }
 }

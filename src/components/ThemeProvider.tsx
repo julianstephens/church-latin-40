@@ -1,20 +1,28 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { pocketbaseService } from '../services/pocketbase';
-import { loadProgress, saveProgress } from '../utils/storage';
-import { applyTheme, getSystemTheme } from '../utils/theme-utils';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { pocketbaseService } from "../services/pocketbase";
+import { logger } from "../utils/logger";
+import { loadProgress, saveProgress } from "../utils/storage";
+import { applyTheme, getSystemTheme } from "../utils/theme-utils";
 
 interface ThemeContextType {
-  theme: 'light' | 'dark';
+  theme: "light" | "dark";
   toggleTheme: () => void;
   isSystemTheme: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
 }
@@ -24,13 +32,13 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<'light' | 'dark' | null>(null);
+  const [theme, setTheme] = useState<"light" | "dark" | null>(null);
   const [isSystemTheme, setIsSystemTheme] = useState(true);
 
   // Apply theme class to HTML element
-  const setThemeAndApply = useCallback((newTheme: 'light' | 'dark') => {
-    if (newTheme === 'light' || newTheme === 'dark') {
-      applyTheme(newTheme === 'dark');
+  const setThemeAndApply = useCallback((newTheme: "light" | "dark") => {
+    if (newTheme === "light" || newTheme === "dark") {
+      applyTheme(newTheme === "dark");
       setTheme(newTheme);
     }
   }, []);
@@ -39,7 +47,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   const toggleTheme = useCallback(async () => {
     if (theme === null) return;
 
-    const newTheme = theme === 'light' ? 'dark' : 'light';
+    const newTheme = theme === "light" ? "dark" : "light";
     try {
       const progress = await loadProgress();
       progress.theme = newTheme;
@@ -47,13 +55,13 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       setIsSystemTheme(false);
       setThemeAndApply(newTheme);
     } catch (error) {
-      console.error('Failed to save theme preference:', error);
+      console.error("Failed to save theme preference:", error);
     }
   }, [theme, setThemeAndApply]);
 
   // Initialize theme on mount - ONLY RUN ONCE
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     let isMounted = true;
 
@@ -64,25 +72,27 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
         const progress = await loadProgress();
         const savedTheme = progress.theme;
-        console.log(`[Theme Init] Loaded theme from progress: ${savedTheme}`);
+        logger.debug(`[Theme Init] Loaded theme from progress: ${savedTheme}`);
 
         if (isMounted) {
-          if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
-            console.log(`[Theme Init] Applying saved theme: ${savedTheme}`);
+          if (savedTheme && (savedTheme === "light" || savedTheme === "dark")) {
+            logger.debug(`[Theme Init] Applying saved theme: ${savedTheme}`);
             setThemeAndApply(savedTheme);
             setIsSystemTheme(false);
           } else {
             const systemTheme = getSystemTheme();
-            console.log(`[Theme Init] Using system theme: ${systemTheme}`);
+            logger.debug(`[Theme Init] Using system theme: ${systemTheme}`);
             setThemeAndApply(systemTheme);
             setIsSystemTheme(true);
           }
         }
       } catch (error) {
-        console.error('[Theme Init] Failed to initialize theme:', error);
+        console.error("[Theme Init] Failed to initialize theme:", error);
         if (isMounted) {
           const systemTheme = getSystemTheme();
-          console.log(`[Theme Init] Fallback to system theme on error: ${systemTheme}`);
+          logger.debug(
+            `[Theme Init] Fallback to system theme on error: ${systemTheme}`,
+          );
           setThemeAndApply(systemTheme);
           setIsSystemTheme(true);
         }
@@ -94,25 +104,30 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     return () => {
       isMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty dependency array - only run once on mount
 
   // Listen for system theme changes - only when using system theme
   useEffect(() => {
-    if (typeof window === 'undefined' || !isSystemTheme) return;
+    if (typeof window === "undefined" || !isSystemTheme) return;
 
-    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
-      const newSystemTheme = e.matches ? 'dark' : 'light';
-      console.log(`[Theme Update] System theme changed to: ${newSystemTheme}`);
+    // Define handler inside effect to have correct closure
+    const handler = (e: MediaQueryListEvent) => {
+      const newSystemTheme = e.matches ? "dark" : "light";
+      logger.debug(`[Theme Update] System theme changed to: ${newSystemTheme}`);
       setThemeAndApply(newSystemTheme);
     };
 
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', handleSystemThemeChange);
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    mediaQuery.addEventListener("change", handler);
 
     return () => {
-      mediaQuery.removeEventListener('change', handleSystemThemeChange);
+      mediaQuery.removeEventListener("change", handler);
     };
-  }, [isSystemTheme, setThemeAndApply]);
+    // Note: setThemeAndApply is intentionally not in the dependency array
+    // because it's a stable memoized function and shouldn't trigger re-runs
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSystemTheme]);
 
   // Don't render until theme is initialized to prevent flash of default theme
   if (theme === null) {

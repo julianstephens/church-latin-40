@@ -1,4 +1,4 @@
-import { X } from 'lucide-react';
+import { X } from "lucide-react";
 
 interface SkipToDayDialogProps {
   isOpen: boolean;
@@ -7,7 +7,12 @@ interface SkipToDayDialogProps {
   day: number;
 }
 
-export function SkipToDayDialog({ isOpen, onClose, onConfirm, day }: SkipToDayDialogProps) {
+export function SkipToDayDialog({
+  isOpen,
+  onClose,
+  onConfirm,
+  day,
+}: SkipToDayDialogProps) {
   if (!isOpen) return null;
 
   return (
@@ -19,16 +24,17 @@ export function SkipToDayDialog({ isOpen, onClose, onConfirm, day }: SkipToDayDi
         >
           <X className="h-5 w-5" />
         </button>
-        
+
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
           Skip to Day {day}?
         </h3>
-        
+
         <p className="text-gray-600 dark:text-gray-300 mb-6">
-          This course is designed to be taken in order to build your Latin knowledge progressively. 
-          Are you sure you want to skip ahead to Day {day}?
+          This course is designed to be taken in order to build your Latin
+          knowledge progressively. Are you sure you want to skip ahead to Day{" "}
+          {day}?
         </p>
-        
+
         <div className="flex justify-end space-x-3">
           <button
             onClick={onClose}

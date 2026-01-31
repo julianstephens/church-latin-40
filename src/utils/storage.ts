@@ -1,4 +1,4 @@
-import { pocketbaseService, UserProgress } from '../services/pocketbase';
+import { pocketbaseService, UserProgress } from "../services/pocketbase";
 
 export type { UserProgress };
 
@@ -19,15 +19,18 @@ export async function completeLesson(lessonId: number): Promise<void> {
   }
 }
 
-export async function saveQuizScore(lessonId: number, score: number): Promise<void> {
+export async function saveQuizScore(
+  lessonId: number,
+  score: number,
+): Promise<void> {
   const progress = await loadProgress();
   progress.quizScores[lessonId] = score;
   await saveProgress(progress);
 }
 
-export async function toggleTheme(): Promise<'light' | 'dark'> {
+export async function toggleTheme(): Promise<"light" | "dark"> {
   const progress = await loadProgress();
-  progress.theme = progress.theme === 'light' ? 'dark' : 'light';
+  progress.theme = progress.theme === "light" ? "dark" : "light";
   await saveProgress(progress);
   return progress.theme;
 }

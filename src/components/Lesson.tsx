@@ -1,10 +1,16 @@
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle, Play } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Lesson as LessonType } from '../data/courseData';
-import { courseDataService } from '../services/courseDataService';
-import { pocketbaseService } from '../services/pocketbase';
-import { loadProgress } from '../utils/storage';
-import { Quiz } from './Quiz';
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  CheckCircle,
+  Play,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { Lesson as LessonType } from "../data/courseData";
+import { courseDataService } from "../services/courseDataService";
+import { pocketbaseService } from "../services/pocketbase";
+import { loadProgress } from "../utils/storage";
+import { Quiz } from "./Quiz";
 
 interface LessonProps {
   lessonId: number;
@@ -39,7 +45,7 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
         const progress = await loadProgress();
         setIsCompleted(progress.completedLessons.includes(lessonId));
       } catch (error) {
-        console.error('Failed to load lesson data:', error);
+        console.error("Failed to load lesson data:", error);
       } finally {
         setIsLoading(false);
       }
@@ -51,7 +57,9 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
   if (isLoading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="text-center text-gray-600 dark:text-gray-400">Loading lesson...</div>
+        <div className="text-center text-gray-600 dark:text-gray-400">
+          Loading lesson...
+        </div>
       </div>
     );
   }
@@ -101,9 +109,7 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
             </h1>
           </div>
 
-          {isCompleted && (
-            <CheckCircle className="h-8 w-8 text-green-600" />
-          )}
+          {isCompleted && <CheckCircle className="h-8 w-8 text-green-600" />}
         </div>
       </div>
 
@@ -156,11 +162,18 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
 
             <div className="grid md:grid-cols-2 gap-4">
               {lesson.vocabulary.map((word, index) => {
-                const [latin, english] = word.split(' - ');
+                const [latin, english] = word.split(" - ");
                 return (
-                  <div key={index} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <span className="font-semibold text-red-900 dark:text-red-400">{latin}</span>
-                    <span className="text-gray-600 dark:text-gray-300">{english}</span>
+                  <div
+                    key={index}
+                    className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                  >
+                    <span className="font-semibold text-red-900 dark:text-red-400">
+                      {latin}
+                    </span>
+                    <span className="text-gray-600 dark:text-gray-300">
+                      {english}
+                    </span>
                   </div>
                 );
               })}
@@ -198,22 +211,30 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
                     className="w-4 h-4 text-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <span className="text-sm text-gray-600 dark:text-gray-400">
-                    I have completed the practice exercises / I am ready to see the answer
+                    I have completed the practice exercises / I am ready to see
+                    the answer
                   </span>
                 </label>
               </div>
               {materialCompleted && lesson.answer && (
                 <div className="mt-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-                  <h3 className="text-lg font-bold text-green-800 dark:text-green-200 mb-2">Answer:</h3>
+                  <h3 className="text-lg font-bold text-green-800 dark:text-green-200 mb-2">
+                    Answer:
+                  </h3>
                   <div className="space-y-3">
                     {Array.isArray(lesson.answer) ? (
                       lesson.answer.map((paragraph, index) => (
-                        <p key={index} className="text-green-700 dark:text-green-300">
+                        <p
+                          key={index}
+                          className="text-green-700 dark:text-green-300"
+                        >
                           {paragraph}
                         </p>
                       ))
                     ) : (
-                      <p className="text-green-700 dark:text-green-300">{lesson.answer}</p>
+                      <p className="text-green-700 dark:text-green-300">
+                        {lesson.answer}
+                      </p>
                     )}
                   </div>
                 </div>

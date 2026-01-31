@@ -1,10 +1,13 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import { Book, Cross, Github, LogIn, LogOut, Moon, Sun } from 'lucide-react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Tooltip } from 'react-tooltip';
-import { disableAnonymousMode, isAnonymousMode } from '../services/anonymousSession';
-import { useTheme } from './ThemeProvider';
+import { useAuth0 } from "@auth0/auth0-react";
+import { Book, Clock, Cross, Github, LogIn, LogOut, Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Tooltip } from "react-tooltip";
+import {
+  disableAnonymousMode,
+  getSessionTimeRemaining,
+  isAnonymousMode,
+} from "../services/anonymousSession";
+import { useTheme } from "./ThemeProvider";
 
 interface HeaderProps {
   onHomeClick: () => void;
@@ -14,13 +17,31 @@ export function Header({ onHomeClick }: HeaderProps) {
   const { logout } = useAuth0();
   const { theme, toggleTheme } = useTheme();
   const anonMode = isAnonymousMode();
-  const goto = useNavigate();
-  const [shouldThrowError, setShouldThrowError] = useState(false);
+  const [sessionTimeRemaining, setSessionTimeRemaining] = useState<string>("");
 
-  // Trigger error during render when state is set to true
-  if (shouldThrowError) {
-    throw new Error('Test error boundary triggered from Header');
-  }
+  useEffect(() => {
+    if (!anonMode) {
+      setSessionTimeRemaining("");
+      return;
+    }
+
+    const updateTimer = () => {
+      const remaining = getSessionTimeRemaining();
+      if (remaining <= 0) {
+        setSessionTimeRemaining("Expired");
+        return;
+      }
+
+      const hours = Math.floor(remaining / (60 * 60 * 1000));
+      const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+      setSessionTimeRemaining(`${hours}h ${minutes}m`);
+    };
+
+    updateTimer();
+    const interval = setInterval(updateTimer, 60000); // Update every minute
+
+    return () => clearInterval(interval);
+  }, [anonMode]);
 
   const handleExitAnonymousMode = () => {
     disableAnonymousMode();
@@ -67,33 +88,47 @@ export function Header({ onHomeClick }: HeaderProps) {
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               aria-label="Toggle theme"
             >
-              {theme === 'light' ? (
+              {theme === "light" ? (
                 <Moon className="h-5 w-5 text-gray-700 dark:text-gray-300" />
               ) : (
                 <Sun className="h-5 w-5 text-gray-700 dark:text-gray-300" />
               )}
             </button>
 
-            {
-              anonMode ? (
+            {anonMode ? (
+              <>
+                <div
+                  className="flex items-center space-x-2 text-sm text-orange-600 dark:text-orange-400 px-3 py-2 rounded-lg bg-orange-50 dark:bg-orange-900/30"
+                  data-tooltip-id="anonSessionTimer"
+                  data-tooltip-content="Anonymous session expires after 24 hours"
+                >
+                  <Clock className="h-4 w-4" />
+                  <span>{sessionTimeRemaining || "Loading..."}</span>
+                </div>
+                <Tooltip id="anonSessionTimer" />
                 <button
                   onClick={handleExitAnonymousMode}
                   className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  data-tooltip-id="anonLoginButton"
+                  data-tooltip-content="Sign in with Auth0"
                 >
-                  <LogIn data-tooltip-id="loginButton" data-tooltip-content="Login" className="h-5 w-5 text-gray-700 dark:text-gray-300" />
-                  <Tooltip id="loginButton" />
-                </button >
-              ) :
-                (
-                  <button
-                    onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
-                    className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    <LogOut data-tooltip-id="logoutButton" data-tooltip-content="Logout" className="h-5 w-5 text-gray-700 dark:text-gray-300" />
-                    <Tooltip id="logoutButton" />
-                  </button >
-                )
-            }
+                  <LogIn className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                </button>
+                <Tooltip id="anonLoginButton" />
+              </>
+            ) : (
+              <button
+                onClick={() =>
+                  logout({ logoutParams: { returnTo: window.location.origin } })
+                }
+                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                data-tooltip-id="logoutButton"
+                data-tooltip-content="Logout"
+              >
+                <LogOut className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                <Tooltip id="logoutButton" />
+              </button>
+            )}
           </div>
         </div>
       </div>

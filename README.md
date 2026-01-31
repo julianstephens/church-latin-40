@@ -1,64 +1,56 @@
 # Ecclesiastical Latin: 40 Days to Sacred Language
 
-An immersive 40-day course designed for Catholics to learn Ecclesiastical Latin for prayer, Mass participation, and deeper spiritual understanding. Perfect for Lent and Advent preparation.
+All site design, development, and course content by [masaharumori7](https://github.com/masaharumori7/church-latin-40).
 
-> "What is in question here is not only the retention within the choral office of the Latin language, though it is of course right that this should be eagerly guarded and should certainly not be lightly esteemed. For this language is, within the Latin Church, an abundant well-spring of Christian civilisation and a very rich treasure-trove of devotion...The traditions of the elders, your glory throughout long ages, must not be belittled."
-> 
-> — Pope Paul VI, *Sacrificium Laudis*, 1966
+This fork adds authentication via Auth0 and data storage using PocketBase.
 
-## Features
+## Environment Configuration
 
-- 40 structured daily lessons with progressive difficulty
-- Interactive quizzes and exercises for practical learning
-- Dark/light theme toggle for comfortable study
-- Progress tracking to monitor your journey
-- Responsive design for all devices
-- Focus on sacred texts, prayers, and liturgical use
+### Required Environment Variables
 
-## Setup
+This application requires the following environment variables to run:
 
-1. **Install dependencies:**
+1. **VITE_AUTH0_DOMAIN** - Your Auth0 application domain
+   - Format: `your-domain.auth0.com` or `your-domain.region.auth0.com`
+   - Get from: [Auth0 Dashboard](https://manage.auth0.com/dashboard)
+
+2. **VITE_AUTH0_CLIENT_ID** - Your Auth0 application client ID
+   - Get from: [Auth0 Dashboard](https://manage.auth0.com/dashboard)
+
+3. **VITE_POCKETBASE_URL** - URL where your PocketBase instance is running
+   - Local development: `http://localhost:8080`
+   - Production: `https://your-pb-instance.com`
+
+### Optional Environment Variables
+
+- **VITE_GITHUB_ISSUES_URL** - URL to your GitHub issues page (used in error boundary)
+
+### Setup Instructions
+
+1. Copy `.env.example` to `.env.local`:
+
    ```bash
-   npm install
+   cp .env.example .env.local
    ```
 
-2. **Run in development mode:**
-   ```bash
-   npm run dev
-   ```
-   The application will be available at [http://localhost:3000](http://localhost:3000)
+2. Update `.env.local` with your actual configuration values:
 
-3. **Build for production:**
    ```bash
-   npm run build
-   ```
-   The optimized production build will be in the `build` directory.
-
-4. **Start production server:**
-   ```bash
-   npm start
+   VITE_AUTH0_DOMAIN=your-domain.auth0.com
+   VITE_AUTH0_CLIENT_ID=your-client-id
+   VITE_POCKETBASE_URL=http://localhost:8090
    ```
 
-## Deployment
+3. The application will automatically validate your environment configuration on startup and provide detailed error messages if any required variables are missing or incorrectly formatted.
 
-The application can be deployed to any static hosting service (Netlify, Vercel, GitHub Pages, etc.) by deploying the contents of the `build` directory.
+### Environment Validation
 
-## Contributing to Course Material
+The application includes built-in environment validation that checks:
 
-### Course Content Structure
-Course content is managed in the following directories:
-- `src/data/courseData.ts` - Main course content and lesson structure
+- ✓ All required variables are present
+- ✓ Auth0 domain format is valid
+- ✓ Auth0 client ID has reasonable length
+- ✓ PocketBase URL is a valid URL with proper protocol
+- ✓ PocketBase collection name follows naming conventions
 
-### How to Contribute
-1. Fork the repository
-2. Create a feature branch for your changes
-3. Make your changes following the existing patterns
-4. Submit a pull request with a clear description of your changes
-
-Alternatively, non-technical users can file an issue with suggested changes.
-
-All contributions should maintain the sacral nature of the content and respect Catholic teaching.
-
-## License
-
-This project is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
+If validation fails, the application will display detailed error messages indicating which variables need to be fixed and what the correct format should be.

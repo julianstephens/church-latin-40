@@ -1,20 +1,20 @@
-import { Loader } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
-import { CourseOverview } from './components/CourseOverview';
-import { ErrorBoundary } from './components/ErrorBoundary';
-import { Header } from './components/Header';
-import { Lesson } from './components/Lesson';
-import { ThemeProvider } from './components/ThemeProvider';
-import { NotFoundPage } from './pages/NotFoundPage';
-import { pocketbaseService } from './services/pocketbase';
-import { loadProgress } from './utils/storage';
+import { Loader } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Route, Routes, useNavigate, useParams } from "react-router-dom";
+import { CourseOverview } from "./components/CourseOverview";
+import { ErrorBoundary } from "./components/ErrorBoundary";
+import { Header } from "./components/Header";
+import { Lesson } from "./components/Lesson";
+import { ThemeProvider } from "./components/ThemeProvider";
+import { NotFoundPage } from "./pages/NotFoundPage";
+import { pocketbaseService } from "./services/pocketbase";
+import { loadProgress } from "./utils/storage";
 
 // Lesson route component that reads from URL params
 function LessonRoute() {
   const navigate = useNavigate();
-  const { lessonId: lessonIdParam } = useParams<{ lessonId: string; }>();
-  const lessonId = parseInt(lessonIdParam || '1', 10);
+  const { lessonId: lessonIdParam } = useParams<{ lessonId: string }>();
+  const lessonId = parseInt(lessonIdParam || "1", 10);
 
   // Validate lesson ID is in valid range (1-40)
   if (isNaN(lessonId) || lessonId < 1 || lessonId > 40) {
@@ -22,7 +22,7 @@ function LessonRoute() {
   }
 
   const handleBackToOverview = () => {
-    navigate('/');
+    navigate("/");
   };
 
   const handleNextLesson = async () => {
@@ -32,7 +32,7 @@ function LessonRoute() {
     if (nextLesson <= progress.currentLesson) {
       navigate(`/lesson/${nextLesson}`);
     } else {
-      navigate('/');
+      navigate("/");
     }
   };
 
@@ -71,7 +71,7 @@ function App() {
         // Now load progress
         await loadProgress();
       } catch (error) {
-        console.error('Failed to load initial progress:', error);
+        console.error("Failed to load initial progress:", error);
       } finally {
         setIsLoading(false);
       }
@@ -85,7 +85,7 @@ function App() {
   };
 
   const handleBackToOverview = () => {
-    navigate('/');
+    navigate("/");
   };
 
   if (isLoading) {
@@ -93,7 +93,9 @@ function App() {
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Loader className="h-12 w-12 text-red-900 dark:text-red-600 animate-spin" />
-          <p className="text-gray-600 dark:text-gray-400 text-lg">Loading your course...</p>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
+            Loading your course...
+          </p>
         </div>
       </div>
     );
@@ -118,7 +120,8 @@ function App() {
                         "Oremus pro invicem" - Let us pray for one another
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-500">
-                        Created with devotion for the greater glory of God and the enrichment of Catholic faithful.
+                        Created with devotion for the greater glory of God and
+                        the enrichment of Catholic faithful.
                       </p>
                     </div>
                   </div>
@@ -126,14 +129,8 @@ function App() {
               </div>
             }
           />
-          <Route
-            path="/lesson/:lessonId"
-            element={<LessonRoute />}
-          />
-          <Route
-            path="*"
-            element={<NotFoundPage />}
-          />
+          <Route path="/lesson/:lessonId" element={<LessonRoute />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </ThemeProvider>
     </ErrorBoundary>
@@ -141,4 +138,3 @@ function App() {
 }
 
 export default App;
-
