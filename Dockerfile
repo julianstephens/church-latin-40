@@ -1,11 +1,15 @@
 # Multi-stage build for production
 FROM node:20-alpine AS builder
 
+ENV PNPM_HOME="/pnpm"
+ENV PNPM_STORE_PATH="${PNPM_HOME}/store"
+ENV PATH="${PNPM_HOME}:${PATH}"
 WORKDIR /app
+RUN corepack enable
 
 # Install dependencies
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
+COPY package.json pnpm-lock.yaml tailwind.config.js postcss.config.js ./
+RUN pnpm install --frozen-lockfile
 
 # Copy source code
 COPY . .

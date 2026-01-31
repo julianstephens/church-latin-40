@@ -7,5 +7,4 @@ docs/
 .eslintrc*
 eslint.config.js
 tsconfig*.json
-postcss.config.js
 prettier*
