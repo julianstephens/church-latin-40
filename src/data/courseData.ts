@@ -30,6 +30,15 @@ type OtherQuestion = BaseQuizQuestion & {
 
 export type QuizQuestion = MultipleChoiceQuestion | OtherQuestion;
 
+export interface VocabQuestionTemplate {
+  id: string;
+  lessonId: number;
+  type: "vocab-matching" | "vocab-multiple-choice" | "vocab-translation";
+  format: "auto-generated";
+  wordCount: number;
+  instruction: string;
+}
+
 export interface Module {
   id: number;
   title: string;
@@ -3286,5 +3295,83 @@ export const lessons: Lesson[] = [
         correctAnswer: "Imperative",
       },
     ],
+  },
+];
+/**
+ * Vocabulary question templates for dynamic generation
+ * Each lesson can have one or more templates that will generate random questions from the lesson's vocabulary
+ */
+export const vocabQuestionTemplates: VocabQuestionTemplate[] = [
+  // Lesson 1 - Introduction: 1 translation question with 1 random word
+  {
+    id: "D01-VOCAB-TRANSLATION",
+    lessonId: 1,
+    type: "vocab-translation",
+    format: "auto-generated",
+    wordCount: 1,
+    instruction: "Translate the Latin word to English",
+  },
+  // Lesson 2 - Basic Grammar: 5-word matching question
+  {
+    id: "D02-VOCAB-MATCHING",
+    lessonId: 2,
+    type: "vocab-matching",
+    format: "auto-generated",
+    wordCount: 5,
+    instruction: "Match the Latin word to its English meaning",
+  },
+  // Lesson 3 - Verbs: 1 translation question
+  {
+    id: "D03-VOCAB-TRANSLATION",
+    lessonId: 3,
+    type: "vocab-translation",
+    format: "auto-generated",
+    wordCount: 1,
+    instruction: "Translate the Latin verb to English",
+  },
+  // Lesson 4 - Prayers: 1 multiple-choice question
+  {
+    id: "D04-VOCAB-MULTIPLE-CHOICE",
+    lessonId: 4,
+    type: "vocab-multiple-choice",
+    format: "auto-generated",
+    wordCount: 1,
+    instruction: "Choose the correct English meaning",
+  },
+  // Lesson 5 - More Verbs: 1 translation question
+  {
+    id: "D05-VOCAB-TRANSLATION",
+    lessonId: 5,
+    type: "vocab-translation",
+    format: "auto-generated",
+    wordCount: 1,
+    instruction: "Translate the Latin word to English",
+  },
+  // Lesson 6 - Adjectives: 1 translation question
+  {
+    id: "D06-VOCAB-TRANSLATION",
+    lessonId: 6,
+    type: "vocab-translation",
+    format: "auto-generated",
+    wordCount: 1,
+    instruction: "Translate the Latin adjective to English",
+  },
+  // Lesson 7 - Prepositions: 1 translation question
+  {
+    id: "D07-VOCAB-TRANSLATION",
+    lessonId: 7,
+    type: "vocab-translation",
+    format: "auto-generated",
+    wordCount: 1,
+    instruction: "Translate the Latin preposition to English",
+  },
+  // Lesson 8 - Review: 5-word matching question
+  {
+    id: "D08-VOCAB-MATCHING",
+    lessonId: 8,
+    type: "vocab-matching",
+    format: "auto-generated",
+    wordCount: 5,
+    instruction: "Match the Latin word to its English meaning",
   },
 ];

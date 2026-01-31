@@ -1,6 +1,7 @@
 import { ArrowLeft, CheckCircle, SkipForward, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { reviewService } from "../services/reviewService";
+import { vocabularyService } from "../services/vocabularyService";
 import { logger } from "../utils/logger";
 import {
     normalizeAnswerForComparison,
@@ -28,6 +29,9 @@ interface ReviewQuestion {
     options?: string[];
     type: string;
     explanation?: string;
+    // Vocabulary question fields
+    vocabWordId?: string;
+    isVocabQuestion?: boolean;
 }
 
 export function ReviewSession({
@@ -67,6 +71,32 @@ export function ReviewSession({
 
                 for (const item of dueItems) {
                     try {
+                        // Check if this is a vocabulary question
+                        if (item.vocabWordId) {
+                            // This is a vocabulary word review - generate a simple translation question
+                            try {
+                                const vocabWord = await vocabularyService.getVocabWord(item.vocabWordId);
+                                if (vocabWord) {
+                                    reviewQuestions.push({
+                                        reviewItemId: item.id,
+                                        questionId: item.questionId,
+                                        question: `Translate: <strong>${sanitizeOption(vocabWord.word)}</strong>`,
+                                        correctAnswer: vocabWord.meaning,
+                                        type: "vocab-translation",
+                                        explanation: `${vocabWord.word} means "${vocabWord.meaning}"`,
+                                        vocabWordId: item.vocabWordId,
+                                        isVocabQuestion: true,
+                                    });
+                                    continue;
+                                }
+                            } catch (vocabError) {
+                                logger.warn(
+                                    `[ReviewSession] Failed to load vocabulary word ${item.vocabWordId}:`,
+                                    vocabError,
+                                );
+                            }
+                        }
+
                         const questionContent = await reviewService.getReviewQuestion(
                             item.lessonId,
                             item.questionId,
@@ -135,16 +165,26 @@ export function ReviewSession({
 
         setIsSubmitting(true);
         try {
-            const normalizedUserAnswer = normalizeAnswerForComparison(userAnswer);
-            const normalizedCorrectAnswer = normalizeAnswerForComparison(
-                currentQuestion.correctAnswer,
-            );
+            let isCorrect = false;
 
-            const isCorrect = normalizedUserAnswer === normalizedCorrectAnswer;
+            if (currentQuestion.isVocabQuestion && currentQuestion.type === "vocab-translation") {
+                // For vocabulary questions, use fuzzy matching from vocabularyService
+                isCorrect = vocabularyService.evaluateTranslationAnswer(
+                    currentQuestion.correctAnswer,
+                    userAnswer,
+                );
+            } else {
+                // For regular questions, use exact matching
+                const normalizedUserAnswer = normalizeAnswerForComparison(userAnswer);
+                const normalizedCorrectAnswer = normalizeAnswerForComparison(
+                    currentQuestion.correctAnswer,
+                );
+                isCorrect = normalizedUserAnswer === normalizedCorrectAnswer;
+            }
 
             await reviewService.submitReviewResult(
                 currentQuestion.questionId,
-                currentQuestion.questionId,
+                currentQuestion.reviewItemId,
                 isCorrect ? "correct" : "incorrect",
             );
 
@@ -168,7 +208,7 @@ export function ReviewSession({
         try {
             await reviewService.submitReviewResult(
                 currentQuestion.questionId,
-                currentQuestion.questionId,
+                currentQuestion.reviewItemId,
                 "skipped",
             );
 
@@ -307,8 +347,8 @@ export function ReviewSession({
                                         key={index}
                                         onClick={() => setUserAnswer(option)}
                                         className={`w-full text-left p-3 rounded-lg border-2 transition-colors duration-200 ${userAnswer === option
-                                                ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                                                : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
+                                            ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                                            : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
                                             }`}
                                     >
                                         <span className="text-gray-900 dark:text-white">

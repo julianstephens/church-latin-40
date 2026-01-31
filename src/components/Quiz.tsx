@@ -2,6 +2,9 @@ import { ArrowRight, CheckCircle, RotateCcw, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { QuizQuestion } from "../data/courseData";
 import { reviewService } from "../services/reviewService";
+import { vocabularyService } from "../services/vocabularyService";
+import { GeneratedVocabQuestion } from "../types/vocabulary";
+import { logger } from "../utils/logger";
 import {
   normalizeAnswerForComparison,
   sanitizeOption,
@@ -15,11 +18,21 @@ interface QuizProps {
   onComplete: () => void;
 }
 
+/**
+ * Extended QuizQuestion with resolved template questions
+ */
+interface ResolvedQuestion extends QuizQuestion {
+  generatedVocabQuestion?: GeneratedVocabQuestion;
+  usedVocabWordIds?: string[];
+}
+
 export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [userAnswer, setUserAnswer] = useState("");
+  const [resolvedQuestions, setResolvedQuestions] = useState<ResolvedQuestion[]>([]);
+  const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
   const [matchingState, setMatchingState] = useState<{
     pairs: { [key: string]: string; };
     selectedLatin: string | null;
@@ -32,17 +45,89 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
     randomizedOptions: [],
   });
 
+  /**
+   * Resolve template questions to actual vocabulary questions
+   */
   useEffect(() => {
-    if (questions[currentQuestion]?.type === "matching") {
+    const resolveTemplateQuestions = async () => {
+      try {
+        const resolved: ResolvedQuestion[] = [];
+
+        for (const question of questions) {
+          if (question.isTemplateQuestion && question.templateId) {
+            // This is a template question - generate a vocabulary question
+            try {
+              // Extract question type and word count from template id
+              // Format: D##-VOCAB-TYPE (e.g., D02-VOCAB-MATCHING)
+              const parts = question.templateId!.split('-');
+              const vocabType = `vocab-${parts[2]?.toLowerCase() || 'translation'}`;
+
+              // Determine word count based on type
+              let wordCount = 1;
+              if (vocabType === 'vocab-matching') {
+                wordCount = 5;
+              }
+
+              // Generate the vocabulary question
+              const generatedQuestion = await vocabularyService.generateQuestion({
+                lessonId,
+                wordCount,
+                type: vocabType as any,
+              });
+
+              // Extract vocab word IDs from the generated question
+              const usedVocabWordIds = generatedQuestion.usedWords.map(w => w.id);
+
+              // Create a resolved question with the generated vocab question
+              const resolvedQuestion: ResolvedQuestion = {
+                ...question,
+                question: generatedQuestion.question,
+                options: generatedQuestion.options,
+                correctAnswer: generatedQuestion.correctAnswer,
+                explanation: generatedQuestion.explanations?.[0] || 'Correct!',
+                generatedVocabQuestion: generatedQuestion,
+                usedVocabWordIds,
+              };
+
+              resolved.push(resolvedQuestion);
+            } catch (error) {
+              logger.warn(
+                `Failed to generate vocabulary question for template ${question.templateId}:`,
+                error,
+              );
+              // Fall back to the original question
+              resolved.push(question as ResolvedQuestion);
+            }
+          } else {
+            // Not a template question - use as-is
+            resolved.push(question as ResolvedQuestion);
+          }
+        }
+
+        setResolvedQuestions(resolved);
+      } catch (error) {
+        logger.error('Failed to resolve template questions:', error);
+        // Fall back to original questions
+        setResolvedQuestions(questions as ResolvedQuestion[]);
+      } finally {
+        setIsLoadingQuestions(false);
+      }
+    };
+
+    resolveTemplateQuestions();
+  }, [questions, lessonId]);
+
+  useEffect(() => {
+    if (resolvedQuestions[currentQuestion]?.type === "matching") {
       // Randomize English options for matching
-      const options = [...questions[currentQuestion].options!];
+      const options = [...(resolvedQuestions[currentQuestion].options || [])];
       for (let i = options.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [options[i], options[j]] = [options[j], options[i]];
       }
       setMatchingState((prev) => ({ ...prev, randomizedOptions: options }));
     }
-  }, [currentQuestion, questions]);
+  }, [currentQuestion, resolvedQuestions]);
 
   const handleMatchingSelect = (type: "latin" | "english", value: string) => {
     if (type === "latin") {
@@ -87,7 +172,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
       randomizedOptions: [],
     });
 
-    if (currentQuestion < questions.length - 1) {
+    if (currentQuestion < resolvedQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
       const score = calculateScore(newAnswers);
@@ -102,7 +187,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
         // Process sequentially to avoid PocketBase auto-cancellation
         for (let i = 0; i < newAnswers.length; i++) {
           const answer = newAnswers[i];
-          const question = questions[i];
+          const question = resolvedQuestions[i];
           const isCorrect = isAnswerCorrect(question, answer);
 
           console.debug(
@@ -113,7 +198,16 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
           if (!isCorrect) {
             // Non-blocking: log errors but don't fail quiz submission
             try {
-              await reviewService.handleQuizMiss(lessonId, question.questionId);
+              // If this is a vocabulary question, track the vocabWordIds
+              if (question.usedVocabWordIds && question.usedVocabWordIds.length > 0) {
+                // For vocab questions with multiple words (matching), create separate review items for each word
+                for (const vocabWordId of question.usedVocabWordIds) {
+                  await reviewService.handleQuizMiss(lessonId, question.questionId, vocabWordId);
+                }
+              } else {
+                // Regular question without vocab tracking
+                await reviewService.handleQuizMiss(lessonId, question.questionId);
+              }
             } catch (error) {
               console.warn(
                 `Failed to create review item for question ${question.questionId}:`,
@@ -127,7 +221,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
   };
 
   const handleMatchingAnswer = () => {
-    const question = questions[currentQuestion];
+    const question = resolvedQuestions[currentQuestion];
     if (
       "options" in question &&
       question.type === "matching" &&
@@ -143,7 +237,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
   const calculateScore = (answers: string[]) => {
     let correct = 0;
     answers.forEach((answer, index) => {
-      const question = questions[index];
+      const question = resolvedQuestions[index];
       const normalizedAnswer = normalizeAnswerForComparison(answer);
 
       if (Array.isArray(question.correctAnswer)) {
@@ -298,7 +392,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
         </div>
 
         <div className="space-y-4 mb-6">
-          {questions.map((question, index) => {
+          {resolvedQuestions.map((question, index) => {
             const userAns = userAnswers[index];
             let isCorrect = false;
 
@@ -417,7 +511,20 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
     );
   }
 
-  const question = questions[currentQuestion];
+  // Show loading while resolving template questions
+  if (isLoadingQuestions) {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+        <div className="text-center">
+          <p className="text-gray-600 dark:text-gray-400">
+            Loading quiz questions...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const question = resolvedQuestions[currentQuestion];
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
@@ -427,7 +534,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
             Daily Quiz
           </h3>
           <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-            {currentQuestion + 1} of {questions.length}
+            {currentQuestion + 1} of {resolvedQuestions.length}
           </span>
         </div>
 
@@ -435,7 +542,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
           <div
             className="bg-red-900 dark:bg-red-600 h-2 rounded-full transition-all duration-300"
             style={{
-              width: `${((currentQuestion + 1) / questions.length) * 100}%`,
+              width: `${((currentQuestion + 1) / resolvedQuestions.length) * 100}%`,
             }}
           ></div>
         </div>
@@ -490,10 +597,10 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                         onClick={() => handleMatchingSelect("latin", latin)}
                         disabled={isPaired}
                         className={`w-full min-h-touch-target p-3 sm:p-4 text-sm sm:text-base rounded-lg text-left transition-colors touch-manipulation ${isPaired
-                            ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
-                            : isSelected
-                              ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
-                              : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-600"
+                          ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
+                          : isSelected
+                            ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
+                            : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-600"
                           }`}
                         aria-label={`Select Latin word ${latin}`}
                         dangerouslySetInnerHTML={{
@@ -520,10 +627,10 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                         onClick={() => handleMatchingSelect("english", option)}
                         disabled={isPaired}
                         className={`w-full min-h-touch-target p-3 sm:p-4 text-sm sm:text-base rounded-lg text-left transition-colors touch-manipulation ${isPaired
-                            ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
-                            : isSelected
-                              ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
-                              : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-600"
+                          ? "bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border border-blue-200 dark:border-blue-800 cursor-not-allowed"
+                          : isSelected
+                            ? "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-white border-2 border-blue-500"
+                            : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-600"
                           }`}
                         aria-label={`Select English meaning ${option}`}
                         dangerouslySetInnerHTML={{
