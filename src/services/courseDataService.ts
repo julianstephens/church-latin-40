@@ -27,12 +27,21 @@ class CourseDataService {
                 sort: '+displayOrder',
             });
 
-            this.modulesCache = records.map((record: any) => ({
-                id: record.moduleNumber,
-                title: record.name || record.title,
-                description: record.description,
-                days: Array.from({ length: record.lessonCount }, (_, i) => i + 1),
-            }));
+            // Calculate days for each module (sequential across all modules)
+            let dayCounter = 1;
+            this.modulesCache = records.map((record: any) => {
+                const startDay = dayCounter;
+                const lessonCount = record.lessonCount || 8; // Default to 8 if not specified
+                const days = Array.from({ length: lessonCount }, (_, i) => startDay + i);
+                dayCounter += lessonCount;
+
+                return {
+                    id: record.moduleNumber,
+                    title: record.name || record.title,
+                    description: record.description,
+                    days: days,
+                };
+            });
 
             return this.modulesCache;
         } catch (error) {

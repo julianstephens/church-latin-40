@@ -1,3 +1,4 @@
+import { Loader } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { CourseOverview } from './components/CourseOverview';
@@ -82,8 +83,11 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-gray-600 dark:text-gray-400">Loading...</div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader className="h-12 w-12 text-red-900 dark:text-red-600 animate-spin" />
+          <p className="text-gray-600 dark:text-gray-400 text-lg">Loading your course...</p>
+        </div>
       </div>
     );
   }

@@ -190,56 +190,86 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
           Course Modules
         </h3>
 
-        {modules.map((module) => (
-          <div key={module.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-            <div className="p-6 border-l-4 border-red-900 dark:border-red-600">
-              <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                Module {module.id}: {module.title}
-              </h4>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                {module.description}
-              </p>
+        {modules.map((module) => {
+          // Calculate progress for this specific module
+          const moduleLessonsCompleted = module.days.filter(day =>
+            progress.completedLessons.includes(day)
+          ).length;
+          const moduleProgress = Math.round((moduleLessonsCompleted / module.days.length) * 100);
 
-              <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
-                {module.days.map((day) => {
-                  const isCompleted = progress.completedLessons.includes(day);
-                  const isCurrent = day === progress.currentLesson;
-                  const isAvailable = day <= progress.currentLesson;
+          console.log(`[Module ${module.id}] Days: ${module.days.join(',')} | Completed: ${moduleLessonsCompleted} | Progress: ${moduleProgress}%`);
 
-                  return (
-                    <button
-                      key={day}
-                      onClick={() => {
-                        if (isAvailable) {
-                          onLessonSelect(day);
-                        } else {
-                          setSelectedSkipDay(day);
-                          setShowSkipDialog(true);
-                        }
-                      }}
-                      className={`
+          return (
+            <div key={module.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+              <div className="p-6 border-l-4 border-red-900 dark:border-red-600">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                      Module {module.id}: {module.title}
+                    </h4>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      {module.description}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-blue-800 dark:text-blue-400">
+                      {moduleProgress}%
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400">
+                      {moduleLessonsCompleted}/{module.days.length} lessons
+                    </div>
+                  </div>
+                </div>
+
+                {/* Progress bar for this module */}
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">
+                  <div
+                    className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${moduleProgress}%` }}
+                  ></div>
+                </div>
+
+                <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
+                  {module.days.map((day) => {
+                    const isCompleted = progress.completedLessons.includes(day);
+                    const isCurrent = day === progress.currentLesson;
+                    const isAvailable = day <= progress.currentLesson;
+
+                    return (
+                      <button
+                        key={day}
+                        onClick={() => {
+                          if (isAvailable) {
+                            onLessonSelect(day);
+                          } else {
+                            setSelectedSkipDay(day);
+                            setShowSkipDialog(true);
+                          }
+                        }}
+                        className={`
                         relative p-3 rounded-lg text-sm font-medium transition-all duration-200
                         ${isCompleted
-                          ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800'
-                          : isCurrent
-                            ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800'
-                            : isAvailable
-                              ? 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                              : 'bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300'
-                        }
+                            ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800'
+                            : isCurrent
+                              ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800'
+                              : isAvailable
+                                ? 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                : 'bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300'
+                          }
                       `}
-                    >
-                      Day {day}
-                      {isCompleted && (
-                        <CheckCircle className="absolute -top-1 -right-1 h-4 w-4 text-green-600 dark:text-green-400" />
-                      )}
-                    </button>
-                  );
-                })}
+                      >
+                        Day {day}
+                        {isCompleted && (
+                          <CheckCircle className="absolute -top-1 -right-1 h-4 w-4 text-green-600 dark:text-green-400" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Call to Action */}
