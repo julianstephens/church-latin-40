@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { pocketbaseService } from '../services/pocketbase';
 import { loadProgress, saveProgress } from '../utils/storage';
 import { applyTheme, getSystemTheme } from '../utils/theme-utils';
 
@@ -25,7 +26,7 @@ interface ThemeProviderProps {
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme, setTheme] = useState<'light' | 'dark' | null>(null);
   const [isSystemTheme, setIsSystemTheme] = useState(true);
-  
+
   // Apply theme class to HTML element
   const setThemeAndApply = useCallback((newTheme: 'light' | 'dark') => {
     if (newTheme === 'light' || newTheme === 'dark') {
@@ -35,15 +36,19 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   }, []);
 
   // Toggle between light/dark theme
-  const toggleTheme = useCallback(() => {
+  const toggleTheme = useCallback(async () => {
     if (theme === null) return;
-    
+
     const newTheme = theme === 'light' ? 'dark' : 'light';
-    const progress = loadProgress();
-    progress.theme = newTheme;
-    saveProgress(progress);
-    setIsSystemTheme(false);
-    setThemeAndApply(newTheme);
+    try {
+      const progress = await loadProgress();
+      progress.theme = newTheme;
+      await saveProgress(progress);
+      setIsSystemTheme(false);
+      setThemeAndApply(newTheme);
+    } catch (error) {
+      console.error('Failed to save theme preference:', error);
+    }
   }, [theme, setThemeAndApply]);
 
   // Initialize theme on mount
@@ -51,21 +56,36 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     // Only run on client-side
     if (typeof window === 'undefined') return;
 
-    // Get saved preference
-    const progress = loadProgress();
-    const savedTheme = progress.theme;
-    
-    if (savedTheme) {
-      // Use saved theme if it exists
-      setThemeAndApply(savedTheme);
-      setIsSystemTheme(false);
-    } else {
-      // Otherwise use system preference
-      const systemTheme = getSystemTheme();
-      setThemeAndApply(systemTheme);
-      setIsSystemTheme(true);
-    }
-    
+    const initializeTheme = async () => {
+      try {
+        // Wait for PocketBase user ID to be set (ensures authentication is complete)
+        await pocketbaseService.waitForUserId(5000);
+
+        // Get saved preference
+        const progress = await loadProgress();
+        const savedTheme = progress.theme;
+
+        if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+          // Use saved theme if it exists and is valid
+          setThemeAndApply(savedTheme);
+          setIsSystemTheme(false);
+        } else {
+          // Otherwise use system preference
+          const systemTheme = getSystemTheme();
+          setThemeAndApply(systemTheme);
+          setIsSystemTheme(true);
+        }
+      } catch (error) {
+        console.error('Failed to initialize theme:', error);
+        // Fallback to system theme on error
+        const systemTheme = getSystemTheme();
+        setThemeAndApply(systemTheme);
+        setIsSystemTheme(true);
+      }
+    };
+
+    initializeTheme();
+
     // Listen for system theme changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleSystemThemeChange = (e: MediaQueryListEvent) => {
@@ -73,14 +93,13 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         setThemeAndApply(e.matches ? 'dark' : 'light');
       }
     };
-    
+
     mediaQuery.addEventListener('change', handleSystemThemeChange);
     return () => mediaQuery.removeEventListener('change', handleSystemThemeChange);
   }, [setThemeAndApply, isSystemTheme]);
-  
+
   // Don't render until theme is initialized to prevent flash of default theme
   if (theme === null) {
-    // Optionally return a minimal loader or null
     return null;
   }
 

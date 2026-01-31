@@ -1,5 +1,6 @@
-import React from 'react';
-import { Cross, Sun, Moon, Book, Github } from 'lucide-react';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Book, Cross, Github, LogOut, Moon, Sun } from 'lucide-react';
+import { Tooltip } from 'react-tooltip';
 import { useTheme } from './ThemeProvider';
 
 interface HeaderProps {
@@ -7,13 +8,14 @@ interface HeaderProps {
 }
 
 export function Header({ onHomeClick }: HeaderProps) {
+  const { logout } = useAuth0();
   const { theme, toggleTheme } = useTheme();
 
   return (
     <header className="bg-white dark:bg-gray-900 shadow-lg border-b-2 border-red-900 dark:border-red-800">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div 
+          <div
             className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity"
             onClick={onHomeClick}
           >
@@ -27,13 +29,13 @@ export function Header({ onHomeClick }: HeaderProps) {
               </p>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
               <Book className="h-4 w-4" />
               <span>Ad Majorem Dei Gloriam</span>
             </div>
-            
+
             <a
               href="https://github.com/masaharumori7/church-latin-40"
               target="_blank"
@@ -43,7 +45,7 @@ export function Header({ onHomeClick }: HeaderProps) {
             >
               <Github className="h-5 w-5 text-gray-700 dark:text-gray-300" />
             </a>
-            
+
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
@@ -55,6 +57,16 @@ export function Header({ onHomeClick }: HeaderProps) {
                 <Sun className="h-5 w-5 text-gray-700 dark:text-gray-300" />
               )}
             </button>
+
+            <button
+              onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            >
+              <LogOut data-tooltip-id="logoutButton" data-tooltip-content="Logout" className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+              <Tooltip id="logoutButton" />
+            </button >
+
+
           </div>
         </div>
       </div>

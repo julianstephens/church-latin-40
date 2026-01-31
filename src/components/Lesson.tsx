@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle, Play } from 'lucide-react';
-import { Lesson as LessonType, lessons, modules } from '../data/courseData';
-import { Quiz } from './Quiz';
+import { useEffect, useState } from 'react';
+import { lessons, modules } from '../data/courseData';
+import { pocketbaseService } from '../services/pocketbase';
 import { loadProgress } from '../utils/storage';
+import { Quiz } from './Quiz';
 
 interface LessonProps {
   lessonId: number;
@@ -14,16 +15,43 @@ interface LessonProps {
 export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
   const [showQuiz, setShowQuiz] = useState(false);
   const [materialCompleted, setMaterialCompleted] = useState(false);
-  
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   // Reset material completed state when lesson changes
   useEffect(() => {
     setMaterialCompleted(false);
   }, [lessonId]);
-  
+
+  // Load completion status
+  useEffect(() => {
+    const loadCompletion = async () => {
+      try {
+        // Wait for PocketBase authentication to complete
+        await pocketbaseService.waitForUserId(5000);
+
+        const progress = await loadProgress();
+        setIsCompleted(progress.completedLessons.includes(lessonId));
+      } catch (error) {
+        console.error('Failed to load completion status:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadCompletion();
+  }, [lessonId]);
+
   const lesson = lessons.find(l => l.id === lessonId);
   const module = modules.find(m => m.id === lesson?.module);
-  const progress = loadProgress();
-  const isCompleted = progress.completedLessons.includes(lessonId);
+
+  if (isLoading) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="text-center text-gray-600 dark:text-gray-400">Loading lesson...</div>
+      </div>
+    );
+  }
 
   if (!lesson || !module) {
     return (
@@ -69,7 +97,7 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
               {lesson.title}
             </h1>
           </div>
-          
+
           {isCompleted && (
             <CheckCircle className="h-8 w-8 text-green-600" />
           )}
@@ -86,7 +114,7 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
                 Materials to Learn
               </h2>
             </div>
-            
+
             <ul className="space-y-3">
               {lesson.materials.map((material, index) => (
                 <li key={index} className="flex items-start space-x-3">
@@ -107,7 +135,7 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
                 Lesson Content
               </h2>
             </div>
-            
+
             <div className="space-y-4 text-gray-700 dark:text-gray-300">
               {lesson.content.map((paragraph, index) => (
                 <p key={index} className="leading-relaxed">
@@ -122,7 +150,7 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
               Vocabulary ({lesson.vocabulary.length} words)
             </h2>
-            
+
             <div className="grid md:grid-cols-2 gap-4">
               {lesson.vocabulary.map((word, index) => {
                 const [latin, english] = word.split(' - ');
@@ -144,7 +172,7 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
                 Practice
               </h2>
             </div>
-            
+
             <div className="space-y-4 text-gray-700 dark:text-gray-300 mb-6">
               {Array.isArray(lesson.practice) ? (
                 lesson.practice.map((paragraph, index) => (
@@ -156,7 +184,7 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
                 <p className="leading-relaxed">{lesson.practice}</p>
               )}
             </div>
-            
+
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
                 <label className="flex items-center space-x-2">

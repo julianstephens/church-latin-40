@@ -1,6 +1,7 @@
-import { useState } from 'react';
 import { Calendar, CheckCircle, Clock, Users } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { modules } from '../data/courseData';
+import { pocketbaseService } from '../services/pocketbase';
 import { loadProgress, saveProgress } from '../utils/storage';
 import { SkipToDayDialog } from './SkipToDayDialog';
 
@@ -11,9 +12,55 @@ interface CourseOverviewProps {
 export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [selectedSkipDay, setSelectedSkipDay] = useState(1);
-  const [progress, setProgress] = useState(loadProgress());
+  const [progress, setProgress] = useState(null as any);
   const [showEnglish, setShowEnglish] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadInitialProgress = async () => {
+      try {
+        // Wait for PocketBase authentication to complete
+        await pocketbaseService.waitForUserId(5000);
+
+        const initialProgress = await loadProgress();
+        setProgress(initialProgress);
+      } catch (error) {
+        console.error('Failed to load progress:', error);
+        // Set default progress on error
+        setProgress({
+          completedLessons: [],
+          quizScores: {},
+          currentLesson: 1,
+          theme: 'light'
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadInitialProgress();
+  }, []);
+
+  if (isLoading || !progress) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 text-center">
+        <p className="text-gray-600 dark:text-gray-400">Loading course overview...</p>
+      </div>
+    );
+  }
+
   const completedCount = progress.completedLessons.length;
+
+  const handleSkip = async () => {
+    const newProgress = { ...progress, currentLesson: selectedSkipDay };
+    setProgress(newProgress);
+    try {
+      await saveProgress(newProgress);
+    } catch (error) {
+      console.error('Failed to save progress:', error);
+    }
+    setShowSkipDialog(false);
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -23,12 +70,12 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
           Learn the Sacred Language of the Church
         </h2>
         <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-6">
-          A comprehensive 40-day course designed by Catholics for Catholics to master 
+          A comprehensive 40-day course designed by Catholics for Catholics to master
           Ecclesiastical Latin for prayers, Mass participation, and deeper spiritual understanding.
           Perfect for Lent and Advent preparation.
         </p>
-        
-        <div 
+
+        <div
           className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-3xl mx-auto mb-8 border-l-4 border-red-900 dark:border-red-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors"
           onClick={() => setShowEnglish(prev => !prev)}
           role="button"
@@ -59,7 +106,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
             </p>
           </div>
         </div>
-        
+
         {/* Progress Overview */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 max-w-2xl mx-auto">
           <div className="flex items-center justify-center space-x-8 mb-4">
@@ -88,9 +135,9 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
               </div>
             </div>
           </div>
-          
+
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-            <div 
+            <div
               className="bg-gradient-to-r from-red-900 to-yellow-700 h-2 rounded-full transition-all duration-300"
               style={{ width: `${(completedCount / 40) * 100}%` }}
             ></div>
@@ -109,7 +156,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
             Structured daily lessons perfect for Lent or Advent spiritual preparation
           </p>
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 text-center">
           <Users className="h-12 w-12 text-yellow-700 dark:text-yellow-500 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
@@ -119,7 +166,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
             Designed with deep reverence for Catholic tradition and liturgical practice
           </p>
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 text-center">
           <Clock className="h-12 w-12 text-blue-800 dark:text-blue-400 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
@@ -136,7 +183,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
         <h3 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-8">
           Course Modules
         </h3>
-        
+
         {modules.map((module) => (
           <div key={module.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
             <div className="p-6 border-l-4 border-red-900 dark:border-red-600">
@@ -146,13 +193,13 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
               <p className="text-gray-600 dark:text-gray-300 mb-4">
                 {module.description}
               </p>
-              
+
               <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
                 {module.days.map((day) => {
                   const isCompleted = progress.completedLessons.includes(day);
                   const isCurrent = day === progress.currentLesson;
                   const isAvailable = day <= progress.currentLesson;
-                  
+
                   return (
                     <button
                       key={day}
@@ -166,13 +213,13 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
                       }}
                       className={`
                         relative p-3 rounded-lg text-sm font-medium transition-all duration-200
-                        ${isCompleted 
-                          ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800' 
+                        ${isCompleted
+                          ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800'
                           : isCurrent
-                          ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800'
-                          : isAvailable
-                          ? 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                          : 'bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300'
+                            ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800'
+                            : isAvailable
+                              ? 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                              : 'bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300'
                         }
                       `}
                     >
@@ -197,23 +244,27 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
         >
           {completedCount === 0 ? 'Begin Your Journey' : 'Continue Learning'}
         </button>
-        
+
         <p className="text-gray-600 dark:text-gray-400 mt-4 text-sm">
           In Nomine Patris, et Filii, et Spiritus Sancti
         </p>
-        
+
         <SkipToDayDialog
           isOpen={showSkipDialog}
           onClose={() => setShowSkipDialog(false)}
-          onConfirm={(day) => {
+          onConfirm={async (day) => {
             const newProgress = {
               ...progress,
               currentLesson: Math.min(day, 40),
               completedLessons: Array.from(new Set([...progress.completedLessons, ...Array.from({ length: day - 1 }, (_, i) => i + 1)])).sort((a, b) => a - b)
             };
-            saveProgress(newProgress);
-            setProgress(newProgress);
-            onLessonSelect(day);
+            try {
+              await saveProgress(newProgress);
+              setProgress(newProgress);
+              onLessonSelect(day);
+            } catch (error) {
+              console.error('Failed to save progress:', error);
+            }
             setShowSkipDialog(false);
           }}
           day={selectedSkipDay}
