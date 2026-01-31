@@ -55,9 +55,9 @@ export interface LessonData {
 
 export interface LessonContentData {
     lessonId: string;
-    content: string;
-    examples?: string[];
-    grammar?: string;
+    content: string[];
+    materials: string[];
+    practice: string[];
 }
 
 export interface QuizQuestionData {

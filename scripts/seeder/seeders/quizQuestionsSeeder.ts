@@ -38,6 +38,15 @@ export class QuizQuestionsSeeder implements ISeeder {
 
             logInfo(`Seeding ${questions.length} quiz questions...`);
 
+            // Group questions by lesson to calculate questionIndex
+            const questionsByLesson: { [key: string]: QuizQuestionData[]; } = {};
+            for (const q of questions) {
+                if (!questionsByLesson[q.lessonId]) {
+                    questionsByLesson[q.lessonId] = [];
+                }
+                questionsByLesson[q.lessonId].push(q);
+            }
+
             for (const questionData of questions) {
                 // Validate required fields
                 const validationErrors = validateDataSchema(questionData, [
@@ -79,6 +88,25 @@ export class QuizQuestionsSeeder implements ISeeder {
                         continue;
                     }
 
+                    // Look up the quiz for this lesson
+                    let quizRecordId: string | null = null;
+                    try {
+                        const quizRecord = await (await getPocketBase())
+                            .collection("church_latin_quizzes")
+                            .getFirstListItem(`lessonId="${lessonRecordId}"`);
+                        quizRecordId = quizRecord.id;
+                    } catch (lookupError) {
+                        errors.push({
+                            record: questionData,
+                            message: `Failed to find quiz for lesson ${questionData.lessonId}`,
+                        });
+                        continue;
+                    }
+
+                    // Calculate questionIndex (0-based position within the lesson's questions)
+                    const lessonQuestions = questionsByLesson[questionData.lessonId];
+                    const questionIndex = lessonQuestions.findIndex((q) => q.questionId === questionData.questionId);
+
                     // Create longer ID by prefixing with 'question_'
                     // Format: "question_Q01" (18+ characters)
                     const id = `question_${questionData.questionId}`;
@@ -90,7 +118,9 @@ export class QuizQuestionsSeeder implements ISeeder {
                         questionId: questionData.questionId,
                         type: questionData.type,
                         lessonId: lessonRecordId,
+                        quizId: quizRecordId,
                         question: questionData.question,
+                        questionIndex: questionIndex,
                         options: questionData.options ? JSON.stringify(questionData.options) : null,
                         correctAnswer: Array.isArray(questionData.correctAnswer)
                             ? JSON.stringify(questionData.correctAnswer)

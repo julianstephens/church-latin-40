@@ -274,6 +274,28 @@ async function setupCollections(): Promise<void> {
             }
           }
 
+          // DELETE FIELDS NOT IN SCHEMA (cleanup old unused fields)
+          const schemaFieldNames = new Set(schema.fields.map((f) => f.name));
+          const fieldsToDelete = existing.filter((f) => !schemaFieldNames.has(f.name as string) && (f.name as string) !== "id");
+
+          if (fieldsToDelete.length > 0) {
+            try {
+              let updated = existing;
+              for (const field of fieldsToDelete) {
+                updated = updated.filter((f) => f.name !== field.name);
+                console.log(`     🗑️  Removing unused field: ${field.name}`);
+              }
+              await pb.collections.update(collection.id, {
+                fields: updated,
+              } as never);
+            } catch (deleteError) {
+              console.log(
+                `     ⚠️  Failed to delete unused fields:`,
+                deleteError instanceof Error ? deleteError.message : deleteError,
+              );
+            }
+          }
+
           // UPDATE RULES AND INDEXES LAST (after all field changes)
           const rules = getCollectionRules(schema);
           const indexes = getCollectionIndexes(schema);

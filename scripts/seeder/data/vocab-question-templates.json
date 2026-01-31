@@ -54,5 +54,47 @@
         "type": "vocab-matching",
         "wordCount": 5,
         "instruction": "Match the Latin word to its English meaning"
+    },
+    {
+        "id": "D04-VOCAB-MATCHING",
+        "lessonId": "L004",
+        "type": "vocab-matching",
+        "wordCount": 10,
+        "instruction": "Match 10 adjectives to their meanings"
+    },
+    {
+        "id": "D05-VOCAB-MATCHING",
+        "lessonId": "L005",
+        "type": "vocab-matching",
+        "wordCount": 10,
+        "instruction": "Match 10 vocabulary words from Pater Noster to their meanings"
+    },
+    {
+        "id": "D07-VOCAB-MATCHING",
+        "lessonId": "L007",
+        "type": "vocab-matching",
+        "wordCount": 10,
+        "instruction": "Match 10 vocabulary words from Ave Maria to their meanings"
+    },
+    {
+        "id": "D09-VOCAB-MATCHING",
+        "lessonId": "L009",
+        "type": "vocab-matching",
+        "wordCount": 10,
+        "instruction": "Match 10 3rd declension nouns to their meanings"
+    },
+    {
+        "id": "D11-VOCAB-MATCHING",
+        "lessonId": "L011",
+        "type": "vocab-matching",
+        "wordCount": 10,
+        "instruction": "Match 10 vocabulary words from Gloria Patri to their meanings"
+    },
+    {
+        "id": "D14-VOCAB-MATCHING",
+        "lessonId": "L014",
+        "type": "vocab-matching",
+        "wordCount": 10,
+        "instruction": "Match 10 vocabulary words related to the Rosary to their meanings"
     }
 ]

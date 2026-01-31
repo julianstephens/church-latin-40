@@ -151,6 +151,54 @@ export const vocabQuestionTemplates: VocabQuestionTemplate[] = [
     wordCount: 5,
     instruction: "Match the Latin word to its English meaning",
   },
+  {
+    id: "D04-VOCAB-MATCHING",
+    lessonId: 4,
+    type: "vocab-matching",
+    format: "auto-generated",
+    wordCount: 10,
+    instruction: "Match 10 adjectives to their meanings",
+  },
+  {
+    id: "D05-VOCAB-MATCHING",
+    lessonId: 5,
+    type: "vocab-matching",
+    format: "auto-generated",
+    wordCount: 10,
+    instruction: "Match 10 vocabulary words from Pater Noster to their meanings",
+  },
+  {
+    id: "D07-VOCAB-MATCHING",
+    lessonId: 7,
+    type: "vocab-matching",
+    format: "auto-generated",
+    wordCount: 10,
+    instruction: "Match 10 vocabulary words from Ave Maria to their meanings",
+  },
+  {
+    id: "D09-VOCAB-MATCHING",
+    lessonId: 9,
+    type: "vocab-matching",
+    format: "auto-generated",
+    wordCount: 10,
+    instruction: "Match 10 3rd declension nouns to their meanings",
+  },
+  {
+    id: "D11-VOCAB-MATCHING",
+    lessonId: 11,
+    type: "vocab-matching",
+    format: "auto-generated",
+    wordCount: 10,
+    instruction: "Match 10 vocabulary words from Gloria Patri to their meanings",
+  },
+  {
+    id: "D14-VOCAB-MATCHING",
+    lessonId: 14,
+    type: "vocab-matching",
+    format: "auto-generated",
+    wordCount: 10,
+    instruction: "Match 10 vocabulary words related to the Rosary to their meanings",
+  },
 ];
 
 // NOTE: Full lesson content should be extracted from seed data
@@ -161,4 +209,4 @@ export const lessons: Lesson[] = [];
 // For now, this is a placeholder. Full implementation in progress.
 export const vocabulary: Record<string, string[]> = {};
 
-// Generated: 2026-01-31T22:14:35.890Z
+// Generated: 2026-01-31T23:25:02.472Z

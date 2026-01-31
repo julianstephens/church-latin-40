@@ -18,8 +18,8 @@ const __dirname = path.dirname(__filename);
 interface LessonContentData {
     lessonId: string;
     content: string;
-    examples?: string[];
-    grammar?: string;
+    materials: string[];
+    practice: string[];
 }
 
 interface VocabularyRow {
@@ -49,7 +49,10 @@ interface QuizQuestionData {
 const dataDir = path.join(__dirname, "seeder", "data");
 
 /**
- * Extract lesson content
+ * Extract lesson content with proper field mapping:
+ * - content: lesson paragraphs joined with \n\n (preserves newlines for display)
+ * - materials: lesson materials/overview items
+ * - practice: lesson practice/exercise items
  */
 function extractLessonContent(): LessonContentData[] {
     console.log("📚 Extracting lesson content...");
@@ -57,14 +60,21 @@ function extractLessonContent(): LessonContentData[] {
 
     for (const lesson of lessons) {
         const lessonId = `L${String(lesson.id).padStart(3, "0")}`;
+
+        // Content: join all content paragraphs with double newlines to preserve formatting
         const contentText = lesson.content.join("\n\n");
-        const examples = lesson.materials || [];
+
+        // Materials: keep as array (lesson overview/materials)
+        const materials = lesson.materials || [];
+
+        // Practice: keep as array (lesson exercises/practice items)
+        const practice = lesson.practice || [];
 
         contentData.push({
             lessonId,
             content: contentText,
-            examples,
-            grammar: undefined, // Would be parsed from content if needed
+            materials,
+            practice,
         });
     }
 

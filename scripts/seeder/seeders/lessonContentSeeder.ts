@@ -43,6 +43,8 @@ export class LessonContentSeeder implements ISeeder {
                 const validationErrors = validateDataSchema(contentData, [
                     "lessonId",
                     "content",
+                    "materials",
+                    "practice",
                 ]);
                 if (validationErrors.length > 0) {
                     errors.push(...validationErrors);
@@ -79,15 +81,12 @@ export class LessonContentSeeder implements ISeeder {
 
                     // Map to PocketBase format
                     const resourceId = `content_${contentData.lessonId || lessonNumber}`;
-                    const record = {
+                    const record: LessonContentData & { resourceId: string; } = {
                         resourceId: resourceId,
                         lessonId: lessonRecordId,
-                        latinContent: contentData.latinContent || null,
-                        englishTranslation: contentData.englishTranslation || null,
-                        vocabularyList: contentData.vocabularyList || null,
-                        grammarExplanation: contentData.grammarExplanation || null,
-                        pronunciationGuide: contentData.pronunciationGuide || null,
-                        culturalNotes: contentData.culturalNotes || null,
+                        content: contentData.content,
+                        materials: contentData.materials,
+                        practice: contentData.practice,
                     };
 
                     // Check if exists by querying resourceId (always, even in dry-run)
@@ -105,7 +104,7 @@ export class LessonContentSeeder implements ISeeder {
 
                     if (exists) {
                         if (!options.dryRun) {
-                            (await getPocketBase())
+                            await (await getPocketBase())
                                 .collection(this.collectionName)
                                 .update(existingId!, record);
                         }
@@ -117,7 +116,7 @@ export class LessonContentSeeder implements ISeeder {
                         }
                     } else {
                         if (!options.dryRun) {
-                            (await getPocketBase())
+                            await (await getPocketBase())
                                 .collection(this.collectionName)
                                 .create(record);
                         }
