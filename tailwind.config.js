@@ -47,6 +47,24 @@ export default {
           light: "#4b5563",
         },
       },
+      // Add mobile-friendly spacing utilities
+      spacing: {
+        "touch-target": "44px", // Minimum touch target size
+        "touch-sm": "36px",
+        "touch-lg": "48px",
+      },
+      // Add mobile-optimized min heights
+      minHeight: {
+        "touch-target": "44px",
+        "touch-sm": "36px",
+        "touch-lg": "48px",
+      },
+      // Add mobile-optimized min widths
+      minWidth: {
+        "touch-target": "44px",
+        "touch-sm": "36px",
+        "touch-lg": "48px",
+      },
     },
   },
   plugins: [],

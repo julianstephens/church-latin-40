@@ -66,13 +66,13 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
     : 0;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
       {/* Hero Section */}
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="text-center mb-8 sm:mb-12">
+        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 px-2">
           Learn the Sacred Language of the Church
         </h2>
-        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-6">
+        <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-4 sm:mb-6 px-2">
           A comprehensive 40-day course designed by Catholics for Catholics to
           master Ecclesiastical Latin for prayers, Mass participation, and
           deeper spiritual understanding. Perfect for Lent and Advent
@@ -80,7 +80,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
         </p>
 
         <div
-          className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-3xl mx-auto mb-8 border-l-4 border-red-900 dark:border-red-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors"
+          className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 max-w-3xl mx-auto mb-6 sm:mb-8 border-l-4 border-red-900 dark:border-red-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors touch-manipulation"
           onClick={() => setShowEnglish((prev) => !prev)}
           role="button"
           tabIndex={0}
@@ -91,7 +91,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
         >
           <div>
             {showEnglish ? (
-              <blockquote className="text-gray-700 dark:text-gray-300 italic mb-2">
+              <blockquote className="text-sm sm:text-base text-gray-700 dark:text-gray-300 italic mb-2">
                 "What is in question here is not only the retention within the
                 choral office of the Latin language, though it is of course
                 right that this should be eagerly guarded and should certainly
@@ -101,7 +101,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
                 elders, your glory throughout long ages, must not be belittled."
               </blockquote>
             ) : (
-              <blockquote className="text-gray-700 dark:text-gray-300 italic mb-2">
+              <blockquote className="text-sm sm:text-base text-gray-700 dark:text-gray-300 italic mb-2">
                 "Non autem agitur hic tantummodo de retinendo in officio chorali
                 eloquio latino, sane digno, quod, nedum parvi fiat, alacriter
                 custodiatur, cum sit in Ecclesia Latina christiani cultus humani
@@ -110,7 +110,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
                 ornabant."
               </blockquote>
             )}
-            <p className="text-right text-gray-600 dark:text-gray-400 font-medium">
+            <p className="text-right text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">
               {showEnglish ? (
                 <>
                   —{" "}
@@ -131,29 +131,29 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
         </div>
 
         {/* Progress Overview */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 max-w-2xl mx-auto">
-          <div className="flex items-center justify-center space-x-8 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 max-w-2xl mx-auto">
+          <div className="flex items-center justify-center gap-4 sm:gap-6 md:gap-8 mb-4">
             <div className="text-center">
-              <div className="text-2xl font-bold text-red-900 dark:text-red-600">
+              <div className="text-xl sm:text-2xl font-bold text-red-900 dark:text-red-600">
                 {completedCount}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">
+              <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
                 Lessons Completed
               </div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-yellow-700 dark:text-yellow-500">
+              <div className="text-xl sm:text-2xl font-bold text-yellow-700 dark:text-yellow-500">
                 {progress.currentLesson}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">
+              <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
                 Current Day
               </div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-800 dark:text-blue-400">
+              <div className="text-xl sm:text-2xl font-bold text-blue-800 dark:text-blue-400">
                 {Math.round((completedCount / 40) * 100)}%
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">
+              <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
                 Progress
               </div>
             </div>
@@ -169,35 +169,35 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
       </div>
 
       {/* Course Features */}
-      <div className="grid md:grid-cols-3 gap-6 mb-12">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 text-center">
-          <Calendar className="h-12 w-12 text-red-900 dark:text-red-600 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 text-center touch-manipulation">
+          <Calendar className="h-10 w-10 sm:h-12 sm:w-12 text-red-900 dark:text-red-600 mx-auto mb-3 sm:mb-4" />
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
             40-Day Journey
           </h3>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
             Structured daily lessons perfect for Lent or Advent spiritual
             preparation
           </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 text-center">
-          <Users className="h-12 w-12 text-yellow-700 dark:text-yellow-500 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 text-center touch-manipulation">
+          <Users className="h-10 w-10 sm:h-12 sm:w-12 text-yellow-700 dark:text-yellow-500 mx-auto mb-3 sm:mb-4" />
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
             By Catholics, For Catholics
           </h3>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
             Designed with deep reverence for Catholic tradition and liturgical
             practice
           </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 text-center">
-          <Clock className="h-12 w-12 text-blue-800 dark:text-blue-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 text-center touch-manipulation sm:col-span-2 md:col-span-1">
+          <Clock className="h-10 w-10 sm:h-12 sm:w-12 text-blue-800 dark:text-blue-400 mx-auto mb-3 sm:mb-4" />
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
             Interactive Learning
           </h3>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
             Daily quizzes, progress tracking, and hands-on practice with sacred
             texts
           </p>
@@ -205,8 +205,8 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
       </div>
 
       {/* Modules */}
-      <div className="space-y-6">
-        <h3 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-8">
+      <div className="space-y-4 sm:space-y-6">
+        <h3 className="text-xl sm:text-2xl font-bold text-center text-gray-900 dark:text-white mb-6 sm:mb-8">
           Course Modules
         </h3>
 
@@ -231,18 +231,18 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
               key={module.id}
               className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
             >
-              <div className="p-6 border-l-4 border-red-900 dark:border-red-600">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+              <div className="p-4 sm:p-6 border-l-4 border-red-900 dark:border-red-600">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-4 mb-4">
+                  <div className="flex-1">
+                    <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">
                       Module {module.id}: {module.title}
                     </h4>
-                    <p className="text-gray-600 dark:text-gray-300">
+                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
                       {module.description}
                     </p>
                   </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-blue-800 dark:text-blue-400">
+                  <div className="text-left sm:text-right">
+                    <div className="text-xl sm:text-2xl font-bold text-blue-800 dark:text-blue-400">
                       {moduleProgress}%
                     </div>
                     <div className="text-xs text-gray-600 dark:text-gray-400">
@@ -259,7 +259,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
                   ></div>
                 </div>
 
-                <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
+                <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
                   {module.days.map((day) => {
                     const completedLessons = Array.isArray(
                       progress?.completedLessons,
@@ -283,21 +283,21 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
                           }
                         }}
                         className={`
-                        relative p-3 rounded-lg text-sm font-medium transition-all duration-200
+                        relative min-h-touch-target sm:min-h-0 p-2 sm:p-3 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 touch-manipulation
                         ${
                           isCompleted
-                            ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800"
+                            ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800 active:bg-green-300 dark:active:bg-green-700"
                             : isCurrent
-                              ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800"
+                              ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800 active:bg-yellow-300 dark:active:bg-yellow-700"
                               : isAvailable
-                                ? "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-                                : "bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300"
+                                ? "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500"
+                                : "bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300 active:bg-gray-200 dark:active:bg-gray-600"
                         }
                       `}
                       >
-                        Day {day}
+                        <span className="block sm:inline">Day {day}</span>
                         {isCompleted && (
-                          <CheckCircle className="absolute -top-1 -right-1 h-4 w-4 text-green-600 dark:text-green-400" />
+                          <CheckCircle className="absolute -top-1 -right-1 h-3 w-3 sm:h-4 sm:w-4 text-green-600 dark:text-green-400" />
                         )}
                       </button>
                     );
@@ -310,15 +310,15 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
       </div>
 
       {/* Call to Action */}
-      <div className="text-center mt-12">
+      <div className="text-center mt-8 sm:mt-12">
         <button
           onClick={() => onLessonSelect(progress?.currentLesson ?? 1)}
-          className="bg-red-900 hover:bg-red-800 dark:bg-red-800 dark:hover:bg-red-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors shadow-lg"
+          className="min-h-touch-target bg-red-900 hover:bg-red-800 active:bg-red-950 dark:bg-red-800 dark:hover:bg-red-700 dark:active:bg-red-950 text-white px-6 sm:px-8 py-3 rounded-lg text-base sm:text-lg font-semibold transition-colors shadow-lg touch-manipulation"
         >
           {completedCount === 0 ? "Begin Your Journey" : "Continue Learning"}
         </button>
 
-        <p className="text-gray-600 dark:text-gray-400 mt-4 text-sm">
+        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-4">
           In Nomine Patris, et Filii, et Spiritus Sancti
         </p>
 

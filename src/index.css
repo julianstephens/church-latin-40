@@ -17,6 +17,7 @@
       "calt" 1;
   }
 
+  /* Enhanced responsive typography with mobile-first approach */
   h1,
   h2,
   h3,
@@ -27,46 +28,88 @@
   }
 
   h1 {
-    @apply text-3xl md:text-4xl;
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
   }
   h2 {
-    @apply text-2xl md:text-3xl;
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
   }
   h3 {
-    @apply text-xl md:text-2xl;
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl;
   }
   h4 {
-    @apply text-lg md:text-xl;
+    @apply text-base sm:text-lg md:text-xl lg:text-2xl;
+  }
+  h5 {
+    @apply text-sm sm:text-base md:text-lg;
+  }
+  h6 {
+    @apply text-sm sm:text-base md:text-lg;
   }
 
-  /* Buttons */
+  /* Enhanced mobile-friendly buttons with touch targets */
   .btn {
-    @apply px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+    @apply min-h-touch-target px-4 py-3 sm:py-2 rounded-md font-medium transition-all duration-200 
+           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
+           active:scale-95 touch-manipulation;
   }
 
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500/50;
+    @apply bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 
+           focus:ring-blue-500/50 dark:focus:ring-blue-400/50;
   }
 
   .btn-secondary {
-    @apply bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700 focus:ring-gray-300 dark:focus:ring-gray-500;
+    @apply bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 
+           hover:bg-gray-200 dark:hover:bg-gray-700 active:bg-gray-300 dark:active:bg-gray-600
+           focus:ring-gray-300 dark:focus:ring-gray-500;
   }
 
-  /* Form elements */
+  /* Enhanced mobile-friendly form elements */
   input,
   textarea,
   select {
-    @apply bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-colors text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400;
+    @apply bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 
+           rounded-md px-3 py-3 sm:py-2 text-base sm:text-sm
+           min-h-touch-target sm:min-h-0
+           focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400
+           focus:border-transparent transition-all duration-200
+           text-gray-900 dark:text-gray-100 
+           placeholder-gray-500 dark:placeholder-gray-400
+           touch-manipulation;
   }
 
-  /* Links */
+  /* Mobile-specific input enhancements - prevent iOS zoom */
+  @media (max-width: 639px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="search"],
+    textarea {
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
+  }
+
+  /* Enhanced focus states for accessibility */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline-none ring-2 ring-offset-2 ring-blue-500 dark:ring-blue-400 
+           ring-offset-white dark:ring-offset-gray-900;
+  }
+
+  /* Links with better mobile tap targets */
   a {
-    @apply text-blue-600 dark:text-blue-400 hover:underline underline-offset-4;
+    @apply text-blue-600 dark:text-blue-400 hover:underline underline-offset-4 
+           touch-manipulation;
   }
 
-  /* Cards */
+  /* Enhanced cards with better mobile spacing */
   .card {
-    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow;
+    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
+           rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow 
+           touch-manipulation;
   }
 
   /* Custom scrollbar for dark mode */
@@ -361,20 +404,62 @@ body.auth0-login {
 
 @media (max-width: 600px) {
   .main-card-wrapper {
-    padding: 2rem;
-    margin: 1rem;
+    padding: 1.5rem;
+    margin: 0.5rem;
+    gap: 1.5rem;
   }
 
   .main-title {
-    font-size: 2.2rem;
+    font-size: 1.75rem;
+  }
+
+  .action-card {
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .action-text {
+    font-size: 1.125rem;
   }
 
   .button {
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
+    /* Ensure minimum touch target size */
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
   }
 
   .auth0-logo {
-    width: 120px;
+    width: 100px;
+  }
+
+  .profile-picture {
+    width: 90px;
+  }
+
+  .profile-name {
+    font-size: 1.5rem;
+  }
+
+  .profile-email {
+    font-size: 1rem;
+  }
+}
+
+/* Additional mobile optimizations for very small screens */
+@media (max-width: 400px) {
+  .main-card-wrapper {
+    padding: 1rem;
+    width: 95%;
+  }
+
+  .main-title {
+    font-size: 1.5rem;
+  }
+
+  .button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
   }
 }
