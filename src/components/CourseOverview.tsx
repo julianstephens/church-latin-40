@@ -80,7 +80,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
         </p>
 
         <div
-          className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 max-w-3xl mx-auto mb-6 sm:mb-8 border-l-4 border-red-900 dark:border-red-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors touch-manipulation"
+          className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 max-w-3xl mx-auto mb-6 sm:mb-8 border-l-4 border-red-900 dark:border-red-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors touch-manipulation"
           onClick={() => setShowEnglish((prev) => !prev)}
           role="button"
           tabIndex={0}
