@@ -12,7 +12,6 @@ export interface Lesson {
 
 type BaseQuizQuestion = {
   id: number;
-  questionId: string;
   question: string;
   correctAnswer: string | string[];
   explanation?: string;
@@ -140,7 +139,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D01-Q01",
         question: "How is the vowel 'a' pronounced in Ecclesiastical Latin?",
         type: "multiple-choice",
         options: [
@@ -155,7 +153,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D01-Q02",
         question:
           "Match the Latin word to its English meaning: Deus, ecclesia, fides, pax, gratia",
         type: "matching",
@@ -172,7 +169,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 3,
-        questionId: "D01-Q03",
         question: "Recite the first line of the Pater Noster",
         type: "recitation",
         correctAnswer: "Pater noster qui es in caelis",
@@ -235,7 +231,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D02-Q01",
         question: "What case is used for the subject of a sentence?",
         type: "multiple-choice",
         options: ["Nominative", "Accusative", "Genitive", "Dative"],
@@ -243,7 +238,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D02-Q02",
         question:
           "Decline 'regina' (queen) in nominative and accusative singular:",
         type: "translation",
@@ -253,7 +247,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 3,
-        questionId: "D02-Q03",
         question: "Translate: 'Agnus Dei'",
         type: "translation",
         correctAnswer: "Lamb of God",
@@ -313,7 +306,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D03-Q01",
         question: "Conjugate 'amo' (I love) in present tense:",
         type: "translation",
         correctAnswer: "amo, amas, amat, amamus, amatis, amant",
@@ -322,7 +314,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D03-Q02",
         question: "What does 'credo' mean?",
         type: "multiple-choice",
         options: ["I pray", "I believe", "I hope", "I love"],
@@ -330,7 +321,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 3,
-        questionId: "D03-Q03",
         question: "Translate: 'Glorificamus te'",
         type: "translation",
         correctAnswer: "We glorify you",
@@ -392,7 +382,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D04-Q01",
         question:
           "Decline 'sanctus' (holy) with 'regina' (queen) in nominative singular:",
         type: "translation",
@@ -402,14 +391,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D04-Q02",
         question: "Translate: 'Mater misericordiae'",
         type: "translation",
         correctAnswer: "Mother of mercy",
       },
       {
         id: 3,
-        questionId: "D04-Q03",
         question:
           "Match 10 adjectives to their meanings: sanctus, beatus, misericors, etc.",
         type: "matching",
@@ -492,7 +479,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D05-Q01",
         question: "Recite the Pater Noster (full or partial)",
         type: "recitation",
         correctAnswer:
@@ -502,14 +488,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D05-Q02",
         question: "Translate: 'Fiat voluntas tua'",
         type: "translation",
         correctAnswer: "Thy will be done",
       },
       {
         id: 3,
-        questionId: "D05-Q03",
         question:
           "Match 10 vocabulary words from Pater Noster to their meanings",
         type: "matching",
@@ -595,7 +579,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D06-Q01",
         question: "Which preposition means 'with' in Latin?",
         type: "multiple-choice",
         options: ["in", "cum", "ex", "de"],
@@ -603,14 +586,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D06-Q02",
         question: "Translate: 'In principio'",
         type: "translation",
         correctAnswer: "In the beginning",
       },
       {
         id: 3,
-        questionId: "D06-Q03",
         question: "Decline 'caelum' (heaven) in ablative singular",
         type: "translation",
         correctAnswer: "caelo",
@@ -669,7 +650,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D07-Q01",
         question: "Recite the Ave Maria (full or partial)",
         type: "recitation",
         correctAnswer: "Ave Maria, gratia plena, Dominus tecum...",
@@ -678,14 +658,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D07-Q02",
         question: "Translate: 'Gratia plena'",
         type: "translation",
         correctAnswer: "Full of grace",
       },
       {
         id: 3,
-        questionId: "D07-Q03",
         question: "Match 10 vocabulary words from Ave Maria to their meanings",
         type: "matching",
         options: [
@@ -768,7 +746,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D08-Q01",
         question: "Conjugate 'oro' (I pray) in present tense",
         type: "translation",
         correctAnswer: "oro, oras, orat, oramus, oratis, orant",
@@ -777,14 +754,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D08-Q02",
         question: "Translate: 'Pax vobis'",
         type: "translation",
         correctAnswer: "Peace be with you",
       },
       {
         id: 3,
-        questionId: "D08-Q03",
         question: "Recite either Pater Noster or Ave Maria",
         type: "recitation",
         correctAnswer:
@@ -845,7 +820,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D09-Q01",
         question: "Decline 'rex' (king) in nominative and accusative singular",
         type: "translation",
         correctAnswer: "rex, regem",
@@ -854,14 +828,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D09-Q02",
         question: "Translate: 'Verbum Dei'",
         type: "translation",
         correctAnswer: "Word of God",
       },
       {
         id: 3,
-        questionId: "D09-Q03",
         question: "Match 10 3rd declension nouns to their meanings",
         type: "matching",
         options: [
@@ -949,7 +921,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D10-Q01",
         question: "Conjugate 'venio' (I come) in imperfect and future tenses",
         type: "translation",
         correctAnswer:
@@ -959,14 +930,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D10-Q02",
         question: "Translate: 'Miserere mei'",
         type: "translation",
         correctAnswer: "Have mercy on me",
       },
       {
         id: 3,
-        questionId: "D10-Q03",
         question: "Identify the tense of 'dicebam' in Kyrie Eleison",
         type: "multiple-choice",
         options: ["Present", "Imperfect", "Future", "Perfect"],
@@ -1017,7 +986,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D11-Q01",
         question: "Recite the Gloria Patri (full or partial)",
         type: "recitation",
         correctAnswer: "Gloria Patri, et Filio, et Spiritui Sancto...",
@@ -1026,14 +994,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D11-Q02",
         question: "Translate: 'Sicut erat in principio'",
         type: "translation",
         correctAnswer: "As it was in the beginning",
       },
       {
         id: 3,
-        questionId: "D11-Q03",
         question:
           "Match 10 vocabulary words from Gloria Patri to their meanings",
         type: "matching",
@@ -1117,7 +1083,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D12-Q01",
         question: "Decline 'filius' (son) in dative singular",
         type: "translation",
         correctAnswer: "filio",
@@ -1125,14 +1090,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D12-Q02",
         question: "Translate: 'Domine, non sum dignus'",
         type: "translation",
         correctAnswer: "Lord, I am not worthy",
       },
       {
         id: 3,
-        questionId: "D12-Q03",
         question: "Identify the dative noun in 'Tibi laus' from Confiteor",
         type: "multiple-choice",
         options: ["laus", "tibi", "Domine", "sum"],
@@ -1191,7 +1154,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D13-Q01",
         question: "Conjugate 'video' (I see) in present tense",
         type: "translation",
         correctAnswer: "video, vides, videt, videmus, videtis, vident",
@@ -1200,14 +1162,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D13-Q02",
         question: "Translate: 'Miserere nobis' from Agnus Dei",
         type: "translation",
         correctAnswer: "Have mercy on us",
       },
       {
         id: 3,
-        questionId: "D13-Q03",
         question: "Identify the verb form in 'Tollis peccata' from Agnus Dei",
         type: "multiple-choice",
         options: ["Present", "Imperfect", "Future", "Perfect"],
@@ -1261,7 +1221,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D14-Q01",
         question:
           "Recite one decade of the Rosary (Pater Noster, one Ave Maria, Gloria Patri)",
         type: "recitation",
@@ -1272,14 +1231,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D14-Q02",
         question: "Translate: 'Ora pro nobis' from the Ave Maria",
         type: "translation",
         correctAnswer: "Pray for us",
       },
       {
         id: 3,
-        questionId: "D14-Q03",
         question:
           "Match 10 vocabulary words related to the Rosary to their meanings",
         type: "matching",
@@ -1362,7 +1319,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D15-Q01",
         question: "Form the adverb from 'sanctus' (holy)",
         type: "translation",
         correctAnswer: "sancte",
@@ -1370,14 +1326,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D15-Q02",
         question: "Translate: 'Valde gloriosa' from Salve Regina",
         type: "translation",
         correctAnswer: "Very glorious",
       },
       {
         id: 3,
-        questionId: "D15-Q03",
         question: "What is the superlative adverb form of 'clarus' (bright)?",
         type: "multiple-choice",
         options: ["clare", "clarius", "clarissime", "clariter"],
@@ -1438,7 +1392,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D16-Q01",
         question: "Conjugate 'video' (I see) in imperfect tense",
         type: "translation",
         correctAnswer:
@@ -1448,14 +1401,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D16-Q02",
         question: "Translate: 'In saecula saeculorum' from Gloria Patri",
         type: "translation",
         correctAnswer: "Forever and ever",
       },
       {
         id: 3,
-        questionId: "D16-Q03",
         question:
           "Identify the case of 'nobis' in 'Ora pro nobis' from Ave Maria",
         type: "multiple-choice",
@@ -1518,7 +1469,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D17-Q01",
         question: "Form the present participle of 'amare' (to love)",
         type: "translation",
         correctAnswer: "amans",
@@ -1527,14 +1477,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D17-Q02",
         question: "Translate: 'Puer natus' from the Vulgate",
         type: "translation",
         correctAnswer: "Boy born",
       },
       {
         id: 3,
-        questionId: "D17-Q03",
         question:
           "Is ‘exsultans’ in the Magnificat a present or perfect participle?",
         type: "multiple-choice",
@@ -1586,7 +1534,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D18-Q01",
         question: "Recite the first section of the Credo",
         type: "recitation",
         correctAnswer:
@@ -1596,14 +1543,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D18-Q02",
         question: "Translate: ‘Patrem omnipotentem’",
         type: "translation",
         correctAnswer: "Father almighty",
       },
       {
         id: 3,
-        questionId: "D18-Q03",
         question: "Identify the participle in ‘factorem caeli et terrae’",
         type: "multiple-choice",
         options: ["caeli", "factorem", "terrae", "omnipotentem"],
@@ -1664,7 +1609,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D19-Q01",
         question: "Decline ‘qui’ for masculine accusative singular",
         type: "translation",
         correctAnswer: "quem",
@@ -1673,14 +1617,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D19-Q02",
         question: "Translate: ‘Qui potens est’ from Magnificat",
         type: "translation",
         correctAnswer: "Who is powerful",
       },
       {
         id: 3,
-        questionId: "D19-Q03",
         question: "Identify the case of ‘quae’ in ‘Quae fecit mihi magna’",
         type: "multiple-choice",
         options: ["Nominative", "Accusative", "Dative", "Ablative"],
@@ -1731,7 +1673,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D20-Q01",
         question: "Recite the first two verses of the Magnificat",
         type: "recitation",
         correctAnswer:
@@ -1740,14 +1681,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D20-Q02",
         question: "Translate: ‘Quae fecit mihi magna’",
         type: "translation",
         correctAnswer: "Who has done great things for me",
       },
       {
         id: 3,
-        questionId: "D20-Q03",
         question: "Identify the participle in ‘Exsultans exsultavit’",
         type: "multiple-choice",
         options: ["exsultavit", "anima", "exsultans", "Dominum"],
@@ -1806,7 +1745,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D21-Q01",
         question: "Conjugate ‘audio’ (I hear) in present tense",
         type: "translation",
         correctAnswer: "audio, audis, audit, audimus, auditis, audiunt",
@@ -1815,14 +1753,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D21-Q02",
         question: "Translate: ‘Pleni sunt caeli’ from Sanctus",
         type: "translation",
         correctAnswer: "The heavens are full",
       },
       {
         id: 3,
-        questionId: "D21-Q03",
         question: "Identify the conjugation of ‘facio’ (I make)",
         type: "multiple-choice",
         options: ["1st", "2nd", "3rd", "4th"],
@@ -1884,7 +1820,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D22-Q01",
         question: "Form the gerundive of ‘amare’ (to love)",
         type: "translation",
         correctAnswer: "amandus",
@@ -1892,14 +1827,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D22-Q02",
         question: "Translate: ‘Ad laudandum nomen’",
         type: "translation",
         correctAnswer: "For praising the name",
       },
       {
         id: 3,
-        questionId: "D22-Q03",
         question: "Is ‘orandi’ in ‘Tempus orandi’ a gerund or gerundive?",
         type: "multiple-choice",
         options: ["Gerund", "Gerundive", "Participle", "Infinitive"],
@@ -1961,7 +1894,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D23-Q01",
         question: "Form the perfect infinitive of ‘amare’ (to love)",
         type: "translation",
         correctAnswer: "amavisse",
@@ -1969,14 +1901,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D23-Q02",
         question: "Translate: ‘Scio eum venire’",
         type: "translation",
         correctAnswer: "I know that he is coming",
       },
       {
         id: 3,
-        questionId: "D23-Q03",
         question:
           "Identify the tense of ‘resurrexisse’ in ‘Credo Christum resurrexisse’",
         type: "multiple-choice",
@@ -2038,7 +1968,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D24-Q01",
         question: "Form the gerund of ‘orare’ (to pray)",
         type: "translation",
         correctAnswer: "orandi",
@@ -2046,14 +1975,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D24-Q02",
         question: "Translate: ‘Qui potens est’ from Magnificat",
         type: "translation",
         correctAnswer: "Who is powerful",
       },
       {
         id: 3,
-        questionId: "D24-Q03",
         question: "Identify the tense of ‘exaltavit’ in ‘Exaltavit humiles’",
         type: "multiple-choice",
         options: ["Present", "Imperfect", "Future", "Perfect"],
@@ -2114,7 +2041,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D25-Q01",
         question: "Conjugate ‘laudare’ (to praise) in present passive singular",
         type: "translation",
         correctAnswer: "laudor, laudaris, laudatur",
@@ -2122,14 +2048,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D25-Q02",
         question: "Translate: ‘Deus laudatur’",
         type: "translation",
         correctAnswer: "God is praised",
       },
       {
         id: 3,
-        questionId: "D25-Q03",
         question: "Is ‘tolluntur’ in ‘Peccata tolluntur’ active or passive?",
         type: "multiple-choice",
         options: ["Active", "Passive", "Participle", "Infinitive"],
@@ -2190,7 +2114,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D26-Q01",
         question:
           "Conjugate ‘laudare’ (to praise) in present subjunctive singular",
         type: "translation",
@@ -2199,14 +2122,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D26-Q02",
         question: "Translate: ‘Sanctificetur nomen tuum’",
         type: "translation",
         correctAnswer: "May your name be sanctified",
       },
       {
         id: 3,
-        questionId: "D26-Q03",
         question: "Identify the mood of ‘fiat’ in ‘Fiat voluntas tua’",
         type: "multiple-choice",
         options: ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
@@ -2268,7 +2189,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D27-Q01",
         question:
           "Conjugate ‘videre’ (to see) in imperfect subjunctive singular",
         type: "translation",
@@ -2278,14 +2198,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D27-Q02",
         question: "Translate: ‘Misereatur vestri’",
         type: "translation",
         correctAnswer: "May he have mercy on you",
       },
       {
         id: 3,
-        questionId: "D27-Q03",
         question: "Identify the tense of ‘dixerim’ in ‘Si dixerim’",
         type: "multiple-choice",
         options: ["Present", "Imperfect", "Perfect", "Future"],
@@ -2336,7 +2254,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D28-Q01",
         question: "Recite the Sanctus or Agnus Dei (full or partial)",
         type: "recitation",
         correctAnswer:
@@ -2345,14 +2262,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D28-Q02",
         question: "Translate: ‘Miserere nobis’ from Agnus Dei",
         type: "translation",
         correctAnswer: "Have mercy on us",
       },
       {
         id: 3,
-        questionId: "D28-Q03",
         question: "Identify the mood of ‘miserere’ in ‘Miserere nobis’",
         type: "multiple-choice",
         options: ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
@@ -2413,7 +2328,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D29-Q01",
         question: "Conjugate ‘loqui’ (to speak) in present tense singular",
         type: "translation",
         correctAnswer: "loquor, loqueris, loquitur",
@@ -2422,14 +2336,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D29-Q02",
         question: "Translate: ‘Sequere me’",
         type: "translation",
         correctAnswer: "Follow me",
       },
       {
         id: 3,
-        questionId: "D29-Q03",
         question: "Is ‘confiteor’ in ‘Confiteor tibi’ a deponent verb?",
         type: "multiple-choice",
         options: ["Yes", "No", "Participle", "Passive"],
@@ -2490,7 +2402,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D30-Q01",
         question: "Form the present subjunctive of ‘orare’ (to pray) for ‘I’",
         type: "translation",
         correctAnswer: "orem",
@@ -2499,14 +2410,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D30-Q02",
         question: "Translate: ‘Venio ut orem’",
         type: "translation",
         correctAnswer: "I come so that I may pray",
       },
       {
         id: 3,
-        questionId: "D30-Q03",
         question: "Identify the tense of ‘faceret’ in ‘Dixit ut faceret’",
         type: "multiple-choice",
         options: ["Present", "Imperfect", "Perfect", "Future"],
@@ -2560,7 +2469,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D31-Q01",
         question: "Recite the first line of the Gloria or Confiteor",
         type: "recitation",
         correctAnswer: "Gloria in excelsis Deo or Confiteor Deo omnipotenti",
@@ -2568,14 +2476,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D31-Q02",
         question: "Translate: ‘Peccavi nimis’ from Confiteor",
         type: "translation",
         correctAnswer: "I have sinned greatly",
       },
       {
         id: 3,
-        questionId: "D31-Q03",
         question: "Is ‘confiteor’ in the Confiteor a deponent verb?",
         type: "multiple-choice",
         options: ["Yes", "No", "Participle", "Subjunctive"],
@@ -2636,7 +2542,6 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D32-Q01",
         question: "Conjugate ‘loqui’ (to speak) in present tense singular",
         type: "translation",
         correctAnswer: "loquor, loqueris, loquitur",
@@ -2644,14 +2549,12 @@ export const lessons: Lesson[] = [
       },
       {
         id: 2,
-        questionId: "D32-Q02",
         question: "Translate: ‘Ut laudemus’ from Gloria",
         type: "translation",
         correctAnswer: "So that we may praise",
       },
       {
         id: 3,
-        questionId: "D32-Q03",
         question: "Identify the mood of ‘miserere’ in ‘Miserere nobis’",
         type: "multiple-choice",
         options: ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
@@ -2710,14 +2613,12 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D33-Q01",
         question: "Translate: ‘In principio erat Verbum’ from John 1:1",
         type: "translation",
         correctAnswer: "In the beginning was the Word",
       },
       {
         id: 2,
-        questionId: "D33-Q02",
         question: "Identify the tense of ‘erat’ in ‘Deus erat Verbum’",
         type: "multiple-choice",
         options: ["Present", "Imperfect", "Perfect", "Future"],
@@ -2725,7 +2626,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 3,
-        questionId: "D33-Q03",
         question: "Identify the case of ‘tenebris’ in ‘lux in tenebris lucet’",
         type: "multiple-choice",
         options: ["Nominative", "Accusative", "Dative", "Ablative"],
@@ -2785,14 +2685,12 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D34-Q01",
         question: "Translate: ‘Dominus regit me’ from Psalm 23:1",
         type: "translation",
         correctAnswer: "The Lord rules me",
       },
       {
         id: 2,
-        questionId: "D34-Q02",
         question: "Identify the tense of ‘collocavit’ in ‘ibi me collocavit’",
         type: "multiple-choice",
         options: ["Present", "Imperfect", "Perfect", "Future"],
@@ -2800,7 +2698,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 3,
-        questionId: "D34-Q03",
         question: "Identify the case of ‘mihi’ in ‘nihil mihi deerit’",
         type: "multiple-choice",
         options: ["Nominative", "Accusative", "Dative", "Ablative"],
@@ -2866,14 +2763,12 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D35-Q01",
         question: "Translate: ‘Qui tollis peccata’ from Agnus Dei",
         type: "translation",
         correctAnswer: "Who takes away sins",
       },
       {
         id: 2,
-        questionId: "D35-Q02",
         question: "Identify the tense of ‘laudamus’ in ‘Laudamus te’",
         type: "multiple-choice",
         options: ["Present", "Imperfect", "Perfect", "Future"],
@@ -2881,7 +2776,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 3,
-        questionId: "D35-Q03",
         question: "Is ‘pleni sunt’ in ‘Pleni sunt caeli’ passive or active?",
         type: "multiple-choice",
         options: ["Active", "Passive", "Subjunctive", "Infinitive"],
@@ -2938,14 +2832,12 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D36-Q01",
         question: "Translate: ‘Iustitia Dei revelatur’ from Romans 1:16-17",
         type: "translation",
         correctAnswer: "The justice of God is revealed",
       },
       {
         id: 2,
-        questionId: "D36-Q02",
         question:
           "Identify the tense of ‘revelatur’ in ‘Iustitia Dei revelatur’",
         type: "multiple-choice",
@@ -2954,7 +2846,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 3,
-        questionId: "D36-Q03",
         question: "Identify the case of ‘fide’ in ‘ex fide in fidem’",
         type: "multiple-choice",
         options: ["Nominative", "Accusative", "Dative", "Ablative"],
@@ -3020,14 +2911,12 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D37-Q01",
         question: "Translate: ‘Ora pro nobis’ from Ave Maria",
         type: "translation",
         correctAnswer: "Pray for us",
       },
       {
         id: 2,
-        questionId: "D37-Q02",
         question:
           "Identify the mood of ‘sanctificetur’ in ‘Sanctificetur nomen tuum’",
         type: "multiple-choice",
@@ -3036,7 +2925,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 3,
-        questionId: "D37-Q03",
         question: "Identify the participle in ‘Natum et invisibilium’",
         type: "multiple-choice",
         options: ["natum", "et", "invisibilium", "credo"],
@@ -3102,14 +2990,12 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D38-Q01",
         question: "Translate: ‘Pleni sunt caeli’ from Sanctus",
         type: "translation",
         correctAnswer: "The heavens are full",
       },
       {
         id: 2,
-        questionId: "D38-Q02",
         question: "Identify the mood of ‘miserere’ in ‘Miserere nobis’",
         type: "multiple-choice",
         options: ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
@@ -3117,7 +3003,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 3,
-        questionId: "D38-Q03",
         question: "Identify the participle in ‘Factorem caeli’",
         type: "multiple-choice",
         options: ["factorem", "caeli", "credo", "omnipotens"],
@@ -3183,14 +3068,12 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D39-Q01",
         question: "Translate: ‘Ave, maris stella’",
         type: "translation",
         correctAnswer: "Hail, star of the sea",
       },
       {
         id: 2,
-        questionId: "D39-Q02",
         question: "Identify the case of ‘stella’ in ‘maris stella’",
         type: "multiple-choice",
         options: ["Nominative", "Accusative", "Dative", "Vocative"],
@@ -3198,7 +3081,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 3,
-        questionId: "D39-Q03",
         question: "Identify the verb form of ‘pange’ in ‘Pange, lingua’",
         type: "multiple-choice",
         options: ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
@@ -3264,14 +3146,12 @@ export const lessons: Lesson[] = [
     quiz: [
       {
         id: 1,
-        questionId: "D40-Q01",
         question: "Translate: ‘Lux in tenebris lucet’ from John 1",
         type: "translation",
         correctAnswer: "The light shines in the darkness",
       },
       {
         id: 2,
-        questionId: "D40-Q02",
         question: "Identify the mood of ‘miserere’ in ‘Miserere nobis’",
         type: "multiple-choice",
         options: ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
@@ -3279,7 +3159,6 @@ export const lessons: Lesson[] = [
       },
       {
         id: 3,
-        questionId: "D40-Q03",
         question: "Identify the verb form of ‘pange’ in ‘Pange, lingua’",
         type: "multiple-choice",
         options: ["Indicative", "Subjunctive", "Imperative", "Infinitive"],
