@@ -24,7 +24,7 @@ export class LessonsSeeder implements ISeeder {
     const startTime = Date.now();
     let added = 0;
     let updated = 0;
-    let skipped = 0;
+    const skipped = 0;
     const errors = [];
 
     try {
@@ -40,12 +40,10 @@ export class LessonsSeeder implements ISeeder {
 
       for (const lessonData of lessons) {
         // Validate required fields
-        const validationErrors = validateDataSchema(lessonData, [
-          "id",
-          "title",
-          "moduleId",
-          "day",
-        ]);
+        const validationErrors = validateDataSchema(
+          lessonData as unknown as Record<string, unknown>,
+          ["id", "title", "moduleId", "day"],
+        );
         if (validationErrors.length > 0) {
           errors.push(...validationErrors);
           continue;
@@ -53,13 +51,12 @@ export class LessonsSeeder implements ISeeder {
 
         try {
           // Use lesson ID as-is (PocketBase will auto-generate if needed)
-          const id = lessonData.id;
 
           // Extract module number from moduleId (e.g., "M01" -> 1)
           const moduleNumberMatch = lessonData.moduleId.match(/\d+/);
           if (!moduleNumberMatch) {
             errors.push({
-              record: lessonData,
+              record: lessonData as unknown as Record<string, unknown>,
               message: `Invalid module ID format: ${lessonData.moduleId}`,
             });
             continue;
@@ -73,9 +70,10 @@ export class LessonsSeeder implements ISeeder {
               .collection("church_latin_modules")
               .getFirstListItem(`moduleNumber=${moduleNumber}`);
             moduleRecordId = moduleRecord.id;
-          } catch (lookupError) {
+          } catch (_lookupError) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             errors.push({
-              record: lessonData,
+              record: lessonData as unknown as Record<string, unknown>,
               message: `Failed to find module with number ${moduleNumber} for lesson ${lessonData.id}`,
             });
             continue;
@@ -88,7 +86,7 @@ export class LessonsSeeder implements ISeeder {
             ? parseInt(lessonNumberMatch[0], 10)
             : lessonData.day;
 
-          const record = {
+          const record: Record<string, unknown> = {
             resourceId: resourceId,
             name: lessonData.title,
             lessonNumber: lessonNumber,
@@ -144,7 +142,7 @@ export class LessonsSeeder implements ISeeder {
           const message =
             error instanceof Error ? error.message : String(error);
           errors.push({
-            record: lessonData,
+            record: lessonData as unknown as Record<string, unknown>,
             message: `Failed to seed lesson ${lessonData.id}: ${message}`,
           });
         }

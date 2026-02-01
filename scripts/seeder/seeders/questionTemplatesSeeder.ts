@@ -42,13 +42,10 @@ export class QuestionTemplatesSeeder implements ISeeder {
 
       for (const templateData of templates) {
         // Validate required fields
-        const validationErrors = validateDataSchema(templateData, [
-          "id",
-          "lessonId",
-          "type",
-          "wordCount",
-          "instruction",
-        ]);
+        const validationErrors = validateDataSchema(
+          templateData as unknown as Record<string, unknown>,
+          ["id", "lessonId", "type", "wordCount", "instruction"],
+        );
         if (validationErrors.length > 0) {
           errors.push(...validationErrors);
           continue;
@@ -59,7 +56,7 @@ export class QuestionTemplatesSeeder implements ISeeder {
           const lessonNumberMatch = templateData.lessonId.match(/\d+/);
           if (!lessonNumberMatch) {
             errors.push({
-              record: templateData,
+              record: templateData as unknown as Record<string, unknown>,
               message: `Invalid lesson ID format: ${templateData.lessonId}`,
             });
             continue;
@@ -73,9 +70,10 @@ export class QuestionTemplatesSeeder implements ISeeder {
               .collection("church_latin_lessons")
               .getFirstListItem(`lessonNumber=${lessonNumber}`);
             lessonRecordId = lessonRecord.id;
-          } catch (lookupError) {
+          } catch (_lookupError) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             errors.push({
-              record: templateData,
+              record: templateData as unknown as Record<string, unknown>,
               message: `Failed to find lesson with number ${lessonNumber}`,
             });
             continue;
@@ -88,9 +86,10 @@ export class QuestionTemplatesSeeder implements ISeeder {
               .collection("church_latin_quizzes")
               .getFirstListItem(`lessonId="${lessonRecordId}"`);
             quizRecordId = quizRecord.id;
-          } catch (lookupError) {
+          } catch (_lookupError) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             errors.push({
-              record: templateData,
+              record: templateData as unknown as Record<string, unknown>,
               message: `Failed to find quiz for lesson ${templateData.lessonId}`,
             });
             continue;
@@ -131,8 +130,8 @@ export class QuestionTemplatesSeeder implements ISeeder {
               .sort(() => Math.random() - 0.5)
               .slice(0, templateData.wordCount);
 
-            // Build options (meanings only) and correctAnswer (word - meaning pairs)
-            const options = selectedVocab.map((v) => v.meaning);
+            // Build optionsList (meanings only) and correctAnswer (word - meaning pairs)
+            const optionsList = selectedVocab.map((v) => v.meaning);
             const correctAnswer = selectedVocab.map(
               (v) => `${v.word} - ${v.meaning}`,
             );
@@ -142,14 +141,14 @@ export class QuestionTemplatesSeeder implements ISeeder {
             const generatedQuestion = `Match ${templateData.wordCount} vocabulary words to their meanings: ${latinWords}`;
 
             const resourceId = `template_${templateData.id}`;
-            const record = {
+            const record: Record<string, unknown> = {
               resourceId: resourceId,
               questionId: templateData.id,
               type: quizType,
               lessonId: lessonRecordId,
               quizId: quizRecordId,
               question: generatedQuestion,
-              options: JSON.stringify(options),
+              options: JSON.stringify(optionsList),
               correctAnswer: JSON.stringify(correctAnswer),
               isTemplateQuestion: true,
               templateId: templateData.id,
@@ -203,7 +202,7 @@ export class QuestionTemplatesSeeder implements ISeeder {
           } else {
             // For non-matching templates, store as placeholder for future expansion
             const resourceId = `template_${templateData.id}`;
-            const record = {
+            const record: Record<string, unknown> = {
               resourceId: resourceId,
               questionId: templateData.id,
               type: quizType,
@@ -264,7 +263,7 @@ export class QuestionTemplatesSeeder implements ISeeder {
           const message =
             error instanceof Error ? error.message : String(error);
           errors.push({
-            record: templateData,
+            record: templateData as unknown as Record<string, unknown>,
             message: `Failed to seed template ${templateData.id}: ${message}`,
           });
         }

@@ -217,4 +217,4 @@ export const lessons: Lesson[] = [];
 // For now, this is a placeholder. Full implementation in progress.
 export const vocabulary: Record<string, string[]> = {};
 
-// Generated: 2026-01-31T23:25:02.472Z
+// Generated: 2026-02-01T00:42:20.379Z

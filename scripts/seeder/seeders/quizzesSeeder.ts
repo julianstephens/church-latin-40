@@ -40,11 +40,10 @@ export class QuizzesSeeder implements ISeeder {
 
       for (const quizData of quizzes) {
         // Validate required fields
-        const validationErrors = validateDataSchema(quizData, [
-          "id",
-          "lessonId",
-          "title",
-        ]);
+        const validationErrors = validateDataSchema(
+          quizData as unknown as Record<string, unknown>,
+          ["id", "lessonId", "title"],
+        );
         if (validationErrors.length > 0) {
           errors.push(...validationErrors);
           skipped++;
@@ -56,7 +55,7 @@ export class QuizzesSeeder implements ISeeder {
           const lessonNumberMatch = quizData.lessonId.match(/\d+/);
           if (!lessonNumberMatch) {
             errors.push({
-              record: quizData,
+              record: quizData as unknown as Record<string, unknown>,
               message: `Invalid lesson ID format: ${quizData.lessonId}`,
             });
             continue;
@@ -70,9 +69,10 @@ export class QuizzesSeeder implements ISeeder {
               .collection("church_latin_lessons")
               .getFirstListItem(`lessonNumber=${lessonNumber}`);
             lessonRecordId = lessonRecord.id;
-          } catch (lookupError) {
+          } catch (_lookupError) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             errors.push({
-              record: quizData,
+              record: quizData as unknown as Record<string, unknown>,
               message: `Failed to find lesson with number ${lessonNumber}`,
             });
             continue;
@@ -80,7 +80,7 @@ export class QuizzesSeeder implements ISeeder {
 
           // Map to PocketBase format
           const resourceId = `quiz_${quizData.id}`;
-          const record = {
+          const record: Record<string, unknown> = {
             resourceId: resourceId,
             lessonId: lessonRecordId,
           };
@@ -127,7 +127,7 @@ export class QuizzesSeeder implements ISeeder {
           const message =
             error instanceof Error ? error.message : String(error);
           errors.push({
-            record: quizData,
+            record: quizData as unknown as Record<string, unknown>,
             message: `Failed to seed quiz ${quizData.id}: ${message}`,
           });
         }

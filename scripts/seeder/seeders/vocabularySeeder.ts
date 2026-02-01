@@ -33,7 +33,7 @@ export class VocabularySeeder implements ISeeder {
     const startTime = Date.now();
     let added = 0;
     let updated = 0;
-    let skipped = 0;
+    const skipped = 0;
     const errors = [];
 
     try {
@@ -61,11 +61,10 @@ export class VocabularySeeder implements ISeeder {
 
       for (const vocabData of vocabulary) {
         // Validate required fields
-        const validationErrors = validateDataSchema(vocabData, [
-          "word",
-          "meaning",
-          "lessonId",
-        ]);
+        const validationErrors = validateDataSchema(
+          vocabData as unknown as Record<string, unknown>,
+          ["word", "meaning", "lessonId"],
+        );
         if (validationErrors.length > 0) {
           errors.push(...validationErrors);
           continue;
@@ -79,7 +78,7 @@ export class VocabularySeeder implements ISeeder {
           const lessonNumberMatch = vocabData.lessonId.match(/\d+/);
           if (!lessonNumberMatch) {
             errors.push({
-              record: vocabData,
+              record: vocabData as unknown as Record<string, unknown>,
               message: `Invalid lesson ID format: ${vocabData.lessonId}`,
             });
             continue;
@@ -93,7 +92,8 @@ export class VocabularySeeder implements ISeeder {
               .collection("church_latin_lessons")
               .getFirstListItem(`lessonNumber=${lessonNumber}`);
             lessonRecordId = lessonRecord.id;
-          } catch (lookupError) {
+          } catch (_lookupError) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             logVerbose(
               `Could not find lesson with number: ${lessonNumber}`,
               options,
@@ -102,7 +102,7 @@ export class VocabularySeeder implements ISeeder {
 
           if (!lessonRecordId) {
             errors.push({
-              record: vocabData,
+              record: vocabData as unknown as Record<string, unknown>,
               message: `Failed to find lesson ${vocabData.lessonId} (number ${lessonNumber}) for vocabulary word ${vocabData.word}`,
             });
             continue;
@@ -128,7 +128,7 @@ export class VocabularySeeder implements ISeeder {
               ? vocabData.frequency.toLowerCase()
               : "unknown";
 
-          const record: any = {
+          const record: Record<string, unknown> = {
             resourceId: `vocab_${vocabData.word.toLowerCase()}_${vocabData.lessonId}`,
             word: vocabData.word,
             meaning: vocabData.meaning,
@@ -161,7 +161,8 @@ export class VocabularySeeder implements ISeeder {
               `Record ${lookupId} exists with ID ${existingId}`,
               options,
             );
-          } catch (checkError) {
+          } catch (_checkError) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             exists = false;
             logVerbose(`Record ${lookupId} does not exist`, options);
           }
@@ -221,7 +222,7 @@ export class VocabularySeeder implements ISeeder {
           const message =
             error instanceof Error ? error.message : String(error);
           errors.push({
-            record: vocabData,
+            record: vocabData as unknown as Record<string, unknown>,
             message: `Failed to seed word ${vocabData.word}: ${message}`,
           });
         }

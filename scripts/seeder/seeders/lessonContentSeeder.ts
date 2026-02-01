@@ -47,12 +47,10 @@ export class LessonContentSeeder implements ISeeder {
 
       for (const contentData of contentItems) {
         // Validate required fields
-        const validationErrors = validateDataSchema(contentData, [
-          "lessonId",
-          "content",
-          "materials",
-          "practice",
-        ]);
+        const validationErrors = validateDataSchema(
+          contentData as unknown as Record<string, unknown>,
+          ["lessonId", "content", "materials", "practice"],
+        );
         if (validationErrors.length > 0) {
           errors.push(...validationErrors);
           skipped++;
@@ -64,7 +62,7 @@ export class LessonContentSeeder implements ISeeder {
           const lessonNumberMatch = contentData.lessonId.match(/\d+/);
           if (!lessonNumberMatch) {
             errors.push({
-              record: contentData,
+              record: contentData as unknown as Record<string, unknown>,
               message: `Invalid lesson ID format: ${contentData.lessonId}`,
             });
             continue;
@@ -78,9 +76,10 @@ export class LessonContentSeeder implements ISeeder {
               .collection("church_latin_lessons")
               .getFirstListItem(`lessonNumber=${lessonNumber}`);
             lessonRecordId = lessonRecord.id;
-          } catch (lookupError) {
+          } catch (_lookupError) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             errors.push({
-              record: contentData,
+              record: contentData as unknown as Record<string, unknown>,
               message: `Failed to find lesson with number ${lessonNumber}`,
             });
             continue;
@@ -150,7 +149,7 @@ export class LessonContentSeeder implements ISeeder {
           const message =
             error instanceof Error ? error.message : String(error);
           errors.push({
-            record: contentData,
+            record: contentData as unknown as Record<string, unknown>,
             message: `Failed to seed content for lesson ${contentData.lessonId}: ${message}`,
           });
         }

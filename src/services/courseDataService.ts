@@ -6,9 +6,11 @@ import {
   Module,
   QuizQuestion,
 } from "../data/courseData";
+import type { VocabWord } from "../types/vocabulary";
 import POCKETBASE_COLLECTIONS from "../utils/collections";
 import { logger } from "../utils/logger";
 import { getEnvironmentConfig } from "./envValidation";
+import { quizQueueService } from "./quizQueueService";
 
 const config = getEnvironmentConfig();
 const POCKETBASE_URL = config.pocketbaseUrl;
@@ -121,12 +123,12 @@ class CourseDataService {
    * Fetch full lesson content (lazy loading)
    */
   async getLessonContent(lessonId: number): Promise<Lesson | null> {
-    // First check if we have it in cache
-    if (this.contentCache[lessonId]) {
-      return this.contentCache[lessonId] as unknown as Lesson;
-    }
-
     try {
+      // First check if we have it in cache
+      if (this.contentCache[lessonId]) {
+        logger.debug(`Returning cached lesson ${lessonId}`);
+        return this.contentCache[lessonId];
+      }
       // Fetch the lesson record
       const lessonRecord = await this.pb
         .collection(POCKETBASE_COLLECTIONS.LESSONS)
@@ -169,46 +171,76 @@ class CourseDataService {
           .collection(POCKETBASE_COLLECTIONS.QUIZZES)
           .getFirstListItem(`lessonId = "${lessonRecord.id}"`);
 
-        // Fetch all questions for this quiz (excluding template questions)
+        logger.debug(
+          `Found quiz record for lesson ${lessonId}: ${quizRecord.id}`,
+        );
+
+        // Fetch all questions for this quiz - NO FILTER, we'll filter in code
         const questionRecords = await this.pb
           .collection(POCKETBASE_COLLECTIONS.QUIZ_QUESTIONS)
           .getFullList({
-            filter: `quizId = "${quizRecord.id}" && isTemplateQuestion != true`,
+            filter: `quizId = "${quizRecord.id}"`,
             sort: "+questionIndex",
           });
 
-        quizQuestions = questionRecords.map((q: Record<string, unknown>) => ({
-          id: q.resourceId as string,
-          question: q.question as string,
-          type: q.type as string,
-          options: q.options ? JSON.parse(q.options as string) : [],
-          correctAnswer: q.correctAnswer,
-          explanation: q.explanation,
-        })) as QuizQuestion[];
-      } catch (quizError) {
-        logger.warn(`No quiz found for lesson ${lessonId}`, quizError);
-      }
+        logger.debug(
+          `Fetched ${questionRecords.length} total questions for quiz ${quizRecord.id}`,
+        );
 
-      // Get the module
-      const modules = await this.getModules();
-      const lesson = await this.getLessonById(lessonId, modules);
+        // Separate template and static questions
+        const templateQuestions = questionRecords.filter(
+          (q: Record<string, unknown>) => q.isTemplateQuestion === true,
+        );
+        const staticQuestions = questionRecords.filter(
+          (q: Record<string, unknown>) => q.isTemplateQuestion !== true,
+        );
 
-      // Parse practice if it's JSON, otherwise keep as is
-      let practiceData: unknown[] = [];
-      if (contentRecord.practice) {
-        if (typeof contentRecord.practice === "string") {
-          try {
-            practiceData = JSON.parse(contentRecord.practice);
-          } catch {
-            practiceData = contentRecord.practice
-              ? [contentRecord.practice]
-              : [];
-          }
-        } else if (Array.isArray(contentRecord.practice)) {
-          practiceData = contentRecord.practice;
-        } else {
-          practiceData = contentRecord.practice ? [contentRecord.practice] : [];
+        logger.debug(
+          `Found ${templateQuestions.length} template questions and ${staticQuestions.length} static questions`,
+        );
+
+        if (staticQuestions.length === 0) {
+          logger.warn(
+            `No static questions found for lesson ${lessonId} - only vocab template questions are available`,
+          );
         }
+
+        // Map static questions only
+        quizQuestions = staticQuestions.map((q: Record<string, unknown>) => {
+          try {
+            return {
+              id: q.resourceId as string,
+              question: q.question as string,
+              type: q.type as string,
+              options: q.options
+                ? typeof q.options === "string"
+                  ? JSON.parse(q.options)
+                  : q.options
+                : [],
+              correctAnswer: Array.isArray(q.correctAnswer)
+                ? q.correctAnswer
+                : typeof q.correctAnswer === "string" &&
+                    q.correctAnswer.startsWith("[")
+                  ? JSON.parse(q.correctAnswer)
+                  : q.correctAnswer,
+              explanation: q.explanation,
+            };
+          } catch (mapError) {
+            logger.error(`Error mapping question ${q.id}:`, mapError);
+            throw mapError;
+          }
+        }) as unknown as QuizQuestion[];
+
+        logger.debug(
+          `Prepared ${quizQuestions.length} static questions for lesson ${lessonId}`,
+        );
+      } catch (quizError) {
+        const errorMsg =
+          quizError instanceof Error ? quizError.message : String(quizError);
+        logger.warn(
+          `Failed to fetch quiz for lesson ${lessonId}: ${errorMsg}`,
+          quizError,
+        );
       }
 
       // Parse materials if it's JSON, otherwise keep as is
@@ -239,16 +271,68 @@ class CourseDataService {
         }
       }
 
+      // Parse practice data if it exists
+      let practiceData: string[] = [];
+      if (contentRecord.practice) {
+        if (typeof contentRecord.practice === "string") {
+          try {
+            practiceData = JSON.parse(contentRecord.practice);
+          } catch {
+            practiceData = [contentRecord.practice];
+          }
+        } else if (Array.isArray(contentRecord.practice)) {
+          practiceData = contentRecord.practice as string[];
+        }
+      }
+
       const fullLesson: Lesson = {
         id: lessonId,
         title: lessonRecord.name || lessonRecord.title,
-        module: lesson?.module || 1,
+        module:
+          (lessonRecord.moduleId as unknown as { moduleNumber?: number })
+            ?.moduleNumber || 1,
         materials: materialsData,
         content: contentData,
         vocabulary: vocabularyList,
         practice: practiceData as unknown as string[],
         quiz: quizQuestions,
       };
+
+      // Fetch full vocabulary records for worker (with all fields)
+      try {
+        const vocabRecords = await this.pb
+          .collection(POCKETBASE_COLLECTIONS.VOCABULARY)
+          .getFullList({
+            filter: `lessonId = "${lessonRecord.id}"`,
+          });
+
+        const vocabWords: VocabWord[] = vocabRecords.map(
+          (v: Record<string, unknown>) => ({
+            id: v.id as string,
+            lessonId: v.lessonId as string,
+            word: v.word as string,
+            meaning: v.meaning as string,
+            partOfSpeech: v.partOfSpeech as string | undefined,
+            caseInfo: v.caseInfo as string | undefined,
+            conjugationInfo: v.conjugationInfo as string | undefined,
+            frequency: v.frequency as string,
+            liturgicalContext: v.liturgicalContext as string | undefined,
+          }),
+        ) as unknown as VocabWord[];
+
+        // Trigger eager generation with vocabulary + static questions
+        quizQueueService.eagerlyGenerateQuizzes(
+          lessonId,
+          vocabWords,
+          quizQuestions,
+        );
+      } catch (eagerGenError) {
+        logger.debug(
+          `Failed to start eager quiz generation for lesson ${lessonId}:`,
+          eagerGenError,
+        );
+        // Non-blocking - continue without eager generation
+      }
 
       this.contentCache[lessonId] = fullLesson;
       return fullLesson;

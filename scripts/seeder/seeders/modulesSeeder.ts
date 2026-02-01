@@ -24,7 +24,7 @@ export class ModulesSeeder implements ISeeder {
     const startTime = Date.now();
     let added = 0;
     let updated = 0;
-    let skipped = 0;
+    const skipped = 0;
     const errors = [];
 
     try {
@@ -40,11 +40,10 @@ export class ModulesSeeder implements ISeeder {
 
       for (const moduleData of modules) {
         // Validate required fields
-        const validationErrors = validateDataSchema(moduleData, [
-          "id",
-          "name",
-          "description",
-        ]);
+        const validationErrors = validateDataSchema(
+          moduleData as unknown as Record<string, unknown>,
+          ["id", "name", "description"],
+        );
         if (validationErrors.length > 0) {
           errors.push(...validationErrors);
           continue;
@@ -55,7 +54,7 @@ export class ModulesSeeder implements ISeeder {
           const moduleNumberMatch = moduleData.id.match(/\d+/);
           if (!moduleNumberMatch) {
             errors.push({
-              record: moduleData,
+              record: moduleData as unknown as Record<string, unknown>,
               message: `Invalid module ID format: ${moduleData.id}`,
             });
             continue;
@@ -64,7 +63,7 @@ export class ModulesSeeder implements ISeeder {
 
           // Map to PocketBase format
           const resourceId = `module_${moduleData.id}`;
-          const record = {
+          const record: Record<string, unknown> = {
             resourceId: resourceId,
             name: moduleData.name,
             description: moduleData.description,
@@ -119,7 +118,7 @@ export class ModulesSeeder implements ISeeder {
           const message =
             error instanceof Error ? error.message : String(error);
           errors.push({
-            record: moduleData,
+            record: moduleData as unknown as Record<string, unknown>,
             message: `Failed to seed module ${moduleData.id}: ${message}`,
           });
         }

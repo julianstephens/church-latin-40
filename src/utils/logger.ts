@@ -28,7 +28,7 @@ export const logger = {
    */
   warn: (message: string, error?: unknown): void => {
     if (isDevelopment) {
-      console.warn(message);
+      console.warn(message, error);
     }
   },
 

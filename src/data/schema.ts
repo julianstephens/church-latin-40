@@ -105,7 +105,7 @@ export const COLLECTIONS: CollectionSchema[] = [
       { name: "options", type: "json" },
       { name: "correctAnswer", type: "text" },
       { name: "explanation", type: "text" },
-      { name: "isTemplateQuestion", type: "checkbox" },
+      { name: "isTemplateQuestion", type: "bool" },
       { name: "templateId", type: "text" },
     ],
     indexes: [["resourceId"], ["questionId"]],

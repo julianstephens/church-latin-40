@@ -15,14 +15,15 @@ import { VocabWord } from "../src/types/vocabulary";
 /**
  * Mock vocabulary data for testing
  */
-const mockVocabWords: VocabWord[] = [
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _mockVocabWords: VocabWord[] = [
   {
     id: "vocab-1",
     lessonId: "lesson-1",
     word: "Deus",
     meaning: "God",
     partOfSpeech: "noun",
-    frequency: 5,
+    frequency: "high",
     caseInfo: "nominative singular masculine",
   },
   {
@@ -31,7 +32,7 @@ const mockVocabWords: VocabWord[] = [
     word: "ecclesia",
     meaning: "church",
     partOfSpeech: "noun",
-    frequency: 4,
+    frequency: "medium",
     caseInfo: "nominative singular feminine",
   },
   {
@@ -40,7 +41,7 @@ const mockVocabWords: VocabWord[] = [
     word: "fides",
     meaning: "faith",
     partOfSpeech: "noun",
-    frequency: 3,
+    frequency: "low",
     caseInfo: "nominative singular feminine",
   },
   {
@@ -49,7 +50,7 @@ const mockVocabWords: VocabWord[] = [
     word: "spes",
     meaning: "hope",
     partOfSpeech: "noun",
-    frequency: 4,
+    frequency: "medium",
     caseInfo: "nominative singular feminine",
   },
   {
@@ -58,7 +59,7 @@ const mockVocabWords: VocabWord[] = [
     word: "caritas",
     meaning: "charity",
     partOfSpeech: "noun",
-    frequency: 4,
+    frequency: "medium",
     caseInfo: "nominative singular feminine",
   },
   {
@@ -67,7 +68,7 @@ const mockVocabWords: VocabWord[] = [
     word: "pax",
     meaning: "peace",
     partOfSpeech: "noun",
-    frequency: 5,
+    frequency: "high",
     caseInfo: "nominative singular feminine",
   },
   {
@@ -76,7 +77,7 @@ const mockVocabWords: VocabWord[] = [
     word: "lux",
     meaning: "light",
     partOfSpeech: "noun",
-    frequency: 3,
+    frequency: "low",
     caseInfo: "nominative singular feminine",
   },
   {
@@ -85,7 +86,7 @@ const mockVocabWords: VocabWord[] = [
     word: "vita",
     meaning: "life",
     partOfSpeech: "noun",
-    frequency: 4,
+    frequency: "medium",
     caseInfo: "nominative singular feminine",
   },
 ];

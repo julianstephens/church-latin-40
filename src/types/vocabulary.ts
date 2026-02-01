@@ -17,7 +17,7 @@ export type VocabQuestionType =
   | "vocab-multiple-choice"
   | "vocab-translation";
 
-export type FrequencyLevel = 1 | 2 | 3 | 4 | 5;
+export type FrequencyLevel = "high" | "medium" | "low" | "unknown";
 
 /**
  * Individual vocabulary word record from PocketBase
@@ -30,7 +30,7 @@ export interface VocabWord {
   partOfSpeech?: PartOfSpeech;
   caseInfo?: string;
   conjugationInfo?: string;
-  frequency: FrequencyLevel;
+  frequency: string;
   liturgicalContext?: string;
   created?: string;
   updated?: string;

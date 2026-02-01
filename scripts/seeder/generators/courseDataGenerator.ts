@@ -8,13 +8,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import type { SeedOptions } from "../types";
-import {
-  logSuccess,
-  logVerbose,
-  logWarn,
-  readCsvData,
-  readJsonData,
-} from "../utils";
+import { logSuccess, logVerbose, logWarn, readJsonData } from "../utils";
 
 // Define __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -29,20 +23,15 @@ export class CourseDataGenerator {
       logVerbose("Starting courseData.ts generation", options);
 
       // Load seed data
-      const modules = readJsonData("modules.json");
-      const lessons = readJsonData("lessons.json");
-      const templates = readJsonData("vocab-question-templates.json");
-
-      // For now, parse vocabulary CSV (empty in initial setup)
-      const vocabCsv = readCsvData("vocabulary.csv");
+      const modules = readJsonData("modules.json") as Record<string, unknown>[];
+      const lessons = readJsonData("lessons.json") as Record<string, unknown>[];
+      const templates = readJsonData("vocab-question-templates.json") as Record<
+        string,
+        unknown
+      >[];
 
       // Generate TypeScript code
-      const code = this.generateTypescript(
-        modules,
-        lessons,
-        templates,
-        vocabCsv,
-      );
+      const code = this.generateTypescript(modules, lessons, templates);
 
       // Write to file (skip if dry-run)
       const outputPath = path.join(
@@ -73,10 +62,9 @@ export class CourseDataGenerator {
    * Generate TypeScript source code from seed data
    */
   private generateTypescript(
-    modules: any[],
-    lessons: any[],
-    templates: any[],
-    vocabulary: Record<string, string>[],
+    modules: Record<string, unknown>[],
+    lessons: Record<string, unknown>[],
+    templates: Record<string, unknown>[],
   ): string {
     const lines: string[] = [];
 
@@ -155,14 +143,16 @@ export class CourseDataGenerator {
     lines.push(`// Modules from seed data`);
     lines.push(`export const modules: Module[] = [`);
     for (const mod of modules) {
-      const numId = this.extractNumber(mod.id);
+      const numId = this.extractNumber(mod.id as string);
       lines.push(`  {`);
       lines.push(`    id: ${numId},`);
       lines.push(`    title: ${JSON.stringify(mod.name)},`);
       lines.push(`    description: ${JSON.stringify(mod.description)},`);
       // Extract days from lessons
       const moduleLessons = lessons.filter((l) => l.moduleId === mod.id);
-      const days = moduleLessons.map((l) => l.day).sort((a, b) => a - b);
+      const days = moduleLessons
+        .map((l) => l.day as number)
+        .sort((a, b) => a - b);
       lines.push(`    days: [${days.join(", ")}],`);
       lines.push(`  },`);
     }
@@ -175,7 +165,7 @@ export class CourseDataGenerator {
       `export const vocabQuestionTemplates: VocabQuestionTemplate[] = [`,
     );
     for (const template of templates) {
-      const lessonNum = this.extractNumber(template.lessonId);
+      const lessonNum = this.extractNumber(template.lessonId as string);
       lines.push(`  {`);
       lines.push(`    id: ${JSON.stringify(template.id)},`);
       lines.push(`    lessonId: ${lessonNum},`);

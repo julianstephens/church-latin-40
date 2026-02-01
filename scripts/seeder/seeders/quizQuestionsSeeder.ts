@@ -54,12 +54,10 @@ export class QuizQuestionsSeeder implements ISeeder {
 
       for (const questionData of questions) {
         // Validate required fields
-        const validationErrors = validateDataSchema(questionData, [
-          "questionId",
-          "type",
-          "lessonId",
-          "question",
-        ]);
+        const validationErrors = validateDataSchema(
+          questionData as unknown as Record<string, unknown>,
+          ["questionId", "type", "lessonId", "question"],
+        );
         if (validationErrors.length > 0) {
           errors.push(...validationErrors);
           skipped++;
@@ -71,7 +69,7 @@ export class QuizQuestionsSeeder implements ISeeder {
           const lessonNumberMatch = questionData.lessonId.match(/\d+/);
           if (!lessonNumberMatch) {
             errors.push({
-              record: questionData,
+              record: questionData as unknown as Record<string, unknown>,
               message: `Invalid lesson ID format: ${questionData.lessonId}`,
             });
             continue;
@@ -85,9 +83,10 @@ export class QuizQuestionsSeeder implements ISeeder {
               .collection("church_latin_lessons")
               .getFirstListItem(`lessonNumber=${lessonNumber}`);
             lessonRecordId = lessonRecord.id;
-          } catch (lookupError) {
+          } catch (_lookupError) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             errors.push({
-              record: questionData,
+              record: questionData as unknown as Record<string, unknown>,
               message: `Failed to find lesson with number ${lessonNumber}`,
             });
             continue;
@@ -100,9 +99,10 @@ export class QuizQuestionsSeeder implements ISeeder {
               .collection("church_latin_quizzes")
               .getFirstListItem(`lessonId="${lessonRecordId}"`);
             quizRecordId = quizRecord.id;
-          } catch (lookupError) {
+          } catch (_lookupError) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             errors.push({
-              record: questionData,
+              record: questionData as unknown as Record<string, unknown>,
               message: `Failed to find quiz for lesson ${questionData.lessonId}`,
             });
             continue;
@@ -120,7 +120,7 @@ export class QuizQuestionsSeeder implements ISeeder {
 
           // Map to PocketBase format
           const resourceId = `question_${questionData.questionId}`;
-          const record = {
+          const record: Record<string, unknown> = {
             resourceId: resourceId,
             questionId: questionData.questionId,
             type: questionData.type,
@@ -182,7 +182,7 @@ export class QuizQuestionsSeeder implements ISeeder {
           const message =
             error instanceof Error ? error.message : String(error);
           errors.push({
-            record: questionData,
+            record: questionData as unknown as Record<string, unknown>,
             message: `Failed to seed question ${questionData.questionId}: ${message}`,
           });
         }

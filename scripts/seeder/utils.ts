@@ -41,7 +41,7 @@ export async function getPocketBase(): Promise<PocketBase> {
     await pbInstance.admins.authWithPassword(adminEmail, adminPassword);
     logVerbose(`✅ Authenticated with PocketBase admin account`, {
       verbose: true,
-    } as any);
+    } as Record<string, unknown>);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     logError(
@@ -198,7 +198,7 @@ export async function recordExists(
 export async function upsertRecord(
   collection: string,
   id: string,
-  data: any,
+  data: Record<string, unknown>,
   options: SeedOptions,
 ): Promise<{ created: boolean; error?: Error }> {
   try {
@@ -255,7 +255,7 @@ export async function clearCollection(
  * Validate seeder data against schema
  */
 export function validateDataSchema(
-  data: any,
+  data: Record<string, unknown>,
   requiredFields: string[],
 ): SeedError[] {
   const errors: SeedError[] = [];

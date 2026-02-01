@@ -10,7 +10,7 @@ export interface SeedOptions {
 }
 
 export interface SeedError {
-  record?: any;
+  record?: Record<string, unknown>;
   message: string;
   code?: string;
 }
