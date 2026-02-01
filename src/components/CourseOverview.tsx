@@ -1,8 +1,9 @@
-import { Calendar, CheckCircle, Clock, Users } from "lucide-react";
+import { BookOpen, Calendar, CheckCircle, Clock, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Module } from "../data/courseData";
 import { courseDataService } from "../services/courseDataService";
 import { pocketbaseService } from "../services/pocketbase";
+import { reviewService } from "../services/reviewService";
 import { logger } from "../utils/logger";
 import { loadProgress, saveProgress, UserProgress } from "../utils/storage";
 import { SkipToDayDialog } from "./SkipToDayDialog";
@@ -18,6 +19,8 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
   const [progress, setProgress] = useState<UserProgress | null>(null);
   const [showEnglish, setShowEnglish] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [dueReviewCount, setDueReviewCount] = useState(0);
+  const [totalReviewCount, setTotalReviewCount] = useState(0);
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -50,6 +53,32 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
 
     loadInitialData();
   }, []);
+
+  // Fetch review items count (due + upcoming)
+  useEffect(() => {
+    const fetchReviewCount = async () => {
+      try {
+        const [dueItems, upcomingItems] = await Promise.all([
+          reviewService.getDueReviewItems(1000),
+          reviewService.getUpcomingReviewItems(1000),
+        ]);
+        setDueReviewCount(dueItems.length);
+        setTotalReviewCount(dueItems.length + upcomingItems.length);
+      } catch (error) {
+        logger.debug(
+          "[CourseOverview] Failed to fetch due review count:",
+          error,
+        );
+        setDueReviewCount(0);
+        setTotalReviewCount(0);
+      }
+    };
+
+    // Only fetch if authenticated
+    if (progress && pocketbaseService.getPocketBase().authStore.isValid) {
+      fetchReviewCount();
+    }
+  }, [progress]);
 
   if (isLoading || !progress) {
     return (
@@ -203,6 +232,55 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
           </p>
         </div>
       </div>
+
+      {/* Review Queue Widget */}
+      {totalReviewCount > 0 && (
+        <div className="mb-8 sm:mb-12">
+          <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 border-2 border-purple-200 dark:border-purple-700 rounded-xl shadow-lg p-4 sm:p-6 max-w-2xl mx-auto">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0">
+                <BookOpen className="h-8 w-8 sm:h-10 sm:w-10 text-purple-700 dark:text-purple-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-1">
+                  Review Queue
+                </h3>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-1">
+                  You have{" "}
+                  <span className="font-bold text-purple-700 dark:text-purple-400">
+                    {totalReviewCount}
+                  </span>{" "}
+                  review item{totalReviewCount === 1 ? "" : "s"} in your queue
+                </p>
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  {dueReviewCount > 0
+                    ? `${dueReviewCount} due now`
+                    : "No items due yet"}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <button
+                    onClick={() => {
+                      window.location.href = "/review";
+                    }}
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-purple-700 hover:bg-purple-800 dark:bg-purple-600 dark:hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors duration-200"
+                  >
+                    <BookOpen className="h-4 w-4" />
+                    Start Review Session
+                  </button>
+                  <button
+                    onClick={() => {
+                      window.location.href = "/review-list";
+                    }}
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-transparent border border-purple-700 hover:bg-purple-100 dark:hover:bg-purple-900/30 dark:border-purple-600 text-purple-700 dark:text-purple-400 font-semibold rounded-lg transition-colors duration-200"
+                  >
+                    View All Items
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modules */}
       <div className="space-y-4 sm:space-y-6">

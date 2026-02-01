@@ -1,6 +1,8 @@
 import { ArrowRight, CheckCircle, RotateCcw, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { QuizQuestion } from "../data/courseData";
+import { reviewService } from "../services/reviewService";
+import { logger } from "../utils/logger";
 import {
   normalizeAnswerForComparison,
   sanitizeOption,
@@ -31,10 +33,13 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
     randomizedOptions: [],
   });
 
+  /**
+   * Randomize matching options on question change
+   */
   useEffect(() => {
     if (questions[currentQuestion]?.type === "matching") {
       // Randomize English options for matching
-      const options = [...questions[currentQuestion].options!];
+      const options = [...(questions[currentQuestion].options || [])];
       for (let i = options.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [options[i], options[j]] = [options[j], options[i]];
@@ -73,7 +78,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
     }
   };
 
-  const handleAnswer = (answer: string) => {
+  const handleAnswer = async (answer: string) => {
     // Sanitize the answer to prevent XSS
     const sanitized = sanitizeQuizAnswer(answer);
     const newAnswers = [...userAnswers, sanitized];
@@ -95,6 +100,75 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
         completeLesson(lessonId);
       }
       setShowResults(true);
+
+      // Handle review queue: create review items for incorrect answers
+      if (score < 100) {
+        logger.debug(
+          `[Quiz] Score ${score}% - creating review items for ${questions.length} questions`,
+        );
+        // Process sequentially to avoid PocketBase auto-cancellation
+        for (let i = 0; i < newAnswers.length; i++) {
+          const answer = newAnswers[i];
+          const question = questions[i];
+          const isCorrect = isAnswerCorrect(question, answer);
+
+          logger.debug(
+            `[Review] Q${i + 1} (${question.questionId}): ${isCorrect ? "correct" : "incorrect"}`,
+            { answer, correctAnswer: question.correctAnswer },
+          );
+
+          if (!isCorrect) {
+            // Non-blocking: log errors but don't fail quiz submission
+            try {
+              // Check if this is a vocabulary question with tracked words
+              if (
+                question.usedVocabWords &&
+                question.usedVocabWords.length > 0
+              ) {
+                const missedVocabWordIds = getMissedVocabWordIds(
+                  question,
+                  answer,
+                );
+
+                if (missedVocabWordIds.length === 0) {
+                  continue;
+                }
+
+                logger.debug(
+                  `[Quiz] Creating ${missedVocabWordIds.length} vocab review items for Q${i + 1}`,
+                );
+                for (const vocabWordId of missedVocabWordIds) {
+                  logger.debug(
+                    `[Quiz] Calling handleQuizMiss for ${question.questionId} with vocabWordId: ${vocabWordId}`,
+                  );
+                  await reviewService.handleQuizMiss(
+                    lessonId,
+                    question.questionId,
+                    vocabWordId,
+                    question.type,
+                  );
+                }
+              } else {
+                // For regular content questions, create review item without vocab tracking
+                logger.debug(
+                  `[Quiz] Calling handleQuizMiss for regular question ${question.questionId}`,
+                );
+                await reviewService.handleQuizMiss(
+                  lessonId,
+                  question.questionId,
+                  undefined,
+                  question.type,
+                );
+              }
+            } catch (error) {
+              logger.warn(
+                `Failed to create review item for question ${question.questionId}:`,
+                error,
+              );
+            }
+          }
+        }
+      }
     }
   };
 
@@ -173,6 +247,110 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
       }
     });
     return Math.round((correct / questions.length) * 100);
+  };
+
+  const getMissedVocabWordIds = (
+    question: QuizQuestion,
+    answer: string,
+  ): string[] => {
+    if (!question.usedVocabWords || question.usedVocabWords.length === 0) {
+      return [];
+    }
+
+    if (
+      question.type === "matching" &&
+      Array.isArray(question.correctAnswer) &&
+      "options" in question
+    ) {
+      const correctMap = new Map<string, string>();
+      for (const pair of question.correctAnswer as string[]) {
+        const [latin, english] = pair.split(" - ").map((value) => value.trim());
+        if (latin && english) {
+          correctMap.set(
+            normalizeAnswerForComparison(latin),
+            normalizeAnswerForComparison(english),
+          );
+        }
+      }
+
+      const userMap = new Map<string, string>();
+      if (answer) {
+        const userPairs = answer.split(", ");
+        for (const userPair of userPairs) {
+          const [latin, english] = userPair
+            .split(" - ")
+            .map((value) => value.trim());
+          if (latin && english) {
+            userMap.set(
+              normalizeAnswerForComparison(latin),
+              normalizeAnswerForComparison(english),
+            );
+          }
+        }
+      }
+
+      const missedIds: string[] = [];
+      for (const word of question.usedVocabWords) {
+        const normalizedLatin = normalizeAnswerForComparison(word.word);
+        const correctEnglish = correctMap.get(normalizedLatin);
+        const userEnglish = userMap.get(normalizedLatin);
+
+        if (!correctEnglish || !userEnglish || userEnglish !== correctEnglish) {
+          missedIds.push(word.id);
+        }
+      }
+
+      return missedIds;
+    }
+
+    return question.usedVocabWords.map((word) => word.id);
+  };
+
+  const isAnswerCorrect = (question: QuizQuestion, answer: string): boolean => {
+    const normalizedAnswer = normalizeAnswerForComparison(answer);
+
+    if (Array.isArray(question.correctAnswer)) {
+      // Type guard to check if it's a matching question with options
+      if ("options" in question && question.type === "matching") {
+        // For matching questions, check if all pairs are correct
+        const userPairs = answer.split(", ");
+        const correctPairs = question.correctAnswer as string[];
+        let matchingScore = 0;
+
+        userPairs.forEach((userPair) => {
+          if (
+            correctPairs.some(
+              (correctPair) =>
+                normalizeAnswerForComparison(userPair) ===
+                normalizeAnswerForComparison(correctPair),
+            )
+          ) {
+            matchingScore++;
+          }
+        });
+
+        // Award full credit if 80% or more pairs are correct
+        return matchingScore >= Math.ceil(correctPairs.length * 0.8);
+      } else {
+        // For other array-type questions (multiple correct answers)
+        return (question.correctAnswer as string[]).some(
+          (correctAns) =>
+            normalizedAnswer === normalizeAnswerForComparison(correctAns),
+        );
+      }
+    } else {
+      const correctAnswer = normalizeAnswerForComparison(
+        question.correctAnswer as string,
+      );
+
+      // For recitation questions, be more lenient
+      if (question.type === "recitation") {
+        return normalizedAnswer.startsWith(correctAnswer);
+      } else {
+        // For other types, require exact match
+        return normalizedAnswer === correctAnswer;
+      }
+    }
   };
 
   const resetQuiz = () => {
@@ -300,7 +478,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                       {Array.isArray(question.correctAnswer)
                         ? question.correctAnswer
                             .map((ans) => sanitizeOption(ans))
-                            .join(" or ")
+                            .join(question.type === "matching" ? ", " : " or ")
                         : sanitizeOption(question.correctAnswer as string)}
                     </strong>
                   </p>
@@ -376,7 +554,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
 
         {question.type === "multiple-choice" && question.options && (
           <div className="space-y-2 sm:space-y-3">
-            {question.options.map((option, index) => (
+            {question.options.map((option: string, index: number) => (
               <button
                 key={index}
                 onClick={() => handleAnswer(option)}
@@ -404,7 +582,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                   <h5 className="font-medium text-sm sm:text-base text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
                     Latin Words
                   </h5>
-                  {question.correctAnswer.map((pair, index) => {
+                  {question.correctAnswer.map((pair: string, index: number) => {
                     const [latin] = pair.split(" - ");
                     const isSelected = matchingState.selectedLatin === latin;
                     const isPaired = !!matchingState.pairs[latin];

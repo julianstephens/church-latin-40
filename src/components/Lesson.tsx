@@ -3,12 +3,17 @@ import {
   ArrowRight,
   BookOpen,
   CheckCircle,
+  Loader2,
   Play,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Lesson as LessonType } from "../data/courseData";
+import { Lesson as LessonType, QuizQuestion } from "../data/courseData";
 import { courseDataService } from "../services/courseDataService";
 import { pocketbaseService } from "../services/pocketbase";
+import { quizGeneratorService } from "../services/quizGeneratorService";
+import { quizQueueService } from "../services/quizQueueService";
+import type { VocabWord } from "../types/vocabulary";
+import { logger } from "../utils/logger";
 import { loadProgress } from "../utils/storage";
 import { Quiz } from "./Quiz";
 
@@ -21,9 +26,12 @@ interface LessonProps {
 
 export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
   const [showQuiz, setShowQuiz] = useState(false);
+  const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
+  const [isGeneratingQuiz, setIsGeneratingQuiz] = useState(false);
   const [materialCompleted, setMaterialCompleted] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [lesson, setLesson] = useState<LessonType | null>(null);
 
   // Reset material completed state when lesson changes
@@ -35,17 +43,40 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
   useEffect(() => {
     const loadLessonData = async () => {
       try {
-        // Wait for PocketBase authentication to complete
-        await pocketbaseService.waitForUserId(5000);
+        setIsLoading(true);
+        setLoadError(false);
+
+        // Wait for PocketBase authentication to complete (non-blocking)
+        try {
+          await pocketbaseService.waitForUserId(5000);
+        } catch (authError) {
+          logger.warn(
+            "Lesson load proceeding without PocketBase user ID:",
+            authError,
+          );
+        }
 
         // Fetch lesson content from PocketBase or fallback
         const lessonData = await courseDataService.getLessonContent(lessonId);
+
+        if (!lessonData) {
+          setLoadError(true);
+          setLesson(null);
+          return;
+        }
+
         setLesson(lessonData);
 
-        const progress = await loadProgress();
-        setIsCompleted(progress.completedLessons.includes(lessonId));
+        try {
+          const progress = await loadProgress();
+          setIsCompleted(progress.completedLessons.includes(lessonId));
+        } catch (progressError) {
+          logger.warn("Failed to load progress data:", progressError);
+        }
       } catch (error) {
-        console.error("Failed to load lesson data:", error);
+        logger.error("Failed to load lesson data:", error);
+        setLoadError(true);
+        setLesson(null);
       } finally {
         setIsLoading(false);
       }
@@ -57,25 +88,34 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
   if (isLoading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="text-center text-gray-600 dark:text-gray-400">
-          Loading lesson...
+        <div className="flex flex-col items-center justify-center min-h-[400px]">
+          <Loader2 className="h-12 w-12 text-red-900 dark:text-red-600 animate-spin mb-4" />
+          <p className="text-lg text-gray-600 dark:text-gray-400">
+            Loading lesson...
+          </p>
         </div>
       </div>
     );
   }
 
-  if (!lesson) {
+  if (loadError || !lesson) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Lesson Not Found
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            Unable to Load Lesson
           </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            {loadError
+              ? "An error occurred while loading the lesson. Please try again."
+              : "The lesson could not be found."}
+          </p>
           <button
             onClick={onBack}
-            className="mt-4 text-red-900 hover:text-red-700 dark:text-red-600 dark:hover:text-red-400"
+            className="inline-flex items-center gap-2 px-4 py-2 text-red-900 hover:text-red-700 dark:text-red-600 dark:hover:text-red-400 font-semibold"
           >
-            ← Return to Course Overview
+            <ArrowLeft className="h-4 w-4" />
+            Return to Course Overview
           </button>
         </div>
       </div>
@@ -86,6 +126,62 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
     setShowQuiz(false);
     onNext();
   };
+
+  /**
+   * Handle "Take Quiz" button click
+   * Get from queue or fallback to sync generation
+   */
+  const handleStartQuiz = async () => {
+    if (!lesson) return;
+
+    setIsGeneratingQuiz(true);
+
+    try {
+      // Try queue first (should be instant)
+      let quiz = quizQueueService.getNextQuiz(lessonId);
+
+      if (!quiz) {
+        // Fallback: generate synchronously on main thread
+        // This is slower but ensures we always have a quiz
+        const vocabWords: VocabWord[] = lesson.vocabulary
+          .map((v) => {
+            // Parse "word - meaning" format
+            const parts = v.split(" - ");
+            return {
+              id: `${lessonId}-${parts[0]}`,
+              lessonId: String(lessonId),
+              word: parts[0] || "",
+              meaning: parts[1] || "",
+              frequency: "unknown",
+            } as VocabWord;
+          })
+          .filter((v) => v.word && v.meaning);
+
+        logger.debug(
+          `Generating quiz with ${vocabWords.length} vocab words and ${lesson.quiz.length} static questions`,
+        );
+        if (lesson.quiz.length === 0) {
+          logger.warn(
+            `No static questions found for lesson ${lessonId} - only vocab questions will be generated`,
+          );
+        }
+        quiz = quizGeneratorService.generateLessonQuiz(vocabWords, lesson.quiz);
+        logger.debug(`Generated quiz with ${quiz.length} total questions`);
+      }
+
+      setQuizQuestions(quiz || []);
+      setShowQuiz(true);
+    } catch (error) {
+      logger.error("Failed to load quiz:", error);
+    } finally {
+      setIsGeneratingQuiz(false);
+    }
+  };
+
+  /**
+   * Check if quiz is ready from queue (for UI indicator)
+   */
+  const quizReady = quizQueueService.isQuizReady(lessonId);
 
   return (
     <div className="max-w-4xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
@@ -261,10 +357,14 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
             </button>
 
             <button
-              onClick={() => setShowQuiz(true)}
-              disabled={!materialCompleted}
+              onClick={handleStartQuiz}
+              disabled={!materialCompleted || isGeneratingQuiz}
               className="flex items-center justify-center space-x-2 min-h-touch-target bg-red-900 hover:bg-red-800 active:bg-red-950 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 sm:py-3 rounded-lg transition-colors touch-manipulation"
             >
+              {!quizReady && !isGeneratingQuiz && (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              )}
+              {isGeneratingQuiz && <Loader2 className="h-4 w-4 animate-spin" />}
               <span className="text-sm sm:text-base">Take Daily Quiz</span>
               <ArrowRight className="h-4 w-4" />
             </button>
@@ -272,7 +372,7 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
         </div>
       ) : (
         <Quiz
-          questions={lesson.quiz}
+          questions={quizQuestions}
           lessonId={lessonId}
           onComplete={handleQuizComplete}
         />

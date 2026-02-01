@@ -1,0 +1,100 @@
+[
+  {
+    "id": "D01-VOCAB-TRANSLATION",
+    "lessonId": "L001",
+    "type": "vocab-translation",
+    "wordCount": 1,
+    "instruction": "Translate the Latin word to English"
+  },
+  {
+    "id": "D02-VOCAB-MATCHING",
+    "lessonId": "L002",
+    "type": "vocab-matching",
+    "wordCount": 5,
+    "instruction": "Match the Latin word to its English meaning"
+  },
+  {
+    "id": "D03-VOCAB-TRANSLATION",
+    "lessonId": "L003",
+    "type": "vocab-translation",
+    "wordCount": 1,
+    "instruction": "Translate the Latin verb to English"
+  },
+  {
+    "id": "D04-VOCAB-MULTIPLE-CHOICE",
+    "lessonId": "L004",
+    "type": "vocab-multiple-choice",
+    "wordCount": 1,
+    "instruction": "Choose the correct English meaning"
+  },
+  {
+    "id": "D05-VOCAB-TRANSLATION",
+    "lessonId": "L005",
+    "type": "vocab-translation",
+    "wordCount": 1,
+    "instruction": "Translate the Latin word to English"
+  },
+  {
+    "id": "D06-VOCAB-TRANSLATION",
+    "lessonId": "L006",
+    "type": "vocab-translation",
+    "wordCount": 1,
+    "instruction": "Translate the Latin adjective to English"
+  },
+  {
+    "id": "D07-VOCAB-TRANSLATION",
+    "lessonId": "L007",
+    "type": "vocab-translation",
+    "wordCount": 1,
+    "instruction": "Translate the Latin preposition to English"
+  },
+  {
+    "id": "D08-VOCAB-MATCHING",
+    "lessonId": "L008",
+    "type": "vocab-matching",
+    "wordCount": 5,
+    "instruction": "Match the Latin word to its English meaning"
+  },
+  {
+    "id": "D04-VOCAB-MATCHING",
+    "lessonId": "L004",
+    "type": "vocab-matching",
+    "wordCount": 10,
+    "instruction": "Match 10 adjectives to their meanings"
+  },
+  {
+    "id": "D05-VOCAB-MATCHING",
+    "lessonId": "L005",
+    "type": "vocab-matching",
+    "wordCount": 10,
+    "instruction": "Match 10 vocabulary words from Pater Noster to their meanings"
+  },
+  {
+    "id": "D07-VOCAB-MATCHING",
+    "lessonId": "L007",
+    "type": "vocab-matching",
+    "wordCount": 10,
+    "instruction": "Match 10 vocabulary words from Ave Maria to their meanings"
+  },
+  {
+    "id": "D09-VOCAB-MATCHING",
+    "lessonId": "L009",
+    "type": "vocab-matching",
+    "wordCount": 10,
+    "instruction": "Match 10 3rd declension nouns to their meanings"
+  },
+  {
+    "id": "D11-VOCAB-MATCHING",
+    "lessonId": "L011",
+    "type": "vocab-matching",
+    "wordCount": 10,
+    "instruction": "Match 10 vocabulary words from Gloria Patri to their meanings"
+  },
+  {
+    "id": "D14-VOCAB-MATCHING",
+    "lessonId": "L014",
+    "type": "vocab-matching",
+    "wordCount": 10,
+    "instruction": "Match 10 vocabulary words related to the Rosary to their meanings"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "M01",
+    "name": "Foundations of Ecclesiastical Latin",
+    "description": "Learn pronunciation, basic grammar, nouns, verbs, and essential prayers"
+  },
+  {
+    "id": "M02",
+    "name": "Building Vocabulary and Grammar",
+    "description": "Expand your knowledge with advanced declensions, verb tenses, and the Rosary"
+  },
+  {
+    "id": "M03",
+    "name": "Intermediate Grammar and Texts",
+    "description": "Master complex grammar with the Creed, Magnificat, and participles"
+  },
+  {
+    "id": "M04",
+    "name": "Advanced Grammar and Liturgical Texts",
+    "description": "Study passive voice, subjunctives, and great liturgical texts"
+  },
+  {
+    "id": "M05",
+    "name": "Mastery and Application",
+    "description": "Apply your knowledge to the Vulgate Bible, Mass, and complete prayers"
+  }
+]

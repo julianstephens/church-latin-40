@@ -5,8 +5,10 @@ import { CourseOverview } from "./components/CourseOverview";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Header } from "./components/Header";
 import { Lesson } from "./components/Lesson";
+import { ReviewListPage } from "./components/ReviewListPage";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { ReviewPage } from "./pages/ReviewPage";
 import { pocketbaseService } from "./services/pocketbase";
 import { loadProgress } from "./utils/storage";
 
@@ -130,6 +132,8 @@ function App() {
             }
           />
           <Route path="/lesson/:lessonId" element={<LessonRoute />} />
+          <Route path="/review" element={<ReviewPage />} />
+          <Route path="/review-list" element={<ReviewListPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </ThemeProvider>

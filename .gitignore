@@ -17,3 +17,5 @@ lerna-debug.log*
 .next
 out
 build
+*.md
+!README.md
