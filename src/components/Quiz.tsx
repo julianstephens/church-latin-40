@@ -95,10 +95,21 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
       const score = calculateScore(newAnswers);
-      saveQuizScore(lessonId, score);
+      logger.debug(`[Quiz] Quiz completed with score: ${score}%`);
+
+      logger.debug(`[Quiz] Saving quiz score for lesson ${lessonId}...`);
+      await saveQuizScore(lessonId, score);
+      logger.debug(`[Quiz] Quiz score saved`);
+
       if (score >= 70) {
-        completeLesson(lessonId);
+        logger.debug(`[Quiz] Score >= 70, completing lesson ${lessonId}...`);
+        await completeLesson(lessonId);
+        logger.debug(`[Quiz] Lesson ${lessonId} completed successfully`);
+      } else {
+        logger.debug(`[Quiz] Score < 70, lesson not completed`);
       }
+
+      logger.debug(`[Quiz] Setting showResults to true`);
       setShowResults(true);
 
       // Handle review queue: create review items for incorrect answers

@@ -15,7 +15,6 @@ import { VocabWord } from "../src/types/vocabulary";
 /**
  * Mock vocabulary data for testing
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _mockVocabWords: VocabWord[] = [
   {
     id: "vocab-1",

@@ -123,8 +123,11 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
   }
 
   const handleQuizComplete = () => {
+    logger.debug(`[Lesson] handleQuizComplete called for lesson ${lessonId}`);
+    logger.debug(`[Lesson] Setting showQuiz to false and calling onNext`);
     setShowQuiz(false);
     onNext();
+    logger.debug(`[Lesson] onNext() called, should navigate to next lesson`);
   };
 
   /**

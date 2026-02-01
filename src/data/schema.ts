@@ -183,7 +183,7 @@ export const COLLECTIONS: CollectionSchema[] = [
     fields: [
       { name: "resourceId", type: "text", required: true, unique: true },
       { name: "userId", type: "text", required: true, unique: true },
-      { name: "completedLessons", type: "number", options: { min: 0 } },
+      { name: "completedLessons", type: "json" },
       { name: "quizScores", type: "json" },
       { name: "currentLesson", type: "number" },
       {

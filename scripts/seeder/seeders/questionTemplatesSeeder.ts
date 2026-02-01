@@ -70,8 +70,7 @@ export class QuestionTemplatesSeeder implements ISeeder {
               .collection("church_latin_lessons")
               .getFirstListItem(`lessonNumber=${lessonNumber}`);
             lessonRecordId = lessonRecord.id;
-          } catch (_lookupError) {
-            // eslint-disable-line @typescript-eslint/no-unused-vars
+          } catch {
             errors.push({
               record: templateData as unknown as Record<string, unknown>,
               message: `Failed to find lesson with number ${lessonNumber}`,
@@ -86,8 +85,7 @@ export class QuestionTemplatesSeeder implements ISeeder {
               .collection("church_latin_quizzes")
               .getFirstListItem(`lessonId="${lessonRecordId}"`);
             quizRecordId = quizRecord.id;
-          } catch (_lookupError) {
-            // eslint-disable-line @typescript-eslint/no-unused-vars
+          } catch {
             errors.push({
               record: templateData as unknown as Record<string, unknown>,
               message: `Failed to find quiz for lesson ${templateData.lessonId}`,

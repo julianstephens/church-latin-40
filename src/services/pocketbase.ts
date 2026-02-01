@@ -222,110 +222,161 @@ class PocketBaseService {
   }
 
   async saveProgress(progress: UserProgress): Promise<void> {
+    logger.debug(`[PocketBase] saveProgress() called with:`, {
+      anonymousMode: this.anonymousMode,
+      pbUserId: this.pbUserId,
+      completedLessons: progress.completedLessons,
+      currentLesson: progress.currentLesson,
+      theme: progress.theme,
+    });
+
     // In anonymous mode, always use localStorage
     if (this.anonymousMode || isAnonymousMode()) {
+      logger.debug(
+        `[PocketBase] In anonymous mode, saving to localStorage only`,
+      );
       return this.saveProgressToLocalStorage(progress);
     }
 
     if (!this.pbUserId) {
+      logger.error(`[PocketBase] User ID not set in saveProgress`);
       throw new Error("User ID not set");
     }
 
     try {
-      // Add/update timestamp and calculate total progress
-      const progressWithMetadata: UserProgress = {
-        ...progress,
-        lastAccessedAt: new Date().toISOString(),
-        totalProgress: Math.round(
-          (progress.completedLessons.length / 40) * 100,
-        ),
+      // Calculate total progress
+      const totalProgress = Math.round(
+        (progress.completedLessons.length / 40) * 100,
+      );
+
+      logger.debug(`[PocketBase] Calculated totalProgress: ${totalProgress}%`);
+
+      // Format data for PocketBase - only include fields that exist in schema
+      const pbData = {
+        userId: this.pbUserId,
+        completedLessons: progress.completedLessons,
+        quizScores: progress.quizScores,
+        currentLesson: progress.currentLesson,
+        theme: progress.theme,
+        lastAccessedAt: new Date().toISOString().split("T")[0], // PocketBase date format (YYYY-MM-DD)
+        lastLessonAccessedId: progress.lastLessonAccessedId,
+        totalProgress: totalProgress,
       };
 
+      logger.debug(`[PocketBase] Formatted pbData:`, {
+        userId: pbData.userId,
+        completedLessons: pbData.completedLessons,
+        currentLesson: pbData.currentLesson,
+        theme: pbData.theme,
+        lastAccessedAt: pbData.lastAccessedAt,
+        totalProgress: pbData.totalProgress,
+      });
+
       // Find existing record
+      logger.debug(
+        `[PocketBase] Looking for existing record with userId: ${this.pbUserId}`,
+      );
       const records = await this.pb
         .collection(POCKETBASE_COLLECTIONS.USER_PROGRESS)
         .getList(1, 1, {
           filter: `userId = "${this.pbUserId}"`,
         });
 
+      logger.debug(
+        `[PocketBase] Found ${records.items?.length || 0} existing record(s)`,
+      );
+
       if (records.items && records.items.length > 0) {
-        // Update existing record
+        // Update existing record - don't include resourceId or userId as they're immutable
         const recordId = records.items[0].id;
+        const updateData = {
+          completedLessons: pbData.completedLessons,
+          quizScores: pbData.quizScores,
+          currentLesson: pbData.currentLesson,
+          theme: pbData.theme,
+          lastAccessedAt: pbData.lastAccessedAt,
+          lastLessonAccessedId: pbData.lastLessonAccessedId,
+          totalProgress: pbData.totalProgress,
+        };
+        logger.debug(
+          `[PocketBase] Updating existing record ${recordId}:`,
+          updateData,
+        );
         await this.pb
           .collection(POCKETBASE_COLLECTIONS.USER_PROGRESS)
-          .update(recordId, progressWithMetadata);
+          .update(recordId, updateData);
+        logger.debug(`[PocketBase] Successfully updated record ${recordId}`);
       } else {
-        // Create new record
-        await this.pb.collection(POCKETBASE_COLLECTIONS.USER_PROGRESS).create({
-          ...progressWithMetadata,
+        // Create new record with resourceId (required field)
+        const resourceId = `progress_${this.pbUserId}`;
+        logger.debug(
+          `[PocketBase] No existing record found, creating new one with resourceId: ${resourceId}`,
+        );
+
+        const createData = {
           userId: this.pbUserId,
+          resourceId: resourceId,
+          completedLessons: pbData.completedLessons,
+          quizScores: pbData.quizScores,
+          currentLesson: pbData.currentLesson,
+          theme: pbData.theme,
+          lastAccessedAt: pbData.lastAccessedAt,
+          lastLessonAccessedId: pbData.lastLessonAccessedId,
+          totalProgress: pbData.totalProgress,
+        };
+
+        logger.debug(`[PocketBase] Creating new record with data:`, {
+          userId: createData.userId,
+          resourceId: createData.resourceId,
+          completedLessons: createData.completedLessons,
+          currentLesson: createData.currentLesson,
+          theme: createData.theme,
+          lastAccessedAt: createData.lastAccessedAt,
+          totalProgress: createData.totalProgress,
         });
+
+        await this.pb
+          .collection(POCKETBASE_COLLECTIONS.USER_PROGRESS)
+          .create(createData);
+        logger.debug(`[PocketBase] Successfully created new progress record`);
       }
+
+      logger.debug(`[PocketBase] saveProgress() completed successfully`);
     } catch (error) {
-      console.error("Failed to save progress to PocketBase:", error);
-      logger.warn("Falling back to localStorage");
+      // Log detailed error information
+      let errorMessage = "Unknown error";
+      let errorData = {};
+
+      if (error instanceof Error) {
+        errorMessage = error.message;
+        // Check if it's a PocketBase error with response data
+        if ("data" in error && typeof error.data === "object") {
+          errorData = error.data;
+        }
+        if ("response" in error && typeof error.response === "object") {
+          errorData = error.response;
+        }
+      } else if (typeof error === "object" && error !== null) {
+        errorData = error;
+      }
+
+      logger.error(`[PocketBase] Failed to save progress to PocketBase:`, {
+        error: errorMessage,
+        errorData: errorData,
+        userId: this.pbUserId,
+        completedLessons: progress.completedLessons,
+      });
+      logger.warn(`[PocketBase] Falling back to localStorage`);
       this.saveProgressToLocalStorage(progress);
     }
   }
 
-  private loadProgressFromLocalStorage(): UserProgress {
-    try {
-      // Try multiple localStorage keys for backward compatibility
-      const keys = [
-        `church-latin-progress-${this.pbUserId}`, // Newer key with user ID
-        "church-latin-progress", // Legacy key without user ID
-      ];
-
-      for (const key of keys) {
-        if (key.includes("null") || key.includes("undefined")) continue;
-        const stored = localStorage.getItem(key);
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          logger.debug(`Loaded progress from localStorage key: ${key}`);
-          return parsed;
-        }
-      }
-    } catch (error) {
-      console.error("Failed to load from localStorage:", error);
-    }
-    return this.getDefaultProgress();
-  }
-
-  private saveProgressToLocalStorage(progress: UserProgress): void {
-    try {
-      // Save with both legacy and new keys for compatibility
-      const modernKey = `church-latin-progress-${this.pbUserId}`;
-      const legacyKey = "church-latin-progress";
-
-      if (!modernKey.includes("null") && !modernKey.includes("undefined")) {
-        localStorage.setItem(modernKey, JSON.stringify(progress));
-      }
-      // Always save to legacy key as fallback
-      localStorage.setItem(legacyKey, JSON.stringify(progress));
-    } catch (error) {
-      console.error("Failed to save to localStorage:", error);
-    }
-  }
-
-  private getDefaultProgress(): UserProgress {
-    return {
-      completedLessons: [],
-      quizScores: {},
-      currentLesson: 1,
-      theme: "light",
-      lastAccessedAt: new Date().toISOString(),
-      lastLessonAccessedId: undefined,
-      totalProgress: 0,
-    };
-  }
-
   async initializeUserProgress(): Promise<void> {
-    if (!this.pbUserId) {
-      throw new Error("User ID not set");
+    if (this.anonymousMode || isAnonymousMode() || !this.pbUserId) {
+      return;
     }
 
     try {
-      // Check if user already has a record
       const records = await this.pb
         .collection(POCKETBASE_COLLECTIONS.USER_PROGRESS)
         .getList(1, 1, {
@@ -337,10 +388,24 @@ class PocketBaseService {
       if (!recordExists) {
         // Create a new record with default progress
         const defaultProgress = this.getDefaultProgress();
-        await this.pb.collection(POCKETBASE_COLLECTIONS.USER_PROGRESS).create({
-          ...defaultProgress,
+        const resourceId = `progress_${this.pbUserId}`;
+
+        // Format data for PocketBase
+        const pbData = {
           userId: this.pbUserId,
-        });
+          resourceId: resourceId,
+          completedLessons: defaultProgress.completedLessons,
+          quizScores: defaultProgress.quizScores,
+          currentLesson: defaultProgress.currentLesson,
+          theme: defaultProgress.theme,
+          lastAccessedAt: new Date().toISOString().split("T")[0], // PocketBase date format (YYYY-MM-DD)
+          lastLessonAccessedId: defaultProgress.lastLessonAccessedId,
+          totalProgress: defaultProgress.totalProgress,
+        };
+
+        await this.pb
+          .collection(POCKETBASE_COLLECTIONS.USER_PROGRESS)
+          .create(pbData);
       }
     } catch (error) {
       console.error("Failed to initialize user progress:", error);
@@ -357,6 +422,57 @@ class PocketBaseService {
       await this.saveProgress(progress);
     } catch (error) {
       console.error("Failed to track lesson access:", error);
+    }
+  }
+
+  /**
+   * Get default progress object for new users
+   */
+  private getDefaultProgress(): UserProgress {
+    return {
+      completedLessons: [],
+      quizScores: {},
+      currentLesson: 1,
+      theme: "light",
+      lastAccessedAt: new Date().toISOString().split("T")[0],
+      lastLessonAccessedId: 1,
+      totalProgress: 0,
+    };
+  }
+
+  /**
+   * Load progress from localStorage
+   */
+  private loadProgressFromLocalStorage(): UserProgress {
+    try {
+      const saved = localStorage.getItem("church_latin_progress");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Ensure completedLessons is an array
+        return {
+          ...this.getDefaultProgress(),
+          ...parsed,
+          completedLessons: Array.isArray(parsed.completedLessons)
+            ? parsed.completedLessons
+            : [],
+          quizScores:
+            typeof parsed.quizScores === "object" ? parsed.quizScores : {},
+        };
+      }
+    } catch (error) {
+      console.error("Error loading progress from localStorage:", error);
+    }
+    return this.getDefaultProgress();
+  }
+
+  /**
+   * Save progress to localStorage
+   */
+  private saveProgressToLocalStorage(progress: UserProgress): void {
+    try {
+      localStorage.setItem("church_latin_progress", JSON.stringify(progress));
+    } catch (error) {
+      console.error("Error saving progress to localStorage:", error);
     }
   }
 }

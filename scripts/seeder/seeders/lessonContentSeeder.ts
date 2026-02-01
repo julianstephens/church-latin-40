@@ -76,8 +76,7 @@ export class LessonContentSeeder implements ISeeder {
               .collection("church_latin_lessons")
               .getFirstListItem(`lessonNumber=${lessonNumber}`);
             lessonRecordId = lessonRecord.id;
-          } catch (_lookupError) {
-            // eslint-disable-line @typescript-eslint/no-unused-vars
+          } catch {
             errors.push({
               record: contentData as unknown as Record<string, unknown>,
               message: `Failed to find lesson with number ${lessonNumber}`,

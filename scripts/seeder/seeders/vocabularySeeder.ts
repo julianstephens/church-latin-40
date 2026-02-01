@@ -92,8 +92,7 @@ export class VocabularySeeder implements ISeeder {
               .collection("church_latin_lessons")
               .getFirstListItem(`lessonNumber=${lessonNumber}`);
             lessonRecordId = lessonRecord.id;
-          } catch (_lookupError) {
-            // eslint-disable-line @typescript-eslint/no-unused-vars
+          } catch {
             logVerbose(
               `Could not find lesson with number: ${lessonNumber}`,
               options,
@@ -161,8 +160,7 @@ export class VocabularySeeder implements ISeeder {
               `Record ${lookupId} exists with ID ${existingId}`,
               options,
             );
-          } catch (_checkError) {
-            // eslint-disable-line @typescript-eslint/no-unused-vars
+          } catch {
             exists = false;
             logVerbose(`Record ${lookupId} does not exist`, options);
           }

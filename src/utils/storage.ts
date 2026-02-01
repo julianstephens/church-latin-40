@@ -1,4 +1,5 @@
 import { pocketbaseService, UserProgress } from "../services/pocketbase";
+import { logger } from "./logger";
 
 export type { UserProgress };
 
@@ -11,11 +12,28 @@ export async function saveProgress(progress: UserProgress): Promise<void> {
 }
 
 export async function completeLesson(lessonId: number): Promise<void> {
+  logger.debug(`[Storage] completeLesson(${lessonId}) called`);
   const progress = await loadProgress();
+  logger.debug(`[Storage] Loaded progress:`, {
+    completedLessons: progress.completedLessons,
+    currentLesson: progress.currentLesson,
+  });
+
   if (!progress.completedLessons.includes(lessonId)) {
+    logger.debug(`[Storage] Lesson ${lessonId} not yet completed, adding it`);
     progress.completedLessons.push(lessonId);
     progress.currentLesson = Math.min(40, lessonId + 1);
+    logger.debug(`[Storage] Updated progress:`, {
+      completedLessons: progress.completedLessons,
+      currentLesson: progress.currentLesson,
+    });
+    logger.debug(`[Storage] Saving updated progress...`);
     await saveProgress(progress);
+    logger.debug(
+      `[Storage] completeLesson(${lessonId}) completed successfully`,
+    );
+  } else {
+    logger.debug(`[Storage] Lesson ${lessonId} already completed, skipping`);
   }
 }
 

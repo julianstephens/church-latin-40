@@ -70,8 +70,7 @@ export class LessonsSeeder implements ISeeder {
               .collection("church_latin_modules")
               .getFirstListItem(`moduleNumber=${moduleNumber}`);
             moduleRecordId = moduleRecord.id;
-          } catch (_lookupError) {
-            // eslint-disable-line @typescript-eslint/no-unused-vars
+          } catch {
             errors.push({
               record: lessonData as unknown as Record<string, unknown>,
               message: `Failed to find module with number ${moduleNumber} for lesson ${lessonData.id}`,
