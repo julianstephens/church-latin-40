@@ -14,12 +14,7 @@ describe("ReviewQueue - Integration Tests", () => {
     describe("Quiz Miss to Review Item Creation", () => {
         it("should create review item when quiz question is missed", () => {
             // Scenario: User completes quiz with 1 wrong answer
-            const quizResult = {
-                lessonId: 1,
-                questionId: "D01-Q02",
-                userAnswer: "Incorrect answer",
-                isCorrect: false,
-            };
+            // Quiz result with missed question
 
             // Expected: ReviewService.handleQuizMiss() is called
             // Expected: Review item created with:
@@ -66,18 +61,8 @@ describe("ReviewQueue - Integration Tests", () => {
         });
 
         it("should update existing review item on subsequent miss", () => {
-            const existingItem = {
-                id: "review-1",
-                questionId: "D01-Q02",
-                streak: 1,
-                lapses: 0,
-                state: "learning",
-            };
-
-            const newMiss = {
-                questionId: "D01-Q02",
-                // Same question missed again
-            };
+            // Scenario: Existing review item for a question
+            // Same question is missed again
 
             // Expected: Existing item updated (not new item created)
             // Expected: streak reset to 0, lapses incremented
@@ -94,22 +79,8 @@ describe("ReviewQueue - Integration Tests", () => {
 
     describe("Matching Question Per-Word Review Items", () => {
         it("should create separate review item per missed word in matching question", () => {
-            const question = {
-                type: "matching",
-                questionId: "D02-MATCH-01",
-                pairs: [
-                    { english: "grace", latin: "gratia", vocabWordId: "vocab-1" },
-                    { english: "love", latin: "caritas", vocabWordId: "vocab-2" },
-                    { english: "faith", latin: "fides", vocabWordId: "vocab-3" },
-                ],
-            };
-
-            const userAnswers = [
-                { english: "grace", userLatin: "gratia" }, // Correct
-                { english: "love", userLatin: "amare" }, // WRONG - missed vocab-2
-                { english: "faith", userLatin: "fides" }, // Correct
-            ];
-
+            // Scenario: Matching question with multiple pairs
+            // User gets one word wrong: vocab-2
             const missedVocabWordIds = ["vocab-2"];
 
             // Expected: Only 1 review item created (for missed word)
@@ -140,12 +111,7 @@ describe("ReviewQueue - Integration Tests", () => {
         });
 
         it("should create independent review items per word in same question", () => {
-            const question = {
-                questionId: "D03-MATCH-02",
-                type: "matching",
-            };
-
-            // User misses 3 different words
+            // Scenario: User misses 3 different words in same matching question
             const missedWordIds = [
                 { wordId: "vocab-10", questionId: "D03-MATCH-02" },
                 { wordId: "vocab-11", questionId: "D03-MATCH-02" },
@@ -165,15 +131,8 @@ describe("ReviewQueue - Integration Tests", () => {
 
     describe("Review Result Submission & Scheduling", () => {
         it("should update review item when correct result submitted", () => {
-            const reviewItem = {
-                id: "review-1",
-                state: "learning",
-                streak: 0,
-                lapses: 1,
-                intervalDays: 0,
-            };
-
-            const result = "correct";
+            // Scenario: Review item in learning state with streak 0
+            // User submits correct answer
 
             // Expected: Item updated with:
             // - streak: 1
@@ -209,13 +168,8 @@ describe("ReviewQueue - Integration Tests", () => {
         });
 
         it("should handle incorrect result on review attempt", () => {
-            const reviewItem = {
-                id: "review-1",
-                state: "review",
-                streak: 2,
-                lapses: 0,
-                intervalDays: 10,
-            };
+            // Scenario: Review item in review state with streak 2
+            // User submits incorrect answer
 
             // After incorrect:
             // Expected: streak reset, lapses++, back to learning, dueAt=tomorrow
@@ -272,7 +226,7 @@ describe("ReviewQueue - Integration Tests", () => {
         });
 
         it("should track word-level review history", () => {
-            const vocabWordId = "vocab-123";
+            // Scenario: Multiple reviews for a vocabulary word
             const reviews = [
                 { result: "correct", date: "2026-01-28" },
                 { result: "correct", date: "2026-01-29" },
