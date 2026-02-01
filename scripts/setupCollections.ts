@@ -447,7 +447,7 @@ async function setupCollections(): Promise<void> {
                   } as never);
                   console.log(`     ✅ Added relation: ${field.name}`);
                 } catch (relError: unknown) {
-                  let errorMsg = "Unknown error";
+                  let errorMsg: string;
 
                   if (relError instanceof Error) {
                     errorMsg = relError.message;
