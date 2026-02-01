@@ -138,6 +138,7 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                     lessonId,
                     question.questionId,
                     word.id,
+                    question.type,
                   );
                 }
               } else {
@@ -148,6 +149,8 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                 await reviewService.handleQuizMiss(
                   lessonId,
                   question.questionId,
+                  undefined,
+                  question.type,
                 );
               }
             } catch (error) {

@@ -4,6 +4,36 @@ import { pocketbaseService } from "./pocketbase";
 // Get the PocketBase instance
 const pb = pocketbaseService.getPocketBase();
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const isAutoCancelError = (error: unknown): boolean => {
+  if (!error || typeof error !== "object") {
+    return false;
+  }
+
+  const maybeError = error as { message?: unknown; status?: unknown };
+  const message =
+    typeof maybeError.message === "string" ? maybeError.message : "";
+  const status = maybeError.status;
+
+  return (
+    status === 0 ||
+    message.toLowerCase().includes("autocancel") ||
+    message.toLowerCase().includes("aborted")
+  );
+};
+
+const runWithoutAutoCancel = async <T>(
+  action: () => Promise<T>,
+): Promise<T> => {
+  const previous = pb.autoCancellation(false);
+  try {
+    return await action();
+  } finally {
+    pb.autoCancellation(previous);
+  }
+};
+
 /**
  * Review item state in the spaced repetition system
  */
@@ -94,28 +124,41 @@ export class ReviewService {
    * @returns Array of due review items
    */
   async getDueReviewItems(limit: number = 10): Promise<ReviewItem[]> {
-    try {
-      const authStore = pb.authStore;
-      if (!authStore.isValid || !authStore.model) {
-        throw new Error("User not authenticated");
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const authStore = pb.authStore;
+        if (!authStore.isValid || !authStore.model) {
+          throw new Error("User not authenticated");
+        }
+
+        const userId = authStore.model.id;
+        const now = new Date().toISOString();
+
+        // Fetch review items due now or earlier, ordered by dueAt
+        const records = await runWithoutAutoCancel(() =>
+          pb.collection("church_latin_review_items").getList(1, limit, {
+            filter: `userId = "${userId}" && dueAt <= "${now}" && state != "retired"`,
+            sort: "dueAt",
+          }),
+        );
+
+        return records.items as unknown as ReviewItem[];
+      } catch (error) {
+        if (isAutoCancelError(error) && attempt === 0) {
+          logger.warn(
+            "Due review items request was auto-cancelled. Retrying...",
+            error,
+          );
+          await delay(200);
+          continue;
+        }
+
+        logger.error("Failed to fetch due review items:", error);
+        throw error;
       }
-
-      const userId = authStore.model.id;
-      const now = new Date().toISOString();
-
-      // Fetch review items due now or earlier, ordered by dueAt
-      const records = await pb
-        .collection("church_latin_review_items")
-        .getList(1, limit, {
-          filter: `userId = "${userId}" && dueAt <= "${now}" && state != "retired"`,
-          sort: "dueAt",
-        });
-
-      return records.items as unknown as ReviewItem[];
-    } catch (error) {
-      logger.error("Failed to fetch due review items:", error);
-      throw error;
     }
+
+    return [];
   }
 
   /**
@@ -216,6 +259,7 @@ export class ReviewService {
     lessonId: number,
     questionId: string,
     vocabWordId?: string,
+    questionTypeOverride?: ReviewQuestionType,
   ): Promise<void> {
     try {
       const authStore = pb.authStore;
@@ -241,24 +285,32 @@ export class ReviewService {
 
       const pbLessonId = lessons.items[0].id;
 
-      // Fetch question to get its type
-      const questionRecord = await pb
-        .collection("church_latin_quiz_questions")
-        .getList(1, 1, {
-          filter: `lessonId = "${pbLessonId}" && questionId = "${questionId}"`,
-        });
+      let questionType = questionTypeOverride;
 
-      if (questionRecord.items.length === 0) {
-        logger.warn(
-          `[ReviewService] Question not found: ${questionId} in lesson ${lessonId}`,
-        );
-        return;
+      if (!questionType) {
+        // Fetch question to get its type
+        const questionRecord = await pb
+          .collection("church_latin_quiz_questions")
+          .getList(1, 1, {
+            filter: `lessonId = "${pbLessonId}" && questionId = "${questionId}"`,
+          });
+
+        if (questionRecord.items.length === 0) {
+          logger.warn(
+            `[ReviewService] Question not found: ${questionId} in lesson ${lessonId}`,
+          );
+          return;
+        }
+
+        const question = questionRecord.items[0] as unknown as QuizQuestion;
+        questionType = question.type;
       }
 
-      const question = questionRecord.items[0] as unknown as QuizQuestion;
       logger.debug(
         `[ReviewService] Found lesson ${lessonId} -> ${pbLessonId} for questionId: ${questionId}`,
-        `[ReviewService] Question ${questionId} type: ${question.type}`,
+      );
+      logger.debug(
+        `[ReviewService] Question ${questionId} type: ${questionType}`,
       );
 
       // Check if review item already exists
@@ -293,11 +345,17 @@ export class ReviewService {
         logger.debug(
           `[ReviewService] Creating new review item for ${questionId}${vocabWordId ? ` with vocabWordId: ${vocabWordId}` : ""}`,
         );
+        const resourceIdBase = `review_${userId}_${pbLessonId}_${questionId}`;
+        const resourceId = vocabWordId
+          ? `${resourceIdBase}_${vocabWordId}`
+          : resourceIdBase;
+
         const reviewItemData: Record<string, unknown> = {
+          resourceId,
           userId,
           lessonId: pbLessonId,
           questionId,
-          questionType: question.type,
+          questionType: questionType ?? "translation",
           state: "learning",
           dueAt: tomorrow.toISOString(),
           intervalDays: 0,
@@ -333,28 +391,41 @@ export class ReviewService {
    * @returns Array of upcoming review items
    */
   async getUpcomingReviewItems(limit: number = 50): Promise<ReviewItem[]> {
-    try {
-      const authStore = pb.authStore;
-      if (!authStore.isValid || !authStore.model) {
-        throw new Error("User not authenticated");
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const authStore = pb.authStore;
+        if (!authStore.isValid || !authStore.model) {
+          throw new Error("User not authenticated");
+        }
+
+        const userId = authStore.model.id;
+        const now = new Date().toISOString();
+
+        // Fetch review items due in the future, ordered by dueAt
+        const records = await runWithoutAutoCancel(() =>
+          pb.collection("church_latin_review_items").getList(1, limit, {
+            filter: `userId = "${userId}" && dueAt > "${now}" && state != "retired" && state != "suspended"`,
+            sort: "dueAt",
+          }),
+        );
+
+        return records.items as unknown as ReviewItem[];
+      } catch (error) {
+        if (isAutoCancelError(error) && attempt === 0) {
+          logger.warn(
+            "Upcoming review items request was auto-cancelled. Retrying...",
+            error,
+          );
+          await delay(200);
+          continue;
+        }
+
+        logger.error("Failed to fetch upcoming review items:", error);
+        throw error;
       }
-
-      const userId = authStore.model.id;
-      const now = new Date().toISOString();
-
-      // Fetch review items due in the future, ordered by dueAt
-      const records = await pb
-        .collection("church_latin_review_items")
-        .getList(1, limit, {
-          filter: `userId = "${userId}" && dueAt > "${now}" && state != "retired" && state != "suspended"`,
-          sort: "dueAt",
-        });
-
-      return records.items as unknown as ReviewItem[];
-    } catch (error) {
-      logger.error("Failed to fetch upcoming review items:", error);
-      throw error;
     }
+
+    return [];
   }
 
   /**

@@ -20,6 +20,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
   const [showEnglish, setShowEnglish] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [dueReviewCount, setDueReviewCount] = useState(0);
+  const [totalReviewCount, setTotalReviewCount] = useState(0);
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -53,18 +54,23 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
     loadInitialData();
   }, []);
 
-  // Fetch due review items count
+  // Fetch review items count (due + upcoming)
   useEffect(() => {
     const fetchReviewCount = async () => {
       try {
-        const dueItems = await reviewService.getDueReviewItems(1000);
+        const [dueItems, upcomingItems] = await Promise.all([
+          reviewService.getDueReviewItems(1000),
+          reviewService.getUpcomingReviewItems(1000),
+        ]);
         setDueReviewCount(dueItems.length);
+        setTotalReviewCount(dueItems.length + upcomingItems.length);
       } catch (error) {
         logger.debug(
           "[CourseOverview] Failed to fetch due review count:",
           error,
         );
         setDueReviewCount(0);
+        setTotalReviewCount(0);
       }
     };
 
@@ -228,7 +234,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
       </div>
 
       {/* Review Queue Widget */}
-      {dueReviewCount > 0 && (
+      {totalReviewCount > 0 && (
         <div className="mb-8 sm:mb-12">
           <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 border-2 border-purple-200 dark:border-purple-700 rounded-xl shadow-lg p-4 sm:p-6 max-w-2xl mx-auto">
             <div className="flex items-start gap-4">
@@ -239,12 +245,17 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
                 <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-1">
                   Review Queue
                 </h3>
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-1">
                   You have{" "}
                   <span className="font-bold text-purple-700 dark:text-purple-400">
-                    {dueReviewCount}
+                    {totalReviewCount}
                   </span>{" "}
-                  question{dueReviewCount === 1 ? "" : "s"} due for review
+                  review item{totalReviewCount === 1 ? "" : "s"} in your queue
+                </p>
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  {dueReviewCount > 0
+                    ? `${dueReviewCount} due now`
+                    : "No items due yet"}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <button
