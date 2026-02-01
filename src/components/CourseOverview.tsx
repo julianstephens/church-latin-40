@@ -54,6 +54,25 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
     loadInitialData();
   }, []);
 
+  // Refresh progress when page becomes visible (user returns from lesson)
+  useEffect(() => {
+    const handleVisibilityChange = async () => {
+      if (document.visibilityState === "visible") {
+        try {
+          const updatedProgress = await loadProgress();
+          setProgress(updatedProgress);
+        } catch (error) {
+          console.error("Failed to refresh progress:", error);
+        }
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
   // Fetch review items count (due + upcoming)
   useEffect(() => {
     const fetchReviewCount = async () => {
