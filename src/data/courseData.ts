@@ -2,6 +2,7 @@
 // DO NOT EDIT MANUALLY - run: pnpx tsx scripts/seeder/index.ts
 
 // Type definitions
+import type { VocabWord } from "../types/vocabulary";
 
 export interface Lesson {
   id: number;
@@ -21,6 +22,7 @@ type BaseQuizQuestion = {
   question: string;
   correctAnswer: string | string[];
   explanation?: string;
+  usedVocabWords?: VocabWord[]; // Vocabulary words used in this question
 };
 
 type MultipleChoiceQuestion = BaseQuizQuestion & {

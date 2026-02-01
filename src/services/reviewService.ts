@@ -1,3 +1,4 @@
+import { logger } from "../utils/logger";
 import { pocketbaseService } from "./pocketbase";
 
 // Get the PocketBase instance
@@ -112,7 +113,7 @@ export class ReviewService {
 
       return records.items as unknown as ReviewItem[];
     } catch (error) {
-      console.error("Failed to fetch due review items:", error);
+      logger.error("Failed to fetch due review items:", error);
       throw error;
     }
   }
@@ -169,7 +170,7 @@ export class ReviewService {
         occurredAt: new Date().toISOString(),
       } as never);
     } catch (error) {
-      console.error("Failed to submit review result:", error);
+      logger.error("Failed to submit review result:", error);
       throw error;
     }
   }
@@ -199,7 +200,7 @@ export class ReviewService {
 
       return records.items[0] as unknown as QuizQuestion;
     } catch (error) {
-      console.error("Failed to fetch review question:", error);
+      logger.error("Failed to fetch review question:", error);
       throw error;
     }
   }
@@ -209,6 +210,7 @@ export class ReviewService {
    * Called after quiz completion with score < 100%
    * @param lessonId Lesson number (1-40)
    * @param questionId Stable question ID
+   * @param vocabWordId Optional vocabulary word ID for vocab questions
    */
   async handleQuizMiss(
     lessonId: number,
@@ -231,18 +233,31 @@ export class ReviewService {
         });
 
       if (lessons.items.length === 0) {
-        console.warn(`[ReviewService] Lesson not found: ${lessonId}`);
+        logger.warn(
+          `[ReviewService] Lesson not found: ${lessonId}. This may indicate a data sync issue.`,
+        );
         return;
       }
 
       const pbLessonId = lessons.items[0].id;
-      console.debug(
-        `[ReviewService] Found lesson ${lessonId} -> ${pbLessonId}`,
-      );
 
-      // Get question to find its type
-      const question = await this.getReviewQuestion(pbLessonId, questionId);
-      console.debug(
+      // Fetch question to get its type
+      const questionRecord = await pb
+        .collection("church_latin_quiz_questions")
+        .getList(1, 1, {
+          filter: `lessonId = "${pbLessonId}" && questionId = "${questionId}"`,
+        });
+
+      if (questionRecord.items.length === 0) {
+        logger.warn(
+          `[ReviewService] Question not found: ${questionId} in lesson ${lessonId}`,
+        );
+        return;
+      }
+
+      const question = questionRecord.items[0] as unknown as QuizQuestion;
+      logger.debug(
+        `[ReviewService] Found lesson ${lessonId} -> ${pbLessonId} for questionId: ${questionId}`,
         `[ReviewService] Question ${questionId} type: ${question.type}`,
       );
 
@@ -263,7 +278,7 @@ export class ReviewService {
       if (existing.items.length > 0) {
         // Update existing review item
         const item = existing.items[0] as unknown as ReviewItem;
-        console.debug(
+        logger.debug(
           `[ReviewService] Updating existing review item for ${questionId}`,
         );
         await pb.collection("church_latin_review_items").update(item.id, {
@@ -275,8 +290,8 @@ export class ReviewService {
         } as never);
       } else {
         // Create new review item
-        console.debug(
-          `[ReviewService] Creating new review item for ${questionId}`,
+        logger.debug(
+          `[ReviewService] Creating new review item for ${questionId}${vocabWordId ? ` with vocabWordId: ${vocabWordId}` : ""}`,
         );
         const reviewItemData: Record<string, unknown> = {
           userId,
@@ -296,15 +311,15 @@ export class ReviewService {
           reviewItemData.vocabWordId = vocabWordId;
         }
 
-        await pb
+        const created = await pb
           .collection("church_latin_review_items")
           .create(reviewItemData as never);
-        console.debug(
-          `[ReviewService] Successfully created review item for ${questionId}`,
+        logger.debug(
+          `[ReviewService] Successfully created review item ${created.id} for ${questionId}${vocabWordId ? ` with vocabWordId: ${vocabWordId}` : ""}`,
         );
       }
     } catch (error) {
-      console.error(
+      logger.error(
         `[ReviewService] Failed to handle quiz miss for ${questionId}:`,
         error,
       );
@@ -337,7 +352,7 @@ export class ReviewService {
 
       return records.items as unknown as ReviewItem[];
     } catch (error) {
-      console.error("Failed to fetch upcoming review items:", error);
+      logger.error("Failed to fetch upcoming review items:", error);
       throw error;
     }
   }
@@ -366,7 +381,7 @@ export class ReviewService {
 
       return records.items as unknown as ReviewItem[];
     } catch (error) {
-      console.error("Failed to fetch suspended review items:", error);
+      logger.error("Failed to fetch suspended review items:", error);
       throw error;
     }
   }
@@ -407,7 +422,7 @@ export class ReviewService {
         .collection("church_latin_review_items")
         .update(reviewItem.id, { state: newState } as never);
     } catch (error) {
-      console.error("Failed to update suspension status:", error);
+      logger.error("Failed to update suspension status:", error);
       throw error;
     }
   }

@@ -2,6 +2,7 @@ import { ArrowRight, CheckCircle, RotateCcw, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { QuizQuestion } from "../data/courseData";
 import { reviewService } from "../services/reviewService";
+import { logger } from "../utils/logger";
 import {
   normalizeAnswerForComparison,
   sanitizeOption,
@@ -102,13 +103,16 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
 
       // Handle review queue: create review items for incorrect answers
       if (score < 100) {
+        logger.debug(
+          `[Quiz] Score ${score}% - creating review items for ${questions.length} questions`,
+        );
         // Process sequentially to avoid PocketBase auto-cancellation
         for (let i = 0; i < newAnswers.length; i++) {
           const answer = newAnswers[i];
           const question = questions[i];
           const isCorrect = isAnswerCorrect(question, answer);
 
-          console.debug(
+          logger.debug(
             `[Review] Q${i + 1} (${question.questionId}): ${isCorrect ? "correct" : "incorrect"}`,
             { answer, correctAnswer: question.correctAnswer },
           );
@@ -116,10 +120,38 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
           if (!isCorrect) {
             // Non-blocking: log errors but don't fail quiz submission
             try {
-              // Create review item for the question
-              await reviewService.handleQuizMiss(lessonId, question.questionId);
+              // Check if this is a vocabulary question with tracked words
+              if (
+                question.usedVocabWords &&
+                question.usedVocabWords.length > 0
+              ) {
+                // For vocabulary questions, create a review item per used word
+                // This allows each vocabulary word to be reviewed independently
+                logger.debug(
+                  `[Quiz] Creating ${question.usedVocabWords.length} vocab review items for Q${i + 1}`,
+                );
+                for (const word of question.usedVocabWords) {
+                  logger.debug(
+                    `[Quiz] Calling handleQuizMiss for ${question.questionId} with vocabWordId: ${word.id}`,
+                  );
+                  await reviewService.handleQuizMiss(
+                    lessonId,
+                    question.questionId,
+                    word.id,
+                  );
+                }
+              } else {
+                // For regular content questions, create review item without vocab tracking
+                logger.debug(
+                  `[Quiz] Calling handleQuizMiss for regular question ${question.questionId}`,
+                );
+                await reviewService.handleQuizMiss(
+                  lessonId,
+                  question.questionId,
+                );
+              }
             } catch (error) {
-              console.warn(
+              logger.warn(
                 `Failed to create review item for question ${question.questionId}:`,
                 error,
               );

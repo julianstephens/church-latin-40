@@ -31,6 +31,7 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
   const [materialCompleted, setMaterialCompleted] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [lesson, setLesson] = useState<LessonType | null>(null);
 
   // Reset material completed state when lesson changes
@@ -42,17 +43,40 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
   useEffect(() => {
     const loadLessonData = async () => {
       try {
-        // Wait for PocketBase authentication to complete
-        await pocketbaseService.waitForUserId(5000);
+        setIsLoading(true);
+        setLoadError(false);
+
+        // Wait for PocketBase authentication to complete (non-blocking)
+        try {
+          await pocketbaseService.waitForUserId(5000);
+        } catch (authError) {
+          logger.warn(
+            "Lesson load proceeding without PocketBase user ID:",
+            authError,
+          );
+        }
 
         // Fetch lesson content from PocketBase or fallback
         const lessonData = await courseDataService.getLessonContent(lessonId);
+
+        if (!lessonData) {
+          setLoadError(true);
+          setLesson(null);
+          return;
+        }
+
         setLesson(lessonData);
 
-        const progress = await loadProgress();
-        setIsCompleted(progress.completedLessons.includes(lessonId));
+        try {
+          const progress = await loadProgress();
+          setIsCompleted(progress.completedLessons.includes(lessonId));
+        } catch (progressError) {
+          logger.warn("Failed to load progress data:", progressError);
+        }
       } catch (error) {
         logger.error("Failed to load lesson data:", error);
+        setLoadError(true);
+        setLesson(null);
       } finally {
         setIsLoading(false);
       }
@@ -64,25 +88,34 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
   if (isLoading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="text-center text-gray-600 dark:text-gray-400">
-          Loading lesson...
+        <div className="flex flex-col items-center justify-center min-h-[400px]">
+          <Loader2 className="h-12 w-12 text-red-900 dark:text-red-600 animate-spin mb-4" />
+          <p className="text-lg text-gray-600 dark:text-gray-400">
+            Loading lesson...
+          </p>
         </div>
       </div>
     );
   }
 
-  if (!lesson) {
+  if (loadError || !lesson) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Lesson Not Found
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            Unable to Load Lesson
           </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            {loadError
+              ? "An error occurred while loading the lesson. Please try again."
+              : "The lesson could not be found."}
+          </p>
           <button
             onClick={onBack}
-            className="mt-4 text-red-900 hover:text-red-700 dark:text-red-600 dark:hover:text-red-400"
+            className="inline-flex items-center gap-2 px-4 py-2 text-red-900 hover:text-red-700 dark:text-red-600 dark:hover:text-red-400 font-semibold"
           >
-            ← Return to Course Overview
+            <ArrowLeft className="h-4 w-4" />
+            Return to Course Overview
           </button>
         </div>
       </div>

@@ -104,7 +104,7 @@ export function ReviewSession({
               item.questionId,
             );
 
-            console.debug(
+            logger.debug(
               `[ReviewSession] Loaded question ${item.questionId}, type: ${questionContent.type}, correctAnswer: ${typeof questionContent.correctAnswer}`,
             );
 
