@@ -26,11 +26,11 @@ const isAutoCancelError = (error: unknown): boolean => {
 const runWithoutAutoCancel = async <T>(
   action: () => Promise<T>,
 ): Promise<T> => {
-  const previous = pb.autoCancellation(false);
+  pb.autoCancellation(false);
   try {
     return await action();
   } finally {
-    pb.autoCancellation(previous);
+    pb.autoCancellation(true);
   }
 };
 
@@ -315,7 +315,7 @@ export class ReviewService {
 
       // Check if review item already exists
       const filter = vocabWordId
-        ? `userId = "${userId}" && lessonId = "${pbLessonId}" && questionId = "${questionId}" && vocabWordId = "${vocabWordId}"`
+        ? `userId = "${userId}" && lessonId = "${pbLessonId}" && vocabWordId = "${vocabWordId}"`
         : `userId = "${userId}" && lessonId = "${pbLessonId}" && questionId = "${questionId}"`;
 
       const existing = await pb
@@ -345,10 +345,9 @@ export class ReviewService {
         logger.debug(
           `[ReviewService] Creating new review item for ${questionId}${vocabWordId ? ` with vocabWordId: ${vocabWordId}` : ""}`,
         );
-        const resourceIdBase = `review_${userId}_${pbLessonId}_${questionId}`;
         const resourceId = vocabWordId
-          ? `${resourceIdBase}_${vocabWordId}`
-          : resourceIdBase;
+          ? `review_${userId}_${pbLessonId}_${vocabWordId}`
+          : `review_${userId}_${pbLessonId}_${questionId}`;
 
         const reviewItemData: Record<string, unknown> = {
           resourceId,

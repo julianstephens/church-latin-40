@@ -1,6 +1,7 @@
 import { ArrowRight, Clock, Pause, Play } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { pocketbaseService } from "../services/pocketbase";
 import { ReviewItem, reviewService } from "../services/reviewService";
 import { logger } from "../utils/logger";
 
@@ -9,6 +10,7 @@ type TabType = "due" | "upcoming" | "suspended";
 interface ReviewItemWithLesson extends ReviewItem {
   lessonTitle?: string;
   lessonNumber?: number;
+  questionText?: string;
 }
 
 export function ReviewListPage() {
@@ -61,12 +63,78 @@ export function ReviewListPage() {
   const enrichItemsWithLessonData = async (
     items: ReviewItem[],
   ): Promise<ReviewItemWithLesson[]> => {
-    // In a real app, we'd fetch lesson titles from PocketBase
-    // For now, we'll add placeholder data that can be enhanced
+    if (items.length === 0) {
+      return [];
+    }
+
+    const pb = pocketbaseService.getPocketBase();
+    const lessonIds = Array.from(new Set(items.map((item) => item.lessonId)));
+    const lessonTitleMap = new Map<string, string>();
+
+    await Promise.all(
+      lessonIds.map(async (lessonId) => {
+        try {
+          const record = await pb
+            .collection("church_latin_lessons")
+            .getOne(lessonId);
+          const title =
+            (record.name as string | undefined) ||
+            (record.title as string | undefined) ||
+            "Lesson";
+          lessonTitleMap.set(lessonId, title);
+        } catch (error) {
+          logger.warn(
+            `[ReviewListPage] Failed to load lesson ${lessonId}:`,
+            error,
+          );
+          lessonTitleMap.set(lessonId, "Lesson");
+        }
+      }),
+    );
+
+    const questionTextMap = new Map<string, string>();
+
+    await Promise.all(
+      items.map(async (item) => {
+        try {
+          if (item.vocabWordId) {
+            const vocabRecord = await pb
+              .collection("church_latin_vocabulary")
+              .getOne(item.vocabWordId);
+            const vocabWord =
+              (vocabRecord.word as string | undefined) || "Vocabulary word";
+            questionTextMap.set(item.id, vocabWord);
+            return;
+          }
+
+          const record = await pb
+            .collection("church_latin_quiz_questions")
+            .getList(1, 1, {
+              filter: `lessonId = "${item.lessonId}" && questionId = "${item.questionId}"`,
+            });
+          if (record.items.length > 0) {
+            const question = record.items[0] as Record<string, unknown>;
+            const questionText =
+              (question.question as string | undefined) || "Review item";
+            questionTextMap.set(item.id, questionText);
+          } else {
+            questionTextMap.set(item.id, "Review item");
+          }
+        } catch (error) {
+          logger.warn(
+            `[ReviewListPage] Failed to load question ${item.questionId}:`,
+            error,
+          );
+          questionTextMap.set(item.id, "Review item");
+        }
+      }),
+    );
+
     return items.map((item) => ({
       ...item,
       lessonNumber: parseInt(item.questionId.split("-")[0].substring(1)),
-      lessonTitle: `Lesson ${item.lessonId.substring(0, 3)}`,
+      lessonTitle: lessonTitleMap.get(item.lessonId) || "Lesson",
+      questionText: questionTextMap.get(item.id) || "Review item",
     }));
   };
 
@@ -151,10 +219,10 @@ export function ReviewListPage() {
               <div className="flex items-center gap-3">
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
-                    {item.questionId}
+                    {item.questionText || item.questionId}
                   </h3>
                   <p className="text-xs text-gray-600 dark:text-gray-400">
-                    {item.lessonTitle} • Type: {item.questionType}
+                    {item.lessonTitle}
                   </p>
                 </div>
 

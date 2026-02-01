@@ -125,19 +125,26 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
                 question.usedVocabWords &&
                 question.usedVocabWords.length > 0
               ) {
-                // For vocabulary questions, create a review item per used word
-                // This allows each vocabulary word to be reviewed independently
-                logger.debug(
-                  `[Quiz] Creating ${question.usedVocabWords.length} vocab review items for Q${i + 1}`,
+                const missedVocabWordIds = getMissedVocabWordIds(
+                  question,
+                  answer,
                 );
-                for (const word of question.usedVocabWords) {
+
+                if (missedVocabWordIds.length === 0) {
+                  continue;
+                }
+
+                logger.debug(
+                  `[Quiz] Creating ${missedVocabWordIds.length} vocab review items for Q${i + 1}`,
+                );
+                for (const vocabWordId of missedVocabWordIds) {
                   logger.debug(
-                    `[Quiz] Calling handleQuizMiss for ${question.questionId} with vocabWordId: ${word.id}`,
+                    `[Quiz] Calling handleQuizMiss for ${question.questionId} with vocabWordId: ${vocabWordId}`,
                   );
                   await reviewService.handleQuizMiss(
                     lessonId,
                     question.questionId,
-                    word.id,
+                    vocabWordId,
                     question.type,
                   );
                 }
@@ -240,6 +247,63 @@ export function Quiz({ questions, lessonId, onComplete }: QuizProps) {
       }
     });
     return Math.round((correct / questions.length) * 100);
+  };
+
+  const getMissedVocabWordIds = (
+    question: QuizQuestion,
+    answer: string,
+  ): string[] => {
+    if (!question.usedVocabWords || question.usedVocabWords.length === 0) {
+      return [];
+    }
+
+    if (
+      question.type === "matching" &&
+      Array.isArray(question.correctAnswer) &&
+      "options" in question
+    ) {
+      const correctMap = new Map<string, string>();
+      for (const pair of question.correctAnswer as string[]) {
+        const [latin, english] = pair.split(" - ").map((value) => value.trim());
+        if (latin && english) {
+          correctMap.set(
+            normalizeAnswerForComparison(latin),
+            normalizeAnswerForComparison(english),
+          );
+        }
+      }
+
+      const userMap = new Map<string, string>();
+      if (answer) {
+        const userPairs = answer.split(", ");
+        for (const userPair of userPairs) {
+          const [latin, english] = userPair
+            .split(" - ")
+            .map((value) => value.trim());
+          if (latin && english) {
+            userMap.set(
+              normalizeAnswerForComparison(latin),
+              normalizeAnswerForComparison(english),
+            );
+          }
+        }
+      }
+
+      const missedIds: string[] = [];
+      for (const word of question.usedVocabWords) {
+        const normalizedLatin = normalizeAnswerForComparison(word.word);
+        const correctEnglish = correctMap.get(normalizedLatin);
+        const userEnglish = userMap.get(normalizedLatin);
+
+        if (!correctEnglish || !userEnglish || userEnglish !== correctEnglish) {
+          missedIds.push(word.id);
+        }
+      }
+
+      return missedIds;
+    }
+
+    return question.usedVocabWords.map((word) => word.id);
   };
 
   const isAnswerCorrect = (question: QuizQuestion, answer: string): boolean => {
