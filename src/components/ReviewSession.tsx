@@ -337,9 +337,12 @@ export function ReviewSession({
       {/* Question Card */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
         <div className="mb-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            {currentQuestion.question}
-          </h2>
+          <h2
+            className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4"
+            dangerouslySetInnerHTML={{
+              __html: sanitizeOption(currentQuestion.question),
+            }}
+          />
 
           {currentQuestion.options && currentQuestion.options.length > 0 && (
             <div className="space-y-2 mb-4">
