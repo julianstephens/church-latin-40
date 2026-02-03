@@ -5,7 +5,7 @@ import { pocketbaseService } from "../services/pocketbase";
 import { ReviewItem, reviewService } from "../services/reviewService";
 import { logger } from "../utils/logger";
 
-type TabType = "due" | "upcoming" | "suspended";
+type TabType = "ready" | "scheduled" | "paused";
 
 interface ReviewItemWithLesson extends ReviewItem {
   lessonTitle?: string;
@@ -15,15 +15,13 @@ interface ReviewItemWithLesson extends ReviewItem {
 
 export function ReviewListPage() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<TabType>("due");
+  const [activeTab, setActiveTab] = useState<TabType>("ready");
   const [isLoading, setIsLoading] = useState(true);
-  const [dueItems, setDueItems] = useState<ReviewItemWithLesson[]>([]);
-  const [upcomingItems, setUpcomingItems] = useState<ReviewItemWithLesson[]>(
+  const [readyItems, setReadyItems] = useState<ReviewItemWithLesson[]>([]);
+  const [scheduledItems, setScheduledItems] = useState<ReviewItemWithLesson[]>(
     [],
   );
-  const [suspendedItems, setSuspendedItems] = useState<ReviewItemWithLesson[]>(
-    [],
-  );
+  const [pausedItems, setPausedItems] = useState<ReviewItemWithLesson[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
@@ -33,6 +31,7 @@ export function ReviewListPage() {
       try {
         setIsLoading(true);
         setError(null);
+        logger.debug("[ReviewListPage] Loading review items...");
 
         const [dueList, upcomingList, suspendedList] = await Promise.all([
           reviewService.getDueReviewItems(100),
@@ -40,15 +39,24 @@ export function ReviewListPage() {
           reviewService.getSuspendedReviewItems(100),
         ]);
 
+        logger.debug(
+          `[ReviewListPage] Fetched: ${dueList.length} due, ${upcomingList.length} upcoming, ${suspendedList.length} suspended`,
+        );
+
         // Enrich items with lesson information
         const enrichedDue = await enrichItemsWithLessonData(dueList);
         const enrichedUpcoming = await enrichItemsWithLessonData(upcomingList);
         const enrichedSuspended =
           await enrichItemsWithLessonData(suspendedList);
 
-        setDueItems(enrichedDue);
-        setUpcomingItems(enrichedUpcoming);
-        setSuspendedItems(enrichedSuspended);
+        logger.debug(
+          `[ReviewListPage] After enrichment: ${enrichedDue.length} ready, ${enrichedUpcoming.length} scheduled, ${enrichedSuspended.length} paused`,
+        );
+
+        setReadyItems(enrichedDue);
+        setScheduledItems(enrichedUpcoming);
+        setPausedItems(enrichedSuspended);
+        logger.debug("[ReviewListPage] Review items loaded and state updated");
       } catch (err) {
         logger.error("[ReviewListPage] Failed to load review items:", err);
         setError("Failed to load review items. Please try again.");
@@ -144,9 +152,9 @@ export function ReviewListPage() {
       await reviewService.setSuspended(item.lessonId, item.questionId, true);
 
       // Move item from due/upcoming to suspended
-      setDueItems((prev) => prev.filter((i) => i.id !== item.id));
-      setUpcomingItems((prev) => prev.filter((i) => i.id !== item.id));
-      setSuspendedItems((prev) => [...prev, item]);
+      setReadyItems((prev) => prev.filter((i) => i.id !== item.id));
+      setScheduledItems((prev) => prev.filter((i) => i.id !== item.id));
+      setPausedItems((prev) => [...prev, item]);
 
       logger.info(`[ReviewListPage] Suspended review item: ${item.questionId}`);
     } catch (err) {
@@ -162,14 +170,14 @@ export function ReviewListPage() {
       setActionLoading(item.id);
       await reviewService.setSuspended(item.lessonId, item.questionId, false);
 
-      // Move item from suspended back to appropriate list
-      setSuspendedItems((prev) => prev.filter((i) => i.id !== item.id));
+      // Move item from paused back to appropriate list
+      setPausedItems((prev) => prev.filter((i) => i.id !== item.id));
 
       const now = new Date();
       if (new Date(item.dueAt) <= now) {
-        setDueItems((prev) => [...prev, item]);
+        setReadyItems((prev) => [...prev, item]);
       } else {
-        setUpcomingItems((prev) => [...prev, item]);
+        setScheduledItems((prev) => [...prev, item]);
       }
 
       logger.info(
@@ -184,13 +192,11 @@ export function ReviewListPage() {
   };
 
   const handleStartReview = () => {
-    navigate("/review");
+    navigate("/practice");
   };
 
-  const handleJumpToLesson = (lessonId: string) => {
-    // Parse lesson number from ID and navigate
-    const lessonNumber = parseInt(lessonId.split("-")[0].substring(1)) || 1;
-    navigate(`/lesson/${lessonNumber}`);
+  const handleJumpToLesson = (item: ReviewItemWithLesson) => {
+    navigate(`/lesson/${item.lessonNumber}`);
   };
 
   const renderItems = (items: ReviewItemWithLesson[]) => {
@@ -198,11 +204,11 @@ export function ReviewListPage() {
       return (
         <div className="text-center py-12">
           <p className="text-gray-500 dark:text-gray-400 mb-4">
-            {activeTab === "due"
-              ? "No items due right now. Great job staying on top of your reviews!"
-              : activeTab === "upcoming"
-                ? "No upcoming items."
-                : "No suspended items."}
+            {activeTab === "ready"
+              ? "All caught up! No items ready to practice right now."
+              : activeTab === "scheduled"
+                ? "No items scheduled yet."
+                : "No paused items."}
           </p>
         </div>
       );
@@ -228,7 +234,7 @@ export function ReviewListPage() {
 
                 <div className="text-right">
                   <p className="text-xs font-medium text-gray-600 dark:text-gray-300">
-                    Due: {formatDate(new Date(item.dueAt))}
+                    Next: {formatDate(new Date(item.dueAt))}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Streak: {item.streak || 0} • Lapses: {item.lapses || 0}
@@ -238,9 +244,9 @@ export function ReviewListPage() {
             </div>
 
             <div className="flex items-center gap-2 ml-4">
-              {activeTab === "due" && (
+              {activeTab === "ready" && (
                 <button
-                  onClick={() => handleJumpToLesson(item.lessonId)}
+                  onClick={() => handleJumpToLesson(item)}
                   className="p-2 hover:bg-blue-50 dark:hover:bg-blue-900 text-blue-600 dark:text-blue-400 rounded transition-colors"
                   title="Jump to lesson"
                 >
@@ -248,18 +254,18 @@ export function ReviewListPage() {
                 </button>
               )}
 
-              {activeTab !== "suspended" && (
+              {activeTab !== "paused" && (
                 <button
                   onClick={() => handleSuspend(item)}
                   disabled={actionLoading === item.id}
                   className="p-2 hover:bg-yellow-50 dark:hover:bg-yellow-900 text-yellow-600 dark:text-yellow-400 rounded transition-colors disabled:opacity-50"
-                  title="Suspend this item"
+                  title="Pause this item"
                 >
                   <Pause size={18} />
                 </button>
               )}
 
-              {activeTab === "suspended" && (
+              {activeTab === "paused" && (
                 <button
                   onClick={() => handleUnsuspend(item)}
                   disabled={actionLoading === item.id}
@@ -277,22 +283,23 @@ export function ReviewListPage() {
   };
 
   const activeItems =
-    activeTab === "due"
-      ? dueItems
-      : activeTab === "upcoming"
-        ? upcomingItems
-        : suspendedItems;
+    activeTab === "ready"
+      ? readyItems
+      : activeTab === "scheduled"
+        ? scheduledItems
+        : pausedItems;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+    <div className="w-full md:w-1/2 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-8">
+      <div className="mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Review Queue
+            Practice Queue
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
-            Manage your spaced repetition review items
+            Master your material through spaced repetition. Items appear
+            multiple times as you learn.
           </p>
         </div>
 
@@ -306,36 +313,36 @@ export function ReviewListPage() {
         {/* Tabs */}
         <div className="flex gap-4 mb-6 border-b border-gray-200 dark:border-gray-700">
           <button
-            onClick={() => setActiveTab("due")}
+            onClick={() => setActiveTab("ready")}
             className={`px-4 py-3 font-medium transition-colors border-b-2 -mb-1 ${
-              activeTab === "due"
+              activeTab === "ready"
                 ? "border-blue-500 text-blue-600 dark:text-blue-400"
                 : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
             }`}
           >
             <Clock className="inline mr-2" size={18} />
-            Due Now ({dueItems.length})
+            Ready ({readyItems.length})
           </button>
           <button
-            onClick={() => setActiveTab("upcoming")}
+            onClick={() => setActiveTab("scheduled")}
             className={`px-4 py-3 font-medium transition-colors border-b-2 -mb-1 ${
-              activeTab === "upcoming"
+              activeTab === "scheduled"
                 ? "border-blue-500 text-blue-600 dark:text-blue-400"
                 : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
             }`}
           >
-            📅 Upcoming ({upcomingItems.length})
+            📅 Scheduled ({scheduledItems.length})
           </button>
           <button
-            onClick={() => setActiveTab("suspended")}
+            onClick={() => setActiveTab("paused")}
             className={`px-4 py-3 font-medium transition-colors border-b-2 -mb-1 ${
-              activeTab === "suspended"
+              activeTab === "paused"
                 ? "border-blue-500 text-blue-600 dark:text-blue-400"
                 : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
             }`}
           >
             <Pause className="inline mr-2" size={18} />
-            Suspended ({suspendedItems.length})
+            Paused ({pausedItems.length})
           </button>
         </div>
 
@@ -344,7 +351,7 @@ export function ReviewListPage() {
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
             <p className="text-gray-600 dark:text-gray-400 mt-4">
-              Loading review items...
+              Loading practice items...
             </p>
           </div>
         ) : (
@@ -354,13 +361,13 @@ export function ReviewListPage() {
               {renderItems(activeItems)}
             </div>
 
-            {/* Start Review Button */}
-            {dueItems.length > 0 && activeTab === "due" && (
+            {/* Start Practice Button */}
+            {readyItems.length > 0 && activeTab === "ready" && (
               <button
                 onClick={handleStartReview}
                 className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-lg transition-all shadow-md hover:shadow-lg"
               >
-                Start Review Session ({dueItems.length} items)
+                Start Practice Session ({readyItems.length} items)
               </button>
             )}
 

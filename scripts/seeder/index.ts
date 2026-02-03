@@ -8,15 +8,17 @@
  *   pnpx tsx scripts/seeder/index.ts [OPTIONS]
  *
  * Options:
- *   --dry-run        Validate and show what would happen without committing
- *   --reset          Clear collections and reseed from scratch
- *   --verbose        Show detailed logging
- *   --collection     Run specific seeder only (e.g., --collection vocabulary)
+ *   --dry-run         Validate and show what would happen without committing
+ *   --reset           Clear collections and reseed from scratch
+ *   --verbose         Show detailed logging
+ *   --collection      Run specific seeder only (e.g., --collection vocabulary)
+ *   --artifacts-only  Only generate TypeScript artifacts, skip data seeding
  *
  * Examples:
- *   pnpx tsx scripts/seeder/index.ts                    # Normal seed
- *   pnpx tsx scripts/seeder/index.ts --dry-run          # Validate without changes
- *   pnpx tsx scripts/seeder/index.ts --reset --verbose  # Full reset with logging
+ *   pnpx tsx scripts/seeder/index.ts                     # Normal seed
+ *   pnpx tsx scripts/seeder/index.ts --dry-run           # Validate without changes
+ *   pnpx tsx scripts/seeder/index.ts --reset --verbose   # Full reset with logging
+ *   pnpx tsx scripts/seeder/index.ts --artifacts-only    # Only regenerate courseData.ts
  */
 
 import { CourseDataGenerator } from "./generators/courseDataGenerator";
@@ -39,6 +41,7 @@ function parseArgs(): SeedOptions {
     dryRun: args.includes("--dry-run"),
     reset: args.includes("--reset"),
     verbose: args.includes("--verbose"),
+    artifactsOnly: args.includes("--artifacts-only"),
     collection: args
       .find((arg) => arg.startsWith("--collection"))
       ?.split("=")[1],
@@ -87,10 +90,17 @@ function printHeader(options: SeedOptions): void {
   if (options.reset) {
     console.log("⚠️  RESET MODE - Collections will be cleared");
   }
+  if (options.artifactsOnly) {
+    console.log(
+      "🏗️  ARTIFACTS ONLY - Skipping data seeding, generating TypeScript artifacts",
+    );
+  }
   if (options.collection) {
     console.log(`📁 Single Collection Mode - Only ${options.collection}`);
   }
-  console.log("📂 Data Source: scripts/seeder/data/");
+  if (!options.artifactsOnly) {
+    console.log("📂 Data Source: scripts/seeder/data/");
+  }
   console.log("");
 }
 
@@ -174,12 +184,14 @@ async function main(): Promise<void> {
     const seeders = getSeeders(options);
     const results: SeedResult[] = [];
 
-    // Run each seeder
-    for (const seeder of seeders) {
-      logInfo(`Starting ${seeder.name}...`);
-      const result = await seeder.seed(options);
-      results.push(result);
-      console.log("");
+    // Run each seeder unless artifacts-only mode
+    if (!options.artifactsOnly) {
+      for (const seeder of seeders) {
+        logInfo(`Starting ${seeder.name}...`);
+        const result = await seeder.seed(options);
+        results.push(result);
+        console.log("");
+      }
     }
 
     // Generate courseData.ts if not dry run
@@ -193,8 +205,10 @@ async function main(): Promise<void> {
       logVerbose("[DRY RUN] Would generate src/data/courseData.ts", options);
     }
 
-    // Print summary
-    printSummary(results, options);
+    // Print summary (skip if artifacts-only)
+    if (!options.artifactsOnly) {
+      printSummary(results, options);
+    }
 
     // Exit with success
     process.exit(0);

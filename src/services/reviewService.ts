@@ -134,6 +134,10 @@ export class ReviewService {
         const userId = authStore.model.id;
         const now = new Date().toISOString();
 
+        logger.debug(
+          `[ReviewService] Fetching due items for user ${userId}, comparing against now: ${now}`,
+        );
+
         // Fetch review items due now or earlier, ordered by dueAt
         const records = await runWithoutAutoCancel(() =>
           pb.collection("church_latin_review_items").getList(1, limit, {
@@ -142,7 +146,40 @@ export class ReviewService {
           }),
         );
 
-        return records.items as unknown as ReviewItem[];
+        logger.debug(
+          `[ReviewService] Got ${records.items.length} due items, now=${now}:`,
+          records.items.map((item: ReviewItem) => ({
+            id: item.id,
+            questionId: item.questionId,
+            dueAt: item.dueAt,
+            state: item.state,
+            streak: item.streak,
+            intervalDays: item.intervalDays,
+            lastResult: item.lastResult,
+          })),
+        );
+
+        // Deduplicate by questionId + lessonId, keeping the item with highest streak (most recent activity)
+        const deduplicatedMap = new Map<string, ReviewItem>();
+        records.items.forEach((item: ReviewItem) => {
+          const key = `${item.questionId}|${item.lessonId}`;
+          const existing = deduplicatedMap.get(key);
+
+          // Keep the item with the higher streak (more recent activity)
+          if (!existing || (item.streak || 0) > (existing.streak || 0)) {
+            deduplicatedMap.set(key, item);
+          }
+        });
+
+        const uniqueItems = Array.from(deduplicatedMap.values());
+
+        if (uniqueItems.length < records.items.length) {
+          logger.warn(
+            `[ReviewService] Removed ${records.items.length - uniqueItems.length} duplicate items. Keeping highest-streak versions.`,
+          );
+        }
+
+        return uniqueItems as unknown as ReviewItem[];
       } catch (error) {
         if (isAutoCancelError(error) && attempt === 0) {
           logger.warn(
@@ -179,8 +216,15 @@ export class ReviewService {
       }
 
       const userId = authStore.model.id;
+      logger.debug(
+        `[ReviewService] Submitting review result for question ${questionId} in lesson ${lessonId}: ${result}`,
+      );
 
       // Find existing review item
+      logger.debug(
+        `[ReviewService] Searching for review item: userId=${userId}, lessonId=${lessonId}, questionId=${questionId}`,
+      );
+
       const records = await pb
         .collection("church_latin_review_items")
         .getList(1, 1, {
@@ -188,32 +232,155 @@ export class ReviewService {
         });
 
       if (records.items.length === 0) {
-        throw new Error("Review item not found");
+        throw new Error(`Review item not found for question ${questionId}`);
+      }
+
+      // Also check for duplicates
+      const allMatches = await pb
+        .collection("church_latin_review_items")
+        .getList(1, 100, {
+          filter: `userId = "${userId}" && questionId = "${questionId}"`,
+        });
+
+      if (allMatches.items.length > 1) {
+        logger.warn(
+          `[ReviewService] WARNING: Found ${allMatches.items.length} items with questionId=${questionId} for this user. IDs:`,
+          {
+            ids: allMatches.items.map((item: ReviewItem) => ({
+              id: item.id,
+              lessonId: item.lessonId,
+              state: item.state,
+              streak: item.streak,
+              dueAt: item.dueAt,
+            })),
+          },
+        );
       }
 
       const reviewItem = records.items[0] as unknown as ReviewItem;
+      logger.debug(
+        `[ReviewService] Found review item ${reviewItem.id}, current state before update:`,
+        {
+          id: reviewItem.id,
+          questionId: reviewItem.questionId,
+          lessonId: reviewItem.lessonId,
+          state: reviewItem.state,
+          streak: reviewItem.streak,
+          intervalDays: reviewItem.intervalDays,
+          dueAt: reviewItem.dueAt,
+          lastResult: reviewItem.lastResult,
+        },
+      );
+      logger.debug(`[ReviewService] Submitting answer with result: ${result}`);
 
       // Calculate next schedule based on result
       const schedule = calculateNextSchedule(reviewItem, result);
+      logger.debug(
+        `[ReviewService] Calculated schedule for result "${result}":`,
+        {
+          state: schedule.state,
+          streak: schedule.streak,
+          lapses: schedule.lapses,
+          intervalDays: schedule.intervalDays,
+          dueAt: schedule.dueAt,
+        },
+      );
 
       // Update review item
-      await pb.collection("church_latin_review_items").update(reviewItem.id, {
+      const now = new Date().toISOString();
+      const updatePayload = {
         ...schedule,
-        lastReviewedAt: new Date().toISOString(),
+        lastReviewedAt: now,
         lastResult: result,
-      } as never);
+      };
+      logger.debug(
+        `[ReviewService] Update payload for ${reviewItem.id}:`,
+        updatePayload,
+      );
+
+      let updateResult;
+      try {
+        updateResult = await runWithoutAutoCancel(() =>
+          pb
+            .collection("church_latin_review_items")
+            .update(reviewItem.id, updatePayload as never),
+        );
+        logger.debug(
+          `[ReviewService] Successfully updated review item ${reviewItem.id}`,
+          {
+            updatedRecord: updateResult,
+          },
+        );
+      } catch (updateError) {
+        logger.error(
+          `[ReviewService] Failed to update review item ${reviewItem.id}:`,
+          updateError,
+        );
+        throw updateError;
+      }
+
+      // Clean up old duplicate items with same questionId - delete the ones with lower/equal streak
+      // This ensures we don't have multiple items for the same question confusing the system
+      if (allMatches.items.length > 1) {
+        const updatedItem = updateResult as unknown as ReviewItem;
+        const oldDuplicates = allMatches.items.filter((item: ReviewItem) => {
+          // Keep the item we just updated, delete all others
+          if (item.id === reviewItem.id) return false;
+          // Delete if this duplicate has a lower or equal streak (it's older data)
+          return (item.streak || 0) <= (updatedItem.streak || 0);
+        });
+
+        if (oldDuplicates.length > 0) {
+          logger.debug(
+            `[ReviewService] Cleaning up ${oldDuplicates.length} old duplicate items for questionId=${questionId}. Keeping item ${reviewItem.id} with streak=${updatedItem.streak}.`,
+          );
+
+          // Delete old duplicates in parallel
+          const deletePromises = oldDuplicates.map((item: ReviewItem) =>
+            runWithoutAutoCancel(() =>
+              pb.collection("church_latin_review_items").delete(item.id),
+            ).catch((error: unknown) => {
+              logger.warn(
+                `[ReviewService] Failed to delete old duplicate item ${item.id}:`,
+                error,
+              );
+              // Don't rethrow - cleanup failure shouldn't fail the whole operation
+            }),
+          );
+
+          await Promise.all(deletePromises);
+          logger.debug(
+            `[ReviewService] Successfully cleaned up duplicate items for questionId=${questionId}`,
+          );
+        }
+      }
 
       // Log review event
-      await pb.collection("church_latin_review_events").create({
-        userId,
-        lessonId,
-        questionId,
-        reviewItemId: reviewItem.id,
-        result,
-        occurredAt: new Date().toISOString(),
-      } as never);
+      const eventId = `event_${userId}_${reviewItem.id}_${Date.now()}`;
+      try {
+        const eventRecord = await runWithoutAutoCancel(() =>
+          pb.collection("church_latin_review_events").create({
+            resourceId: eventId,
+            userId,
+            lessonId,
+            questionId,
+            reviewItemId: reviewItem.id,
+            result,
+            occurredAt: new Date().toISOString(),
+          } as never),
+        );
+        logger.debug(
+          `[ReviewService] Created review event ${eventRecord.id} for result: ${result}`,
+        );
+      } catch (eventError) {
+        logger.error(
+          `[ReviewService] Failed to create review event:`,
+          eventError,
+        );
+        throw eventError;
+      }
     } catch (error) {
-      logger.error("Failed to submit review result:", error);
+      logger.error("[ReviewService] Failed to submit review result:", error);
       throw error;
     }
   }
@@ -400,6 +567,10 @@ export class ReviewService {
         const userId = authStore.model.id;
         const now = new Date().toISOString();
 
+        logger.debug(
+          `[ReviewService] Fetching upcoming items for user ${userId}, comparing against now: ${now}`,
+        );
+
         // Fetch review items due in the future, ordered by dueAt
         const records = await runWithoutAutoCancel(() =>
           pb.collection("church_latin_review_items").getList(1, limit, {
@@ -408,7 +579,40 @@ export class ReviewService {
           }),
         );
 
-        return records.items as unknown as ReviewItem[];
+        logger.debug(
+          `[ReviewService] Got ${records.items.length} upcoming items, now=${now}:`,
+          records.items.map((item: ReviewItem) => ({
+            id: item.id,
+            questionId: item.questionId,
+            dueAt: item.dueAt,
+            state: item.state,
+            streak: item.streak,
+            intervalDays: item.intervalDays,
+            lastResult: item.lastResult,
+          })),
+        );
+
+        // Deduplicate by questionId + lessonId, keeping the item with highest streak (most recent activity)
+        const deduplicatedMap = new Map<string, ReviewItem>();
+        records.items.forEach((item: ReviewItem) => {
+          const key = `${item.questionId}|${item.lessonId}`;
+          const existing = deduplicatedMap.get(key);
+
+          // Keep the item with the higher streak (more recent activity)
+          if (!existing || (item.streak || 0) > (existing.streak || 0)) {
+            deduplicatedMap.set(key, item);
+          }
+        });
+
+        const uniqueItems = Array.from(deduplicatedMap.values());
+
+        if (uniqueItems.length < records.items.length) {
+          logger.warn(
+            `[ReviewService] Removed ${records.items.length - uniqueItems.length} duplicate items from upcoming. Keeping highest-streak versions.`,
+          );
+        }
+
+        return uniqueItems as unknown as ReviewItem[];
       } catch (error) {
         if (isAutoCancelError(error) && attempt === 0) {
           logger.warn(

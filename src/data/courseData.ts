@@ -10,7 +10,7 @@ export interface Lesson {
   module: number;
   materials: string[];
   content: string[];
-  vocabulary: string[];
+  vocabulary: VocabWord[];
   practice: string[];
   answer?: string[];
   quiz: QuizQuestion[];
@@ -22,7 +22,6 @@ type BaseQuizQuestion = {
   question: string;
   correctAnswer: string | string[];
   explanation?: string;
-  usedVocabWords?: VocabWord[]; // Vocabulary words used in this question
 };
 
 type MultipleChoiceQuestion = BaseQuizQuestion & {
@@ -219,4 +218,4 @@ export const lessons: Lesson[] = [];
 // For now, this is a placeholder. Full implementation in progress.
 export const vocabulary: Record<string, string[]> = {};
 
-// Generated: 2026-02-01T00:42:20.379Z
+// Generated: 2026-02-03T19:03:36.254Z

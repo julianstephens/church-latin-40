@@ -132,8 +132,8 @@ function App() {
             }
           />
           <Route path="/lesson/:lessonId" element={<LessonRoute />} />
-          <Route path="/review" element={<ReviewPage />} />
-          <Route path="/review-list" element={<ReviewListPage />} />
+          <Route path="/practice" element={<ReviewPage />} />
+          <Route path="/practice-queue" element={<ReviewListPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </ThemeProvider>

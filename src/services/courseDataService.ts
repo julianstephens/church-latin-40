@@ -169,7 +169,7 @@ class CourseDataService {
         const contentRecord = contentRecords[0];
 
         // Fetch vocabulary for this lesson
-        let vocabularyList: string[] = [];
+        let vocabularyList: VocabWord[] = [];
         try {
           const vocabRecords = await this.pb
             .collection(POCKETBASE_COLLECTIONS.VOCABULARY)
@@ -177,9 +177,7 @@ class CourseDataService {
               filter: `lessonId = "${lessonRecord.id}"`,
             });
 
-          vocabularyList = vocabRecords.map(
-            (v: Record<string, unknown>) => `${v.word} - ${v.meaning}`,
-          ) as string[];
+          vocabularyList = vocabRecords as VocabWord[];
         } catch (vocabError) {
           logger.warn(`No vocabulary found for lesson ${lessonId}`, vocabError);
         }

@@ -54,15 +54,96 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
     loadInitialData();
   }, []);
 
-  // Refresh progress when page becomes visible (user returns from lesson)
+  // Refresh progress and review counts when returning from review session
+  useEffect(() => {
+    const handleSessionCompleted = async () => {
+      try {
+        logger.debug(
+          "[CourseOverview] Review session completed event received, refreshing...",
+        );
+        const updatedProgress = await loadProgress();
+        setProgress(updatedProgress);
+        logger.debug("[CourseOverview] Progress updated:", updatedProgress);
+
+        // Refresh review counts since items have been scheduled
+        logger.debug("[CourseOverview] Fetching review items after session...");
+        const [dueItems, upcomingItems] = await Promise.all([
+          reviewService.getDueReviewItems(1000),
+          reviewService.getUpcomingReviewItems(1000),
+        ]);
+        logger.debug(
+          `[CourseOverview] Fetched ${dueItems.length} due items and ${upcomingItems.length} upcoming items`,
+        );
+        setDueReviewCount(dueItems.length);
+        setTotalReviewCount(dueItems.length + upcomingItems.length);
+        logger.debug(
+          `[CourseOverview] Updated review counts: ${dueItems.length} due, ${dueItems.length + upcomingItems.length} total`,
+        );
+        // Clear the sessionStorage flag
+        sessionStorage.removeItem("reviewSessionJustCompleted");
+      } catch (error) {
+        logger.error(
+          "[CourseOverview] Failed to refresh after session:",
+          error,
+        );
+      }
+    };
+
+    // Check sessionStorage on mount as fallback
+    const checkSessionStorage = () => {
+      const justCompleted = sessionStorage.getItem(
+        "reviewSessionJustCompleted",
+      );
+      if (justCompleted === "true") {
+        logger.debug(
+          "[CourseOverview] Found reviewSessionJustCompleted flag in sessionStorage, refreshing...",
+        );
+        handleSessionCompleted();
+      }
+    };
+
+    // Set up event listener
+    window.addEventListener("reviewSessionCompleted", handleSessionCompleted);
+
+    // Check sessionStorage immediately on mount
+    checkSessionStorage();
+
+    return () => {
+      window.removeEventListener(
+        "reviewSessionCompleted",
+        handleSessionCompleted,
+      );
+    };
+  }, []);
+
+  // Also listen for visibility changes as backup
   useEffect(() => {
     const handleVisibilityChange = async () => {
       if (document.visibilityState === "visible") {
         try {
+          logger.debug(
+            "[CourseOverview] Page became visible, refreshing progress and review counts",
+          );
           const updatedProgress = await loadProgress();
           setProgress(updatedProgress);
+          logger.debug("[CourseOverview] Progress updated:", updatedProgress);
+
+          // Also refresh review counts since session may have been completed
+          logger.debug("[CourseOverview] Fetching review items...");
+          const [dueItems, upcomingItems] = await Promise.all([
+            reviewService.getDueReviewItems(1000),
+            reviewService.getUpcomingReviewItems(1000),
+          ]);
+          logger.debug(
+            `[CourseOverview] Fetched ${dueItems.length} due items and ${upcomingItems.length} upcoming items`,
+          );
+          setDueReviewCount(dueItems.length);
+          setTotalReviewCount(dueItems.length + upcomingItems.length);
+          logger.debug(
+            `[CourseOverview] Updated review counts: ${dueItems.length} due, ${dueItems.length + upcomingItems.length} total`,
+          );
         } catch (error) {
-          console.error("Failed to refresh progress:", error);
+          logger.error("[CourseOverview] Failed to refresh progress:", error);
         }
       }
     };
@@ -77,10 +158,16 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
   useEffect(() => {
     const fetchReviewCount = async () => {
       try {
+        logger.debug(
+          "[CourseOverview] Fetching review counts on progress change...",
+        );
         const [dueItems, upcomingItems] = await Promise.all([
           reviewService.getDueReviewItems(1000),
           reviewService.getUpcomingReviewItems(1000),
         ]);
+        logger.debug(
+          `[CourseOverview] Initial fetch: ${dueItems.length} due, ${upcomingItems.length} upcoming`,
+        );
         setDueReviewCount(dueItems.length);
         setTotalReviewCount(dueItems.length + upcomingItems.length);
       } catch (error) {
@@ -95,7 +182,14 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
 
     // Only fetch if authenticated
     if (progress && pocketbaseService.getPocketBase().authStore.isValid) {
+      logger.debug(
+        "[CourseOverview] Progress exists and authenticated, calling fetchReviewCount",
+      );
       fetchReviewCount();
+    } else {
+      logger.debug(
+        `[CourseOverview] Skipping fetch - progress: ${!!progress}, auth valid: ${pocketbaseService.getPocketBase().authStore.isValid}`,
+      );
     }
   }, [progress]);
 
@@ -252,7 +346,7 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
         </div>
       </div>
 
-      {/* Review Queue Widget */}
+      {/* Practice Queue Widget */}
       {totalReviewCount > 0 && (
         <div className="mb-8 sm:mb-12">
           <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 border-2 border-purple-200 dark:border-purple-700 rounded-xl shadow-lg p-4 sm:p-6 max-w-2xl mx-auto">
@@ -262,37 +356,37 @@ export function CourseOverview({ onLessonSelect }: CourseOverviewProps) {
               </div>
               <div className="flex-1">
                 <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-1">
-                  Review Queue
+                  Practice Queue
                 </h3>
                 <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-1">
                   You have{" "}
                   <span className="font-bold text-purple-700 dark:text-purple-400">
                     {totalReviewCount}
                   </span>{" "}
-                  review item{totalReviewCount === 1 ? "" : "s"} in your queue
+                  item{totalReviewCount === 1 ? "" : "s"} to practice
                 </p>
                 <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">
-                  {dueReviewCount > 0
-                    ? `${dueReviewCount} due now`
-                    : "No items due yet"}
+                  {dueReviewCount} available now{" "}
+                  {totalReviewCount - dueReviewCount > 0 &&
+                    `• ${totalReviewCount - dueReviewCount} scheduled for later`}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <button
                     onClick={() => {
-                      window.location.href = "/review";
+                      window.location.href = "/practice";
                     }}
                     className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-purple-700 hover:bg-purple-800 dark:bg-purple-600 dark:hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors duration-200"
                   >
                     <BookOpen className="h-4 w-4" />
-                    Start Review Session
+                    Start Practice
                   </button>
                   <button
                     onClick={() => {
-                      window.location.href = "/review-list";
+                      window.location.href = "/practice-queue";
                     }}
                     className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-transparent border border-purple-700 hover:bg-purple-100 dark:hover:bg-purple-900/30 dark:border-purple-600 text-purple-700 dark:text-purple-400 font-semibold rounded-lg transition-colors duration-200"
                   >
-                    View All Items
+                    View Queue
                   </button>
                 </div>
               </div>

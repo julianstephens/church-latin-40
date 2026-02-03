@@ -1,7 +1,14 @@
-import { ArrowLeft, CheckCircle, SkipForward, XCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle,
+  List,
+  SkipForward,
+  XCircle,
+} from "lucide-react";
 import { useEffect, useState } from "react";
-import { reviewService } from "../services/reviewService";
+import { ReviewItem, reviewService } from "../services/reviewService";
 import { vocabularyService } from "../services/vocabularyService";
+import { VocabWord } from "../types/vocabulary";
 import { logger } from "../utils/logger";
 import {
   normalizeAnswerForComparison,
@@ -10,8 +17,10 @@ import {
 
 interface ReviewSessionProps {
   sessionSize?: number;
+  maxLessonId?: number; // Maximum lesson ID user has completed or is currently on
   onComplete?: (stats: SessionStats) => void;
   onBack?: () => void;
+  onViewQueue?: () => void;
 }
 
 interface SessionStats {
@@ -24,6 +33,7 @@ interface SessionStats {
 interface ReviewQuestion {
   reviewItemId: string;
   questionId: string;
+  lessonId: string;
   question: string;
   correctAnswer: string;
   options?: string[];
@@ -36,14 +46,17 @@ interface ReviewQuestion {
 
 export function ReviewSession({
   sessionSize = 10,
+  maxLessonId = 1,
   onComplete,
   onBack,
+  onViewQueue,
 }: ReviewSessionProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [questions, setQuestions] = useState<ReviewQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [showAnswer, setShowAnswer] = useState(false);
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
   const [sessionStats, setSessionStats] = useState<SessionStats>({
     total: 0,
     correct: 0,
@@ -52,13 +65,112 @@ export function ReviewSession({
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [sessionComplete, setSessionComplete] = useState(false);
+  const [showResumeDialog, setShowResumeDialog] = useState(false);
+  const [shouldRestoreSession, setShouldRestoreSession] = useState<
+    boolean | null
+  >(null);
+  const [sessionId] = useState(() => {
+    // Check if there's a cached session we're restoring
+    const cachedSession = localStorage.getItem("reviewSessionCache");
+    if (cachedSession) {
+      try {
+        const cache = JSON.parse(cachedSession);
+        if (cache.sessionId) {
+          return cache.sessionId;
+        }
+      } catch {
+        // Ignore parse errors
+      }
+    }
+    // Otherwise create a new session ID
+    return Date.now().toString();
+  });
+
+  // Save session state to localStorage
+  useEffect(() => {
+    if (questions.length > 0 && !sessionComplete) {
+      const sessionCache = {
+        sessionId,
+        currentIndex,
+        userAnswer,
+        showAnswer,
+        questionCount: questions.length,
+        sessionStats,
+        timestamp: Date.now(),
+      };
+      localStorage.setItem("reviewSessionCache", JSON.stringify(sessionCache));
+    }
+  }, [
+    currentIndex,
+    userAnswer,
+    showAnswer,
+    questions.length,
+    sessionId,
+    sessionStats,
+    sessionComplete,
+  ]);
+
+  // Check for incomplete cached sessions on mount
+  useEffect(() => {
+    const cachedSession = localStorage.getItem("reviewSessionCache");
+    if (cachedSession) {
+      try {
+        const cache = JSON.parse(cachedSession);
+        const cacheAge = Date.now() - (cache.timestamp || 0);
+        const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+
+        if (cacheAge >= TWENTY_FOUR_HOURS) {
+          // Clear old sessions
+          localStorage.removeItem("reviewSessionCache");
+          logger.debug(
+            "[ReviewSession] Cleared cached session older than 24 hours",
+          );
+          setShouldRestoreSession(false);
+        } else if (cache.currentIndex < cache.questionCount) {
+          // Check if the session has actually been started
+          const hasStarted =
+            cache.currentIndex > 0 ||
+            (cache.sessionStats?.correct ?? 0) > 0 ||
+            (cache.sessionStats?.incorrect ?? 0) > 0 ||
+            (cache.sessionStats?.skipped ?? 0) > 0;
+
+          if (hasStarted) {
+            // Show resume dialog for incomplete sessions that have been started
+            setShowResumeDialog(true);
+            logger.debug(
+              "[ReviewSession] Found incomplete session, showing resume dialog",
+            );
+          } else {
+            // Session hasn't been started yet, start fresh without prompting
+            localStorage.removeItem("reviewSessionCache");
+            setShouldRestoreSession(false);
+            logger.debug(
+              "[ReviewSession] Found unstarted session, starting fresh",
+            );
+          }
+        } else {
+          // Session is complete, start fresh
+          localStorage.removeItem("reviewSessionCache");
+          setShouldRestoreSession(false);
+        }
+      } catch (error) {
+        logger.warn("[ReviewSession] Failed to check cached session:", error);
+        localStorage.removeItem("reviewSessionCache");
+        setShouldRestoreSession(false);
+      }
+    } else {
+      // No cached session exists, start fresh
+      setShouldRestoreSession(false);
+    }
+  }, []);
 
   // Load due review items on mount
   useEffect(() => {
     const loadReviewItems = async () => {
       try {
         setIsLoading(true);
-        const dueItems = await reviewService.getDueReviewItems(sessionSize);
+        // Load significantly more items than needed to account for filtering and deduplication
+        const dueItems = await reviewService.getDueReviewItems(sessionSize * 5);
 
         if (dueItems.length === 0) {
           setSessionComplete(true);
@@ -68,27 +180,124 @@ export function ReviewSession({
 
         // Fetch full question content for each item
         const reviewQuestions: ReviewQuestion[] = [];
+        const seenReviewItemIds = new Set<string>();
+        const vocabWordCache = new Map<
+          string,
+          { word: string; meaning: string; partOfSpeech?: string }
+        >();
+        const usedTemplates = new Map<string, Set<string>>(); // Track which templates have been used per vocab word
+        const availableTemplates = ["translation", "definition"];
 
+        // Function to create a vocab question with a specific template
+        const createVocabQuestion = async (
+          item: ReviewItem,
+          vocabWord: VocabWord,
+          template: string,
+        ): Promise<ReviewQuestion> => {
+          let question = `Translate: <strong>${sanitizeOption(vocabWord.word)}</strong>`;
+          let type = "vocab-translation";
+          let options = undefined;
+
+          if (template === "definition") {
+            // Ask for definition matching
+            question = `Which definition matches <strong>${sanitizeOption(vocabWord.word)}</strong>?`;
+            type = "vocab-definition";
+
+            try {
+              // Generate word bank for distractors (3 additional words)
+              // Cap lesson ID to maxLessonId to avoid requesting vocabulary from lessons not yet completed
+              const maxLessonForBank = Math.min(
+                parseInt(item.lessonId.match(/\d+/)?.[0] || "1"),
+                maxLessonId,
+              );
+              const cappedLessonId = `D${maxLessonForBank.toString().padStart(2, "0")}`;
+
+              const distractorWords = await vocabularyService.generateWordBank(
+                "anonymous", // Anonymous user for guest sessions
+                cappedLessonId, // Capped lesson ID
+                3, // Request 3 distractor words
+                vocabWord.word, // Exclude the correct word by its text
+              );
+
+              // Combine correct answer with distractors and shuffle
+              const allOptions = [
+                vocabWord.meaning,
+                ...distractorWords.map((w: VocabWord) => w.meaning),
+              ];
+              options = allOptions.sort(() => Math.random() - 0.5);
+            } catch (error) {
+              logger.warn(
+                `[ReviewSession] Could not generate distractors for ${vocabWord.word}:`,
+                error,
+              );
+              // Fallback to just the correct answer if generation fails
+              options = [vocabWord.meaning];
+            }
+          }
+
+          return {
+            reviewItemId: item.id,
+            questionId: item.questionId,
+            lessonId: item.lessonId,
+            question,
+            correctAnswer: vocabWord.meaning,
+            options,
+            type,
+            explanation: `${vocabWord.word} means "${vocabWord.meaning}"`,
+            vocabWordId: item.vocabWordId,
+            isVocabQuestion: true,
+          };
+        };
+
+        // Function to get a random unused template for a vocab word
+        const getRandomTemplate = (vocabWordId: string): string => {
+          const usedForThisWord =
+            usedTemplates.get(vocabWordId) || new Set<string>();
+          let availableForThisWord = availableTemplates.filter(
+            (t) => !usedForThisWord.has(t),
+          );
+
+          // If all templates are used, reset and use all again
+          if (availableForThisWord.length === 0) {
+            usedTemplates.delete(vocabWordId);
+            availableForThisWord = availableTemplates;
+          }
+
+          // Pick a random unused template
+          const template =
+            availableForThisWord[
+              Math.floor(Math.random() * availableForThisWord.length)
+            ];
+          usedForThisWord.add(template);
+          usedTemplates.set(vocabWordId, usedForThisWord);
+
+          return template;
+        };
+
+        // First pass: load unique items
         for (const item of dueItems) {
+          // Skip duplicate review items
+          if (seenReviewItemIds.has(item.id)) {
+            continue;
+          }
+          seenReviewItemIds.add(item.id);
+
           try {
             // Check if this is a vocabulary question
             if (item.vocabWordId) {
-              // This is a vocabulary word review - generate a simple translation question
               try {
                 const vocabWord = await vocabularyService.getVocabWord(
                   item.vocabWordId,
                 );
                 if (vocabWord) {
-                  reviewQuestions.push({
-                    reviewItemId: item.id,
-                    questionId: item.questionId,
-                    question: `Translate: <strong>${sanitizeOption(vocabWord.word)}</strong>`,
-                    correctAnswer: vocabWord.meaning,
-                    type: "vocab-translation",
-                    explanation: `${vocabWord.word} means "${vocabWord.meaning}"`,
-                    vocabWordId: item.vocabWordId,
-                    isVocabQuestion: true,
-                  });
+                  vocabWordCache.set(item.vocabWordId, vocabWord);
+                  const template = getRandomTemplate(item.vocabWordId);
+                  const vocabQuestion = await createVocabQuestion(
+                    item,
+                    vocabWord,
+                    template,
+                  );
+                  reviewQuestions.push(vocabQuestion);
                   continue;
                 }
               } catch (vocabError) {
@@ -125,6 +334,7 @@ export function ReviewSession({
             reviewQuestions.push({
               reviewItemId: item.id,
               questionId: item.questionId,
+              lessonId: item.lessonId,
               question: questionContent.question,
               correctAnswer:
                 typeof questionContent.correctAnswer === "string"
@@ -142,13 +352,135 @@ export function ReviewSession({
           }
         }
 
-        setQuestions(reviewQuestions);
+        // If we have fewer than sessionSize questions, add repeats of vocabulary words with different templates
+        if (reviewQuestions.length < sessionSize) {
+          const repeatQuestions: ReviewQuestion[] = [];
+          const vocabQuestions = reviewQuestions.filter(
+            (q) => q.isVocabQuestion,
+          );
+
+          // Keep generating repeats until we reach sessionSize
+          while (
+            repeatQuestions.length < sessionSize - reviewQuestions.length &&
+            vocabQuestions.length > 0
+          ) {
+            // Shuffle vocab questions for random selection
+            const shuffledVocab = [...vocabQuestions].sort(
+              () => Math.random() - 0.5,
+            );
+
+            for (const vocabQuestion of shuffledVocab) {
+              if (
+                repeatQuestions.length >=
+                sessionSize - reviewQuestions.length
+              )
+                break;
+
+              const vocabWordId = vocabQuestion.vocabWordId;
+              if (!vocabWordId) continue;
+
+              const vocabWord = vocabWordCache.get(vocabWordId);
+              if (!vocabWord) continue;
+
+              // Get a random unused template for this word
+              const template = getRandomTemplate(vocabWordId);
+
+              // Create a new vocab question with the selected template
+              const repeatQuestion = await createVocabQuestion(
+                {
+                  id: vocabQuestion.reviewItemId,
+                  questionId: vocabQuestion.questionId,
+                  lessonId: vocabQuestion.lessonId,
+                  vocabWordId,
+                } as ReviewItem,
+                vocabWord as VocabWord,
+                template,
+              );
+              repeatQuestions.push(repeatQuestion);
+            }
+          }
+
+          reviewQuestions.push(...repeatQuestions);
+        }
+
+        // If 7 or fewer items available, reduce session size to avoid duplicates
+        let effectiveSessionSize = sessionSize;
+        if (dueItems.length <= 7) {
+          effectiveSessionSize = dueItems.length;
+          logger.debug(
+            `[ReviewSession] Only ${dueItems.length} due items available. Reducing session size from ${sessionSize} to ${effectiveSessionSize} to avoid duplicates.`,
+          );
+        }
+
+        // Ensure exactly effectiveSessionSize questions
+        const finalQuestions = reviewQuestions.slice(0, effectiveSessionSize);
+
+        // Shuffle the questions for variety in question order
+        const shuffledQuestions = finalQuestions.sort(
+          () => Math.random() - 0.5,
+        );
+
+        logger.debug(
+          `[ReviewSession] Loaded ${shuffledQuestions.length} questions for session (shuffled)`,
+        );
+
+        setQuestions(shuffledQuestions);
         setSessionStats({
-          total: reviewQuestions.length,
+          total: finalQuestions.length,
           correct: 0,
           incorrect: 0,
           skipped: 0,
         });
+
+        // Try to restore session state from cache only if user chose to resume
+        if (shouldRestoreSession === true) {
+          const cachedSession = localStorage.getItem("reviewSessionCache");
+          if (cachedSession) {
+            try {
+              const cache = JSON.parse(cachedSession);
+              // Verify the cached session matches current session (same session ID and question count)
+              if (
+                cache.sessionId === sessionId &&
+                cache.questionCount === finalQuestions.length &&
+                cache.currentIndex < finalQuestions.length
+              ) {
+                setCurrentIndex(cache.currentIndex);
+                setUserAnswer(cache.userAnswer);
+                setShowAnswer(cache.showAnswer);
+                if (cache.sessionStats) {
+                  // Ensure the restored stats have the correct total and valid values
+                  const restoredStats: SessionStats = {
+                    total: finalQuestions.length,
+                    correct: cache.sessionStats.correct ?? 0,
+                    incorrect: cache.sessionStats.incorrect ?? 0,
+                    skipped: cache.sessionStats.skipped ?? 0,
+                  };
+                  setSessionStats(restoredStats);
+                  logger.debug(
+                    `[ReviewSession] Restored stats: ${restoredStats.correct}/${restoredStats.total} correct, ${restoredStats.incorrect} incorrect, ${restoredStats.skipped} skipped`,
+                  );
+                }
+                logger.debug("[ReviewSession] Restored session from cache");
+              } else {
+                // Clear cache if it's from a different session
+                localStorage.removeItem("reviewSessionCache");
+                logger.debug(
+                  "[ReviewSession] Cache validation failed, cleared cache",
+                );
+              }
+            } catch (error) {
+              logger.warn(
+                "[ReviewSession] Failed to restore session cache:",
+                error,
+              );
+              localStorage.removeItem("reviewSessionCache");
+            }
+          }
+        } else if (shouldRestoreSession === false) {
+          // User chose to start a new session, clear the cache
+          localStorage.removeItem("reviewSessionCache");
+          logger.debug("[ReviewSession] Starting new session, cleared cache");
+        }
       } catch (error) {
         logger.error("[ReviewSession] Failed to load review session:", error);
       } finally {
@@ -156,8 +488,11 @@ export function ReviewSession({
       }
     };
 
-    loadReviewItems();
-  }, [sessionSize]);
+    // Only load if user has made a decision about resuming (or if no cached session exists)
+    if (shouldRestoreSession !== null) {
+      loadReviewItems();
+    }
+  }, [sessionSize, shouldRestoreSession, maxLessonId, sessionId]);
 
   const currentQuestion = questions[currentIndex];
   const progress = Math.round(((currentIndex + 1) / questions.length) * 100);
@@ -187,12 +522,19 @@ export function ReviewSession({
         isCorrect = normalizedUserAnswer === normalizedCorrectAnswer;
       }
 
+      logger.debug(
+        `[ReviewSession] Submitting answer for question ${currentQuestion.questionId}: ${isCorrect ? "correct" : "incorrect"}`,
+      );
       await reviewService.submitReviewResult(
+        currentQuestion.lessonId,
         currentQuestion.questionId,
-        currentQuestion.reviewItemId,
         isCorrect ? "correct" : "incorrect",
       );
+      logger.debug(
+        `[ReviewSession] Successfully submitted answer for question ${currentQuestion.questionId}`,
+      );
 
+      setIsAnswerCorrect(isCorrect);
       setSessionStats((prev) => ({
         ...prev,
         [isCorrect ? "correct" : "incorrect"]:
@@ -211,10 +553,16 @@ export function ReviewSession({
     if (!currentQuestion) return;
 
     try {
+      logger.debug(
+        `[ReviewSession] Skipping question ${currentQuestion.questionId}`,
+      );
       await reviewService.submitReviewResult(
+        currentQuestion.lessonId,
         currentQuestion.questionId,
-        currentQuestion.reviewItemId,
         "skipped",
+      );
+      logger.debug(
+        `[ReviewSession] Successfully marked question ${currentQuestion.questionId} as skipped`,
       );
 
       setSessionStats((prev) => ({
@@ -233,15 +581,59 @@ export function ReviewSession({
       setCurrentIndex(currentIndex + 1);
       setUserAnswer("");
       setShowAnswer(false);
+      setIsAnswerCorrect(null);
     } else {
       setSessionComplete(true);
       onComplete?.(sessionStats);
+      // Clear cache when session completes
+      localStorage.removeItem("reviewSessionCache");
     }
   };
 
+  // Show resume dialog if there's a cached session
+  if (showResumeDialog) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 max-w-md w-full">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            Resume Practice Session?
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
+            You have an incomplete practice session in progress. Would you like
+            to resume where you left off or start a fresh session?
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={() => {
+                setShouldRestoreSession(true);
+                setShowResumeDialog(false);
+              }}
+              className="flex-1 px-4 py-3 bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+            >
+              Resume
+            </button>
+            <button
+              onClick={() => {
+                // Immediately clear the cache when starting fresh
+                localStorage.removeItem("reviewSessionCache");
+                setShouldRestoreSession(false);
+                setShowResumeDialog(false);
+                // Force reload by restarting the page
+                window.location.reload();
+              }}
+              className="flex-1 px-4 py-3 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors"
+            >
+              Start New
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-8 text-center">
+      <div className="w-full md:w-1/2 min-h-screen mx-auto px-4 py-8 text-center">
         <p className="text-gray-600 dark:text-gray-400">
           Loading review session...
         </p>
@@ -251,7 +643,7 @@ export function ReviewSession({
 
   if (questions.length === 0 || sessionComplete) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="mx-auto px-4 py-8">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
           <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
@@ -293,13 +685,22 @@ export function ReviewSession({
               : `Great job! You've completed ${sessionStats.total} review item${sessionStats.total === 1 ? "" : "s"}.`}
           </p>
 
-          <button
-            onClick={onBack}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Course
-          </button>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={onBack}
+              className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Course
+            </button>
+            <button
+              onClick={onViewQueue}
+              className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-purple-700 hover:bg-purple-800 dark:bg-purple-600 dark:hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors duration-200"
+            >
+              <List className="h-4 w-4" />
+              View Queue
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -337,9 +738,10 @@ export function ReviewSession({
       {/* Question Card */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
         <div className="mb-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            {currentQuestion.question}
-          </h2>
+          <h2
+            className="text-xl sm:text-2xl font-normal text-gray-900 dark:text-white mb-4"
+            dangerouslySetInnerHTML={{ __html: currentQuestion.question }}
+          />
 
           {currentQuestion.options && currentQuestion.options.length > 0 && (
             <div className="space-y-2 mb-4">
@@ -367,22 +769,32 @@ export function ReviewSession({
           )}
 
           {!currentQuestion.options || currentQuestion.options.length === 0 ? (
-            <textarea
+            <input
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
               placeholder="Enter your answer here..."
               disabled={showAnswer}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && userAnswer && !showAnswer) {
+                  handleSubmitAnswer();
+                }
+              }}
               className="w-full p-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none dark:bg-gray-700 dark:text-white"
-              rows={3}
             />
           ) : null}
         </div>
 
         {/* Answer Reveal */}
         {showAnswer && (
-          <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 rounded">
+          <div
+            className={`mb-6 p-4 border-l-4 rounded ${
+              isAnswerCorrect
+                ? "bg-green-50 dark:bg-green-900/20 border-green-500"
+                : "bg-red-50 dark:bg-red-900/20 border-red-500"
+            }`}
+          >
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-              Correct answer:
+              {isAnswerCorrect ? "Correct!" : "Correct answer:"}
             </p>
             <p className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
               {sanitizeOption(currentQuestion.correctAnswer)}

@@ -14,18 +14,62 @@ import { pocketbaseService } from "./pocketbase";
 const pb = pocketbaseService.getPocketBase();
 
 class VocabularyService {
+  // Cache vocabulary by lesson to avoid repeated fetches
+  private lessonVocabCache = new Map<string, VocabWord[]>();
+
   /**
    * Get all vocabulary words for a lesson
    */
-  async getVocabByLesson(lessonId: number): Promise<VocabWord[]> {
+  async getVocabByLesson(lessonId: number | string): Promise<VocabWord[]> {
     try {
+      // Convert lesson ID to number
+      let lessonNumber: number;
+      if (typeof lessonId === "number") {
+        lessonNumber = lessonId;
+      } else {
+        // Extract number from string like "D01", "D02", etc.
+        const match = lessonId.match(/\d+/);
+        lessonNumber = match ? parseInt(match[0]) : parseInt(lessonId);
+      }
+
+      // Create cache key
+      const cacheKey = `lesson_${lessonNumber}`;
+
+      // Check cache first
+      if (this.lessonVocabCache.has(cacheKey)) {
+        return this.lessonVocabCache.get(cacheKey)!;
+      }
+
+      // First, fetch the lesson record by lessonNumber to get its PocketBase ID
+      const lessonRecord = await pb
+        .collection("church_latin_lessons")
+        .getFirstListItem(`lessonNumber=${lessonNumber}`);
+
+      if (!lessonRecord) {
+        logger.warn(
+          `[VocabService] No lesson found with lessonNumber=${lessonNumber}`,
+        );
+        return [];
+      }
+
+      // Now query vocabulary using the lesson record's ID
       const records = await pb
         .collection("church_latin_vocabulary")
         .getFullList({
-          filter: `lessonId = "${lessonId}"`,
+          filter: `lessonId = "${lessonRecord.id}"`,
           sort: "word",
         });
-      return records as unknown as VocabWord[];
+
+      const vocabWords = records as unknown as VocabWord[];
+
+      // Cache the result
+      this.lessonVocabCache.set(cacheKey, vocabWords);
+
+      logger.debug(
+        `[VocabService] Fetched ${vocabWords.length} vocabulary words for lesson ${lessonNumber}`,
+      );
+
+      return vocabWords;
     } catch (error) {
       logger.error(`Failed to fetch vocabulary for lesson ${lessonId}:`, error);
       return [];
@@ -275,6 +319,123 @@ class VocabularyService {
     }
 
     return wordMap;
+  }
+
+  /**
+   * Generate a word bank of N vocab words for a given user and lesson.
+   * The bank includes words from any lesson at or before the provided lesson.
+   * Duplicates (same word text across different lessons) are deduplicated.
+   *
+   * @param userId - The user ID (for future expansion, e.g., tracking user progress)
+   * @param lessonId - The lesson ID (e.g., "D01", "D02", ..., "D40"). Includes all lessons <= this lesson.
+   * @param bankSize - The number of words to include in the bank
+   * @param seederWord - Optional. If provided, this word will be excluded from the bank.
+   *                      Comparison is done on the word text, not database ID.
+   * @returns An array of unique VocabWord objects for the word bank
+   * @throws Error if there are not enough words to fill the requested bank size
+   */
+  async generateWordBank(
+    userId: string,
+    lessonId: string,
+    bankSize: number,
+    seederWord?: string,
+  ): Promise<VocabWord[]> {
+    try {
+      // Extract lesson number from lesson ID (e.g., "D01" -> 1, "D40" -> 40)
+      const lessonMatch = lessonId.match(/\d+/);
+      const targetLessonNumber = lessonMatch ? parseInt(lessonMatch[0]) : 40;
+
+      // Fetch all vocabulary words from lessons 1 to targetLessonNumber
+      // Add small delays between requests to avoid overwhelming the backend
+      const allWords: VocabWord[] = [];
+      const MAX_RETRIES = 2;
+
+      for (let lesson = 1; lesson <= targetLessonNumber; lesson++) {
+        let retries = 0;
+        let lessonWords: VocabWord[] = [];
+
+        while (retries < MAX_RETRIES) {
+          try {
+            lessonWords = await this.getVocabByLesson(lesson);
+            break; // Success, exit retry loop
+          } catch (error) {
+            retries++;
+            if (retries >= MAX_RETRIES) {
+              // Log but continue with next lesson instead of failing completely
+              logger.warn(
+                `[WordBank] Failed to fetch lesson ${lesson} after ${MAX_RETRIES} attempts, skipping`,
+                error,
+              );
+              break;
+            }
+            // Wait before retrying
+            await new Promise((resolve) => setTimeout(resolve, 100 * retries));
+          }
+        }
+
+        allWords.push(...lessonWords);
+
+        // Small delay between lessons to avoid overwhelming backend
+        if (lesson < targetLessonNumber) {
+          await new Promise((resolve) => setTimeout(resolve, 50));
+        }
+      }
+
+      if (allWords.length === 0) {
+        throw new Error(
+          `No vocabulary words found for lessons 1-${targetLessonNumber}`,
+        );
+      }
+
+      // Deduplicate by word text (keeping first occurrence)
+      const wordTextMap = new Map<string, VocabWord>();
+      for (const word of allWords) {
+        if (!wordTextMap.has(word.word)) {
+          wordTextMap.set(word.word, word);
+        }
+      }
+
+      // Convert back to array
+      let uniqueWords = Array.from(wordTextMap.values());
+
+      // Filter out the seeder word if provided (compare by word text)
+      if (seederWord) {
+        uniqueWords = uniqueWords.filter(
+          (w) => w.word.toLowerCase() !== seederWord.toLowerCase(),
+        );
+        logger.debug(
+          `[WordBank] Filtered out seeder word "${seederWord}", remaining: ${uniqueWords.length}`,
+        );
+      }
+
+      // Check if we have enough words
+      if (uniqueWords.length < bankSize) {
+        logger.warn(
+          `[WordBank] Requested ${bankSize} words but only ${uniqueWords.length} available ` +
+            `for lessons 1-${targetLessonNumber}${seederWord ? ` (excluding seeder word "${seederWord}")` : ""}, returning all available`,
+        );
+        // Shuffle and return all available words instead of throwing error
+        const shuffled = [...uniqueWords].sort(() => Math.random() - 0.5);
+        return shuffled;
+      }
+
+      // Randomly select bankSize words
+      const shuffled = [...uniqueWords].sort(() => Math.random() - 0.5);
+      const selectedWords = shuffled.slice(0, bankSize);
+
+      logger.debug(
+        `[WordBank] Generated word bank for user ${userId}, lesson ${lessonId}: ` +
+          `${selectedWords.length} words selected from ${uniqueWords.length} unique words`,
+      );
+
+      return selectedWords;
+    } catch (error) {
+      logger.error(
+        `[WordBank] Failed to generate word bank for user ${userId}:`,
+        error,
+      );
+      throw error;
+    }
   }
 }
 

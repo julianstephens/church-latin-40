@@ -77,6 +77,7 @@ export class CourseDataGenerator {
     );
     lines.push("");
     lines.push("// Type definitions");
+    lines.push('import type { VocabWord } from "../types/vocabulary";');
     lines.push("");
 
     // Type definitions
@@ -86,7 +87,7 @@ export class CourseDataGenerator {
     lines.push(`  module: number;`);
     lines.push(`  materials: string[];`);
     lines.push(`  content: string[];`);
-    lines.push(`  vocabulary: string[];`);
+    lines.push(`  vocabulary: VocabWord[];`);
     lines.push(`  practice: string[];`);
     lines.push(`  answer?: string[];`);
     lines.push(`  quiz: QuizQuestion[];`);

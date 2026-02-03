@@ -24,6 +24,29 @@ interface LessonProps {
   onPrevious: () => void;
 }
 
+/**
+ * Get color classes for part of speech badges
+ */
+function getPartOfSpeechColors(pos: string | undefined): string {
+  const colorMap: Record<string, string> = {
+    noun: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-300 dark:border-red-700",
+    verb: "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-700",
+    adjective:
+      "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-300 dark:border-green-700",
+    adverb:
+      "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-700",
+    preposition:
+      "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 border border-orange-300 dark:border-orange-700",
+    pronoun:
+      "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 border border-pink-300 dark:border-pink-700",
+    conjunction:
+      "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700",
+    other:
+      "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600",
+  };
+  return colorMap[pos || "other"] || colorMap.other;
+}
+
 export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
   const [showQuiz, setShowQuiz] = useState(false);
   const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
@@ -146,19 +169,9 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
       if (!quiz) {
         // Fallback: generate synchronously on main thread
         // This is slower but ensures we always have a quiz
-        const vocabWords: VocabWord[] = lesson.vocabulary
-          .map((v) => {
-            // Parse "word - meaning" format
-            const parts = v.split(" - ");
-            return {
-              id: `${lessonId}-${parts[0]}`,
-              lessonId: String(lessonId),
-              word: parts[0] || "",
-              meaning: parts[1] || "",
-              frequency: "unknown",
-            } as VocabWord;
-          })
-          .filter((v) => v.word && v.meaning);
+        const vocabWords: VocabWord[] = lesson.vocabulary.filter(
+          (v) => v.word && v.meaning,
+        );
 
         logger.debug(
           `Generating quiz with ${vocabWords.length} vocab words and ${lesson.quiz.length} static questions`,
@@ -264,22 +277,29 @@ export function Lesson({ lessonId, onBack, onNext, onPrevious }: LessonProps) {
             </h2>
 
             <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
-              {lesson.vocabulary.map((word, index) => {
-                const [latin, english] = word.split(" - ");
-                return (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg gap-2"
-                  >
+              {lesson.vocabulary.map((word, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col p-3 bg-gray-50 dark:bg-gray-700 rounded-lg gap-2"
+                >
+                  <div className="flex items-baseline justify-between gap-2">
                     <span className="font-semibold text-sm sm:text-base text-red-900 dark:text-red-400">
-                      {latin}
+                      {word.word}
                     </span>
-                    <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 text-right">
-                      {english}
+                    <span
+                      className={`text-xs px-2 py-1 rounded font-medium ${getPartOfSpeechColors(word.partOfSpeech)}`}
+                    >
+                      {word.partOfSpeech || "unknown"}
                     </span>
                   </div>
-                );
-              })}
+                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+                    {word.meaning}
+                  </span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 italic">
+                    Frequency: {word.frequency || "unknown"}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
 

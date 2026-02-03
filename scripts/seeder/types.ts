@@ -7,6 +7,7 @@ export interface SeedOptions {
   reset?: boolean;
   verbose?: boolean;
   collection?: string; // Run specific seeder only
+  artifactsOnly?: boolean; // Only generate TypeScript artifacts, skip data seeding
 }
 
 export interface SeedError {
